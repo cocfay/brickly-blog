@@ -1,0 +1,91 @@
+.lh1{
+    line-height: 1;
+}
+
+
+/* EFECTO STICKY */
+
+.sticky{
+    position: sticky;
+    top: 104px;
+    transition: transform 0.4s ease-in-out;
+    transform-origin: top center;
+}
+
+.sticky.shrink {
+    transform: scale(0.95); /* Reduce el tamaño al 90% */
+}
+
+/* ANIMACION DE CAMBIO DE LETRA */
+
+.text-container {
+    position: relative;
+    overflow: hidden;
+    /* top: -0.50px; */
+}
+
+.word {
+    position: absolute;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+}
+
+.word.current {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.word.exit {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.word.enter {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+/* ANIMACION DE CORTINA */
+
+.animation-curtain, .animation-cur-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.animation-curtain::before, .animation-cur-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1F1E1E; /* Color de la "cortina" */
+    z-index: 2;
+    transform: translateX(0);
+    transition: transform 1.5s ease;
+    border: none;
+}
+
+.animation-curtain.visible::before, .animation-cur-card.visible::before {
+    transform: translateX(100%);
+}
+
+@media only screen and (max-width: 801px){
+    .lh1{
+        line-height: 1.2;
+    }
+    .text-container{
+        overflow: initial;
+    }
+    /* .word.enter {
+        transform: translateX(-0%);
+    }
+    .word.exit {
+        transform: translateX(0%);
+    } */
+    .word {
+        left: 50%;
+        transform: translateX(-50%) !important;
+    }
+}

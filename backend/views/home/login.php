@@ -1,0 +1,1 @@
+<p>Esta es la vista interna de login de la app</p>

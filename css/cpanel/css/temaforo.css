@@ -1,0 +1,80 @@
+.contenedorTituloTemaForo {
+    margin: 4rem 0;
+}
+.tituloTemaForo {
+    font-family: 'Helvética Bold';
+    font-size: 30px;
+    font-weight: bold;
+}
+.contenedorEtiquetasTemaForo {
+    margin-top: 2.5rem;
+    display: flex;
+}
+.contenedorEtiquetasTemaForo p {
+    margin: 0 0.5rem;
+    padding: 0px 1rem;
+    background: #cfebf9;
+    border-radius: 5px;
+}
+.contenedorEtiquetasTemaForo a {
+    color: #000;
+    text-decoration: none;
+}
+.contenedorEtiquetasTemaForo a:hover {
+    color: #000;
+    text-decoration: none;
+}
+.contenedorCuadroTema {
+    margin-bottom: 3rem;
+}
+.cuadroUsuarioForo {
+    border: 1px solid #80808057;
+    padding: 1rem;
+    background: #eeeeee;
+}
+.cuadroTextoTemaforo {
+    border: 1px solid #80808057;
+}
+.contenidoTextoTemaforo {
+    padding: 3rem;
+}
+.contenedorUsuarioTemaForo {
+    text-align: center;
+}
+img.imgIconoUser {
+    width: 50%;
+}
+.contenedorLikeComentariosForo {
+    margin-top: 2rem;
+    color: #006f9b;
+    display: flex;
+    justify-content: space-between;
+}
+button.botonMeGusta {
+    color: #006f9b;
+    border: none;
+    background: none;
+}
+.cuadroComentariostemaForo {
+    margin-top: 2rem;
+}
+.cuadroComentariostemaForo input[type="text"] {
+    width: 100%;
+    height: 4rem;
+    padding-left: 1rem;
+}
+.cuadroComentariostemaForo button {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    float: right;
+    width: 15rem;
+    height: 3rem;
+    background: #004f9b;
+    color: #fff;
+    border: none;
+}
+.btnAdministrador {
+    background: #004f9b;
+    color: #fff;
+    border: none;
+}

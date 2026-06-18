@@ -1,0 +1,111 @@
+.contenedorTextoForo {
+    margin: 4rem 0;
+    text-align: justify;
+    font-size: 16px;
+}
+.tituloForo {
+    font-size: 36px;
+    font-weight: bold;
+    font-family: 'Bebas Neue', cursive;
+}
+.contenedorContenidoCategoriasForo {
+    margin-bottom: 6rem;
+}
+.contenedorTextoCategorias {
+    color: #fff;
+    background: #009775;
+    border-radius: 5px;
+    text-align: justify;
+    font-size: 14px;
+    padding: 1rem;
+}
+.tituloForoCategorias {
+    font-size: 26px;
+    font-weight: bold;
+    font-family: 'Helvética-Bold';
+}
+.IconoComentariosForo {
+    width: 20px;
+}
+.tituloPublicacionesForo {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Helvética-Bold';
+    margin-right: 10px;
+}
+.contenedorPublicacionesForo {
+    margin-top: 2rem;
+    font-size: 14px;
+    padding: 0 1rem;
+}
+.contenedorPublicacionesForo ul {
+    list-style: none;
+    padding: 0;
+}
+.contenedorPublicacionesForo ul li {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid gray;
+}
+.contenedorPublicacionesForo a {
+    color: #000;
+    text-decoration: none;
+}
+.contenedorPublicacionesForo a:hover {
+    color: #000;
+}
+.contenedorTemasMensajes {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    width: 100%;
+}
+.PublicacionesForo {
+    display: flex;
+    align-items: center;
+}
+.contenedorInfoUsuarioForo {
+    display: flex;
+    margin-bottom: 2rem;
+}
+.contenedorInfoUsuarioForo img {
+    width: 60px;
+    margin: 0px;
+    height: auto;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.tituloInfoUsuarioForo {
+    font-weight: 600;
+    color: #006f9b;
+}
+img.imgFlechasForo {
+    width: 5%;
+    margin-top: 0;
+}
+.nombreInfoUsuarioForo {
+    color: #006f9b;
+}
+.tituloMensajesForo {
+    background-color: #3059be;
+    color: #fff;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 4rem;
+}
+.tituloEstadisticasForo {
+    background-color:  #413698;
+    color: #fff;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 26px;
+    font-weight: 600;
+}
+.contenedorContenidoEstadisticaForo {
+    padding: 1rem;
+}
+.contenidoEstadisticaForo {
+    display: flex;
+    justify-content: space-between;
+}

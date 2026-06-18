@@ -1,0 +1,25 @@
+
+.contenidoEstadisticaForo {
+    display: flex;
+    justify-content: space-between;
+}
+.contenedorRespuestasVistas {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.tituloTiempoMensajeForo{
+    font-size: 18px;
+    font-weight: 600;
+}
+.contenedorComentarioUsuarioForo {
+    display: flex;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+.contenedorComentarioUsuarioForo img {
+    width: 60px;
+    margin: 0px;
+    height: auto;
+    margin-left: 1rem;
+}

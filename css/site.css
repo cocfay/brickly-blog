@@ -1,0 +1,257 @@
+:root {
+    --color-principal: #0f294a;
+    --color-principalhv: #7e98bb;
+    --color-menutext: #fff;
+    --color-butons: #4d7ab3;
+
+}
+
+@view-transition{
+    navigation: auto;
+}
+
+::view-transition-group(*){
+    animation-duration: 0.5s;
+}
+
+html,
+body {
+    height: 100%;
+}
+.btn-color-especial{background: var(--color-butons); color:white;}
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  z-index: 9999; /* Para que esté por encima de otros elementos */
+  width: 60px;
+  height: 60px;
+  background-color: #25D366; /* Color de WhatsApp */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+
+.whatsapp-button:hover {
+  transform: scale(1.1);
+}
+
+.button-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1);
+    padding: 0.05rem 0.5rem;
+    border: none;
+    position: relative;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    gap: 10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.button-label:hover{
+    color: rgba(255, 255, 255, 1);
+}
+.button-label::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    margin: -2px;
+    border-radius: inherit;
+    background: -o-linear-gradient(left, #ff9c8d 10%, #d655a5, #6053cb 60%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(10%, #ff9c8d), color-stop(#d655a5), color-stop(60%, #6053cb));
+    background: linear-gradient(90deg, #ff9c8d 10%, #d655a5, #6053cb 60%);
+    -webkit-animation: bghover 15s linear infinite;
+    animation: bghover 15s linear infinite;
+    background-size: 400% 400%;
+}
+.button-label::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #000;
+    z-index: -1;
+    border-radius: inherit;
+}
+@keyframes bghover {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view td {
+    white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-width: 50px;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li > form > button.logout {
+    padding: 15px;
+    border: none;
+}
+
+@media(max-width:767px) {
+    .nav li > form > button.logout {
+        display:block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
+    text-decoration: none;
+}
+
+.nav > li > form > button.logout:focus {
+    outline: none;
+}
+
+div#datatables_w0_length{
+    color: black;
+}
+
+div.dataTables_length select{
+    border: solid 1px var(--color-principal);
+}
+
+table#datatables_w0{
+    border: solid 1px var(--color-principal);
+}
+table#datatables_w0 th{
+    border: solid 1px var(--color-principal);
+}
+
+.form-control, .form-select{
+    border: solid 1px var(--color-principal);
+}
+
+.dataTables_wrapper .dataTables_filter input{
+    border: solid 1px var(--color-principal);
+}
+.pagination a{
+    color: black !important;
+}
+.pagination > .active > a{
+    background-color: var(--color-butons) !important;
+    border: solid 1px var(--color-principal) !important;
+}
+.page-sidebar .page-sidebar-menu>li.active>a{
+    background: var(--color-principal) !important;
+}
+.page-sidebar .page-sidebar-menu>li:hover>a{
+    background: var(--color-principal) !important;
+}
+
+.page-sidebar .page-sidebar-menu .sub-menu>li.active>a{
+    background: var(--color-principal) !important;
+}
+.page-sidebar .page-sidebar-menu .sub-menu>li:hover>a{
+    background: var(--color-principal) !important;
+}

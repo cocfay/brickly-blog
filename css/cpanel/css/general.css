@@ -1,0 +1,280 @@
+/*General*/
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@font-face {
+    font-family: 'New_Athletic';
+    src:url(../css/fonts/NewAthleticM54.ttf);
+}
+@font-face {
+    font-family: 'Helvética-Bold';
+    src:url(../css/fonts/Helvetica-Bold-Font.ttf);
+}
+@font-face {
+    font-family: 'Helvética';
+    src:url(../css/fonts/Helvetica.ttf);
+}
+body{
+    font-family: 'Helvética', sans-serif !important; 
+    font-size: 12px;
+}
+img {
+    width: 100%;
+}
+/* Header */
+.headerRedes {
+    background: #000;
+    color: #fff;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contenedorIconosHeader {
+    display: flex;
+}
+.itemHeader {
+    width: 30px;
+    height: 30px;
+    margin-left: 30px;
+}
+.Logo {
+    width: 75%;
+}
+/* Menu */
+.menu{
+    padding-left: 0;
+    list-style: none;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+.menu a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+}
+.menuUser {
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: end;
+}
+.itemMenu {
+    width: 30px;
+    height: 30px;
+    margin-right: 40px;
+}
+.IconosBanderas {
+    width: 45px;
+}
+/* footer */
+.contenedorFooter {
+    background-color: #000;
+}
+.contenidoFooter {
+    padding: 2rem 6rem;
+    margin-top: 4rem;
+}
+.tituloFooter {
+    font-family: 'Bebas Neue', cursive;
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+}
+.textoFooter {
+    color: #fff;
+}
+.contenedorBotonCorreo {
+    position: relative;
+}
+.contenedorBotonCorreo input {
+    width: 100%;
+    height: 4rem;
+    padding-left: 1.5rem;
+}
+.botonCorreo {
+    font-weight: 600;
+    font-size: 18px;
+    width: 30%;
+    position: absolute;
+    right: 0px;
+    border: none;
+    background: gainsboro;
+    height: 100%;
+}
+.checkboxConfirmar {
+    margin-top: 1rem;
+    color: white;
+    display: flex;
+    align-items: baseline;
+}
+.checkboxConfirmar label {
+    margin-left: 5px;
+    font-size: 18px;
+    text-align: justify;
+}
+.menuFooter {
+    margin-top: 4rem;
+}
+.menuFooter > div > div > ul {
+    padding-left: 0;
+}
+.menuFooter > div > div > ul > li {
+    list-style: none;
+}
+.menuFooter > div > div > ul > li  > a{
+    color: #fff;
+    text-decoration: none;
+}
+.menuFooter > div > div > ul > li  > a:hover{
+    color: #006f9b;
+    text-decoration: none;
+}
+.tituloMenuFooter {
+    font-family: 'Bebas Neue', cursive;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: 900;
+}
+p.textoMenuFooter {
+    margin-bottom: 4px;
+    font-weight: 900;
+}
+.contenedorIconosFooter {
+    margin-top: 4rem;
+    margin-bottom: 15px;
+    display: flex;
+}
+.itemFooter {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+.derechos {
+    margin: 2rem 0;
+}
+/* Responsive */
+@media screen and (min-width: 1660px) {
+    /* Header */
+    .headerRedes {
+        font-size: 22px;
+    }
+    ul.menu {
+        font-size: 22px;
+    }
+    /* Footer */
+    p.tituloFooter {
+        font-size: 56px;
+    }
+    .contenedorBotonCorreo {
+        font-size: 22px;
+    }
+    button.botonCorreo {
+        font-size: 22px;
+    }
+    .checkboxConfirmar label {
+        font-size: 22px;
+    }
+    p.tituloMenuFooter {
+        font-size: 28px;
+    }
+    p.textoMenuFooter {
+        font-size: 18px;
+    }
+    p.textoFooter {
+        font-size: 22px;
+    }
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    /* Header */
+    .itemHeader {
+        width: 25px;
+        height: 25px;
+        margin-left: 20px;
+    }
+    .itemMenu {
+        width: 25px;
+        height: 25px;
+        margin-right: 25px;
+    }
+    .IconosBanderas {
+        width: 40px;
+    }
+     /* Footer */
+    .contenedorBotonCorreo input {
+        height: 3rem;
+    }
+     .checkboxConfirmar label {
+        font-size: 14px;
+    }
+    p.textoMenuFooter {
+        font-size: 10px;
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    /* Header */
+    .itemHeader {
+        margin-left: 15px;
+    }
+    .itemMenu {
+        margin-right: 15px;
+    }
+     /* Footer */
+     .contenedorBotonCorreo input {
+        height: 3rem;
+    }
+    .checkboxConfirmar label {
+        font-size: 10px;
+    }
+    p.textoMenuFooter {
+        font-size: 10px;
+    }
+    .itemFooter {
+        width: 25px;
+        height: 25px;
+        margin-right: 15px;
+    }
+}
+@media screen and (max-width: 767px) {
+    /* Header */
+    .headerRedes {
+        font-size: 12px;
+        height: 6rem;
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .contenedorIconosHeader {
+        margin-right: 30px;
+    }
+    .ContenedorMenu > .row > div  {
+        display: flex;
+        justify-content: center;
+    }
+    ul.menu > a > li {
+        margin-left: 25px;
+        margin-bottom: 2rem;
+    }
+    .menuUser {
+        margin-left: 30px;
+    }
+     /* Footer */
+     .contenidoFooter {
+        padding: 2rem 1rem;
+    }
+    button.botonCorreo {
+        font-size: 14px;
+    }
+    .contenedorBotonCorreo input {
+        font-size: 14px;
+    }
+    .checkboxConfirmar label {
+        font-size: 10px;
+    }
+     .contenedorIconosFooter {
+        justify-content: space-evenly;
+    }
+}

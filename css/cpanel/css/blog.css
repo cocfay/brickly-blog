@@ -1,0 +1,144 @@
+.contenedorTituloBlog {
+    font-family: 'Bebas Neue', cursive;
+    color: #000;
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+.imgCategoriaColeccion {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.noticiasBlog {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+}
+.contenedorNoticiasblog a {
+    text-decoration: none;
+    color: #000;
+}
+.contenedorNoticiasblog a:hover {
+    text-decoration: none;
+    color: #006f9b;;
+}
+.fotosNoticia {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.imgEtiquetaMasterverse {
+    width: 50%;
+}
+p.subTituloNoticias {
+    font-family: 'Helvética-Bold';
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+    margin-top: 2rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    position: relative;
+    text-align: justify;
+}
+p.subTituloNoticias::after {
+    content: "...";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-left: 2em;
+    display: none;
+}
+p.textoNoticias{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    position: relative;
+    line-height: 1.5em;
+}
+p.textoNoticias::after {
+    content: "...";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-left: 2em;
+    display: none;
+}
+.ContenedorAutorBlog {
+    color: #006f9b;
+    display: flex;
+    font-weight: 600;
+    margin-bottom: 0;
+    height: 2rem;
+    font-size: 14px;
+    margin-top: 1rem;
+}
+.autorNoticiaBlog {
+    color: #006f9b;
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 0;
+}
+.fechaNoticiaBlog {
+    width: 100%;
+    text-align: end;
+}
+.imgIconosNoticias {
+    width: 20px;
+}
+.contenedorComentarios {
+    display: flex;
+    justify-content: flex-end;
+}
+.comentarios {
+    background-color: #006f9b;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+.my-custom-pagination {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+}
+
+.my-custom-pagination li > a, .my-custom-pagination li > span {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #0d6efd;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    text-decoration: none;
+}
+
+.my-custom-pagination li > a:hover {
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #f6f6f6;
+    border-color: #dee2e6;
+}
+
+.my-custom-pagination li.active > a {
+    z-index: 1;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.my-custom-pagination a:focus {
+    z-index: 2;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.my-custom-pagination li.disabled > span{
+    background-color: #E8E8E8;
+}
