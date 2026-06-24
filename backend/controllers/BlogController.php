@@ -81,7 +81,9 @@
 			    ],
 			]);
 
-			return $this->render('index', $data);
+			return $this->render('index', [
+				'dataProvider' => $data['dataProvider'],
+			]);
 		}
 
 		public function actionOrderhome(){	
@@ -133,7 +135,9 @@
 			    ],
 			]);
 
-			return $this->render('tendencia', $data);
+			return $this->render('tendencia', [
+				'dataProvider' => $data['dataProvider'],
+			]);
 		}
 
 	
@@ -217,10 +221,9 @@
 				return Yii::$app->response->redirect(['blog']);
 			}
 			
-			$langs = ['es','en'];
+			$langs = ['es'];
 			//$idiomas = ['Es', 'En', 'Pt', 'It', 'Fr', 'De'];
-			$infoUs = Yii::$app->LocationLang->info();
-			$langInUse = $data['lang'] = $infoUs->language->LanguageCode;
+			$langInUse = $data['lang'] = 'es';
 
 			$data['CbyB'] = new CollectionByPost;
 			$data['Project'] = new BlogByProject;
@@ -252,12 +255,12 @@
 			if($postBlogModel->load(Yii::$app->request->post())){
 
 				$postBlogModel->CreateAT = $postBlogModel->CreateAT . ' ' . date("H:i:s");
+				$postBlogModel->Featured = 0;
 				/* if(!isset(Yii::$app->request->post()['PostBlog']['CollectionID'])){
 					$postBlogModel->CollectionID = new \yii\db\Expression('NULL');
 				} */
 
 
-				$translate = Yii::$app->Translate;
 				$transaction = \Yii::$app->db->beginTransaction();
 				$fPath = \Yii::getAlias('@proyectroot');
 				$dirUserTemp = $fPath.'/images/BlogPostImages/temp/'.$UserData->AccountID.'/post/';
@@ -365,7 +368,7 @@
 						if(strtoupper($langInUse) == strtoupper($LangTarget)){
 							$modelPostBlogTitle->Data = $postBlogModel->VTitle;
 						}else{
-							$modelPostBlogTitle->Data = $translate->translate($postBlogModel->VTitle ,['TargetLG'=>$LangTarget])->text;
+							$modelPostBlogTitle->Data = $postBlogModel->VTitle;
 						}
 						$modelPostBlogTitle->Lang = $LangTarget;
 						if(!$modelPostBlogTitle->save()){
@@ -385,6 +388,11 @@
 					}
 
 					foreach ($Components as $Componenet) {
+						$Componenet['TextBox'] = $this->cleanCkeditorEmptyParagraph($Componenet['TextBox'] ?? '');
+						$Componenet['MovilTextBox'] = $this->cleanCkeditorEmptyParagraph($Componenet['MovilTextBox'] ?? '');
+						$Componenet['Description'] = $this->cleanCkeditorEmptyParagraph($Componenet['Description'] ?? '');
+						$Componenet['MovilDescription'] = $this->cleanCkeditorEmptyParagraph($Componenet['MovilDescription'] ?? '');
+
 						$Center = new PostBlogCenterComponents(['PostBlogID'=>$postBlogModel->PostBlogID]);
 						switch ($Componenet['Type']) {
 							case '1':
@@ -420,9 +428,9 @@
 											$TexBoxDataModel->Data = $Componenet['TextBox'];
 											$TexBoxDataModel->DataMovil = $Componenet['MovilTextBox'];
 
-										}{
-											$TexBoxDataModel->Data = $translate->translate($Componenet['TextBox'] ,['TargetLG'=>$LangTarget])->text;
-											$TexBoxDataModel->DataMovil = $translate->translate($Componenet['MovilTextBox'] ,['TargetLG'=>$LangTarget])->text;
+										}else{
+											$TexBoxDataModel->Data = $Componenet['TextBox'];
+											$TexBoxDataModel->DataMovil = $Componenet['MovilTextBox'];
 										}
 										$TexBoxDataModel->Lang = $LangTarget;
 										$TexBoxDataModel->TexBoxComponentID = $TextComponent->TexBoxComponentID;
@@ -507,13 +515,13 @@
 
 											}else{
 												if(!empty($Componenet['Description'])){
-													$ImagenDescriptComp->Data = $translate->translate($Componenet['Description'] ,['TargetLG'=>$LangTarget])->text;
+													$ImagenDescriptComp->Data = $Componenet['Description'];
 												}
 												if(!empty($Componenet['MovilDescription'])){
-													$ImagenDescriptComp->DataMovil = $translate->translate($Componenet['MovilDescription'] ,['TargetLG'=>$LangTarget])->text;
+													$ImagenDescriptComp->DataMovil = $Componenet['MovilDescription'];
 												}
 												if(!empty($Componenet['ImageBy'])){
-													$ImagenDescriptComp->ImageBy = $translate->translate($Componenet['ImageBy'],['TargetLG'=>$LangTarget])->text;
+													$ImagenDescriptComp->ImageBy = $Componenet['ImageBy'];
 												}
 
 											}
@@ -675,7 +683,7 @@
 					}
 
 					if($data['Project']->load(Yii::$app->request->post())){	
-						foreach($data['Project']->Project as $PJ){
+						foreach($data['Project']->Project ?: [] as $PJ){
 							$prjct = new BlogByProject();
 							$prjct->PostBlogID = $postBlogModel->PostBlogID;
 							$prjct->PorfolioID = $PJ;
@@ -743,7 +751,7 @@
 			if(!Yii::$app->user->isGuest)
 				$UserData =  Yii::$app->AccessControl->Verify();
 
-			$this->layout = "/lead";
+			$this->layout = "/template2";
 			$data = [];
 
 			$infoUs = Yii::$app->LocationLang->info();
@@ -806,7 +814,7 @@
 				return Yii::$app->response->redirect(['/']);
 			else{
 				$data = [];
-				$this->layout = "/lead";
+				$this->layout = "/template2";
 
 				$infoUs = Yii::$app->LocationLang->info();
 				
@@ -830,7 +838,7 @@
 			$translate = Yii::$app->Translate;
 			
 			$data = [];
-			$this->layout = "/lead";
+			$this->layout = "/template2";
 
 			$roles = $UserData->userByRoles;
 
@@ -972,7 +980,11 @@
 			    ],
 			]);
 
-            return $this->render('category', $data);
+	            return $this->render('category', [
+				'dataProvider' => $data['dataProvider'],
+				'model' => $data['model'],
+				'lang' => $data['lang'],
+			]);
         }
 
         public function actionAccioncategory() {

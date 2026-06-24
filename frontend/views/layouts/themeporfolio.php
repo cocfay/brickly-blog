@@ -13,8 +13,8 @@ AppAsset::register($this);
 $this->beginPage();
 
 
-$infoUs = Yii::$app->LocationLang->info();
-$lang = $infoUs->language->LanguageCode;
+$lang = Yii::$app->language ?: 'es';
+$countryCodeAbbr = 'GT';
 
 $metadescription = [
     'es' => 'Software a medida para automatizar procesos y reducir costos. Robustez, seguridad y soporte 24/7. ¡Conoce nuestro portafolio!',
@@ -39,9 +39,9 @@ $modelCA = new ContactAsesor;
 
 $modelCA = new ContactAsesor;
 $contryList = Countries::find()->orderBy(['Name' => SORT_ASC])->all();
-$cc = Countries::find()->select(['CountryID'])->where(['Abbreviation' => $infoUs->country_code])->one();
+$cc = Countries::find()->select(['CountryID'])->where(['Abbreviation' => $countryCodeAbbr])->one();
 $contryList = ArrayHelper::map($contryList, 'CountryID', 'Name');
-$countryCode = $cc->CountryID;
+$countryCode = $cc ? $cc->CountryID : null;
 ?>
 
 <!DOCTYPE html>

@@ -96,12 +96,12 @@ class SiteController extends Controller
         //      }
         $data = [];
         if(!Yii::$app->user->isGuest) {
-            return $this->redirect(Yii::$app->urlManager->createUrl('/home'));
+            return $this->redirect(Yii::$app->urlManager->createUrl('/blog'));
         }
 
         $model = new LoginForm();
         if($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(Yii::$app->urlManager->createUrl('/home'));
+            return $this->redirect(Yii::$app->urlManager->createUrl('/blog'));
         }else{
             $data['model'] =$model;
             // $post = Post::find()->asArray()->all();
@@ -225,12 +225,12 @@ class SiteController extends Controller
        $this->layout = "/simple";
             $data = [];
             if (!Yii::$app->user->isGuest) {
-             return $this->redirect(Yii::$app->urlManager->createUrl('/home'));
+             return $this->redirect(Yii::$app->urlManager->createUrl('/blog'));
              }
               $model = new LoginForm();
               if ($model->load(Yii::$app->request->post()) && $model->login()) {
                 
-                return $this->redirect(Yii::$app->urlManager->createUrl('/home'));
+                return $this->redirect(Yii::$app->urlManager->createUrl('/blog'));
             }else {
             $data['model'] =$model;
             // $post = Post::find()->asArray()->all();

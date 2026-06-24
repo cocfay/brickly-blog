@@ -27,7 +27,6 @@
     font-family: 'RalewayThin';
     src:url(./font/Raleway-Thin.ttf);
 } */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 *{
     margin: 0;
     padding: 0;
@@ -35,7 +34,7 @@
 body {
   margin: 0;
   /* font-family: 'RalewayMedium', sans-serif !important; */
-  font-family: "Montserrat", serif !important; 
+  font-family: 'Red Hat Display', sans-serif !important;
   color: #000;
   font-size: 20px;
   font-weight: 300 !important;
@@ -49,7 +48,6 @@ body {
     left: 0;
     width: 100%;
     z-index: 10; 
-    margin-top: 3rem;
     transition: all .3s ease-in-out;
 }
 .menu-fixed > div{

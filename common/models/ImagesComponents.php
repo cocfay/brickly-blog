@@ -122,8 +122,7 @@ class ImagesComponents extends ActiveRecord
         return $this->hasMany(ImagesComponentsDescription::className(), ['ImageComponentID' => 'ImageComponentID']);
     }
     public function getCurrentDescription(){
-        $infoUs = Yii::$app->LocationLang->info();
-        $codLang = $infoUs->language->LanguageCode;
+        $codLang = Yii::$app->language ?: 'es';
         return $this->hasOne(ImagesComponentsDescription::className(), ['ImageComponentID' => 'ImageComponentID'])->onCondition(['Lang'=>  $codLang]);
     }
 

@@ -55,8 +55,7 @@ class TextBoxComponents extends ActiveRecord
         return $this->hasMany(TextBoxComponentsData::className(), ['TexBoxComponentID' => 'TexBoxComponentID']);
     }
     public function getCurrentDescription(){
-        $infoUs = Yii::$app->LocationLang->info();
-        $codLang = $infoUs->language->LanguageCode;
+        $codLang = Yii::$app->language ?: 'es';
         return $this->hasOne(TextBoxComponentsData::className(), ['TexBoxComponentID' => 'TexBoxComponentID'])->onCondition(['Lang'=>  $codLang]);
     }
 

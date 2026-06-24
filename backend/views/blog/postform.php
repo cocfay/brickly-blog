@@ -227,111 +227,118 @@
             </div>
         </center>
     <?php endif; ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <?php if($ModelBlog->isNewRecord): ?>
-                    <h2 class="fw-bold"><?= $createNewPost[$lang] ?></h2>
-                <?php else: ?>
-                    <h2 class="fw-bold"><?= $editPost[$lang] ?> <small><i><u>ID#<?= $ModelBlog->PostBlogID; ?></u></i></small></h2>
+    <div class="container-fluid px-0 cpanel-post-form-page">
+        <div class="cpanel-page-heading">
+            <div>
+                <h1><?= $ModelBlog->isNewRecord ? $createNewPost[$lang] : $editPost[$lang] ?></h1>
+                <p class="cpanel-page-subtitle">Organiza la informaci&oacute;n principal, portada y componentes del art&iacute;culo.</p>
+            </div>
+            <div class="cpanel-post-heading-actions">
+                <?php if(!$ModelBlog->isNewRecord): ?>
+                    <span class="cpanel-post-id-badge">ID#<?= $ModelBlog->PostBlogID; ?></span>
                 <?php endif; ?>
+                <a href="<?= Url::to(['/blog']) ?>" class="cpanel-post-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Atr&aacute;s</span>
+                </a>
             </div>
         </div>
-        <div class="row mt-2">
+        <div class="row">
             <div class="col-12">
                 <?php $form = ActiveForm::begin([ 'options' => ['enctype' => 'multipart/form-data']]); ?>
-                    <div class="row">
-                        <div class="col-md-6">
+                    <section class="cpanel-post-section">
+                        <div class="cpanel-post-section-heading">
+                            <span class="cpanel-post-section-icon"><i class="fa-regular fa-newspaper"></i></span>
+                            <div>
+                                <h2>Datos del post</h2>
+                                <p>Define clasificaci&oacute;n, fecha, estado destacado y t&iacute;tulo.</p>
+                            </div>
+                        </div>
+                        <div class="row g-4">
                             <!-- SELECCIÓN DE LA CATEGORÍA DE JUGUETES -->
-                            <div class="backGround mb-3 collecionstoy d-block">
-                                <?php $labels = ($ModelBlog->isNewRecord) ? 'CollectionID' : 'Labels' ?>
-                                <?=
-                                    $form->field($CbyB, $labels)->widget(Chosen::classname(), [                            
-                                        'items' => $collectionList,
-                                        'allowDeselect' => true,
-                                        'disableSearch' => true, // Search input will be disabled
-                                        'clientOptions' => [
-                                            'search_contains' => true,
-                                            'max_selected_options' => 2,
-                                        ],
-                                         'options'  => [
-                                             'id' => 'UpdateCollectionID',
-                                        ],
-                                        'placeholder' => 'Seleccione',
-                                        'multiple' => true,
-                                    ])->label('Etiquetas', ['class' => 'fw-bold mb-2', 'data-section' => 'formdiscussion', 'data-value' => 'field3']);
-                                    /* $form->field($ModelBlog, 'CollectionID', ['options' => ['class' => 'form-group col-md-12']])
-                                    ->dropDownList($collectionList, ['prompt' => $selectCollection[$lang], 'class' => 'form-control'])
-                                    ->label('Etiquetas', ['class' => 'form-label fw-bold', 'data-section' => 'form-post', 'data-value' => 'collection']); */ // Crea el Select Input con el array de opciones, clase CSS y label personalizado.                
-                                ?>
+                            <div class="col-12">
+                                <!-- TITULO DEL POST -->
+                                <div class="backGround mb-3">
+                                    <?= $form->field($ModelBlog, 'VTitle', ['labelOptions' => ['class' => 'form-label fw-bold', 'data-section' => 'form-post', 'data-value' => 't-post']])->textInput(["id" => "title_post", "class" => "form-control title_post", "aria-describedby" => "title_post", "maxlength" => true]); ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="backGround mb-3 collecionstoy d-block">
+                                    <?php $labels = ($ModelBlog->isNewRecord) ? 'CollectionID' : 'Labels' ?>
+                                    <?=
+                                        $form->field($CbyB, $labels)->widget(Chosen::classname(), [                            
+                                            'items' => $collectionList,
+                                            'allowDeselect' => true,
+                                            'disableSearch' => true, // Search input will be disabled
+                                            'clientOptions' => [
+                                                'search_contains' => true,
+                                                'max_selected_options' => 2,
+                                            ],
+                                            'options'  => [
+                                                'id' => 'UpdateCollectionID',
+                                            ],
+                                            'placeholder' => 'Seleccione',
+                                            'multiple' => true,
+                                        ])->label('Etiquetas', ['class' => 'fw-bold mb-2', 'data-section' => 'formdiscussion', 'data-value' => 'field3']);
+                                        /* $form->field($ModelBlog, 'CollectionID', ['options' => ['class' => 'form-group col-md-12']])
+                                        ->dropDownList($collectionList, ['prompt' => $selectCollection[$lang], 'class' => 'form-control'])
+                                        ->label('Etiquetas', ['class' => 'form-label fw-bold', 'data-section' => 'form-post', 'data-value' => 'collection']); */ // Crea el Select Input con el array de opciones, clase CSS y label personalizado.                
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="backGround mb-3 d-block">
+                                    <?=
+                                        $form->field($ModelBlog, 'CreateAT', ['labelOptions' => ['class' => 'form-label fw-bold']])->input('date', ['class' => 'form-control']);           
+                                    ?>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <!-- SELECCIÓN DE LA CATEGORÍA DE JUGUETES -->
-                            <div class="backGround mb-3 collecionstoy d-block">
-                                <?=
-                                    $form->field($ModelBlog, 'Featured', ['labelOptions' => ['class' => 'form-label fw-bold']])->dropDownList(['1' => 'Si', '0' => 'No']);           
-                                ?>
+                    </section>
+
+                    <section class="cpanel-post-section">
+                        <div class="cpanel-post-section-heading">
+                            <span class="cpanel-post-section-icon"><i class="fa-regular fa-image"></i></span>
+                            <div>
+                                <h2>Portada</h2>
+                                <p>Sube la imagen principal del art&iacute;culo.</p>
                             </div>
+                            <span class="cpanel-post-section-line"></span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="backGround mb-3 d-block">
-                                <?php $labels = ($ModelBlog->isNewRecord) ? 'CollectionID' : 'Labels' ?>
-                                <?=
-                                    $form->field($Project, 'Project')->widget(Chosen::classname(), [                            
-                                        'items' => $projectsList,
-                                        'allowDeselect' => true,
-                                        'disableSearch' => true, // Search input will be disabled
-                                        'clientOptions' => [
-                                            'search_contains' => true,
-                                            'max_selected_options' => 3,
-                                        ],
-                                         'options'  => [
-                                             'id' => 'ProjectCollectionID',
-                                        ],
-                                        'placeholder' => 'Seleccione',
-                                        'multiple' => true,
-                                    ])->label('Projectos', ['class' => 'fw-bold mb-2', 'data-section' => 'formdiscussion', 'data-value' => 'field3']);
-                                    /* $form->field($ModelBlog, 'CollectionID', ['options' => ['class' => 'form-group col-md-12']])
-                                    ->dropDownList($collectionList, ['prompt' => $selectCollection[$lang], 'class' => 'form-control'])
-                                    ->label('Etiquetas', ['class' => 'form-label fw-bold', 'data-section' => 'form-post', 'data-value' => 'collection']); */ // Crea el Select Input con el array de opciones, clase CSS y label personalizado.                
-                                ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="backGround mb-3 d-block">
-                                <?=
-                                    $form->field($ModelBlog, 'CreateAT', ['labelOptions' => ['class' => 'form-label fw-bold']])->input('date', ['class' => 'form-control']);           
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- TITULO DEL POST -->
-                            <div class="backGround mb-3">
-                                <?= $form->field($ModelBlog, 'VTitle', ['labelOptions' => ['class' => 'form-label fw-bold', 'data-section' => 'form-post', 'data-value' => 't-post']])->textInput(["id" => "title_post", "class" => "form-control title_post", "aria-describedby" => "title_post", "maxlength" => true]); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- TITULO DEL POST -->
-                            <div class="backGround mb-3 d-flex flex-column justify-content-center align-items-center">
-                                <img src=" <?= $ModelBlog->ImagePost ?: Yii::getAlias("@web").'/../images/upload-icon/upload-image.png' ?>" alt="Imagen principal" class="img-responsive img-circle" id="ViewpostImage"  style="margin: 0 auto 10px; max-width: 150px;">
-                                <div class=""><?= $note[$lang] ?></div>
-                            </div>
-                            
-                        </div>
-                        <div class="col-md-12">
-                            <div class="backGround mb-3">
-                                <?= $form->field($ModelBlog, 'RequestFile', ['labelOptions' => ['class' => 'form-label fw-bold']])->fileInput(['id' => 'postImage']); ?>
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <?php $coverHasImage = !empty($ModelBlog->ImagePost); ?>
+                            <div class="cpanel-post-cover-field">
+                                <label id="postCoverDropzone" for="postImage" class="cpanel-post-upload cpanel-post-cover-upload <?= $coverHasImage ? 'has-preview' : '' ?>">
+                                    <img src="<?= $coverHasImage ? $ModelBlog->ImagePost : '' ?>" alt="Imagen principal" id="ViewpostImage" class="cpanel-upload-preview">
+                                    <span class="cpanel-upload-empty">
+                                        <span class="cpanel-upload-icon"><i class="fa-regular fa-image"></i></span>
+                                        <span class="cpanel-upload-title">Agregar foto de portada</span>
+                                        <span class="cpanel-upload-help">Haz click o arrastra una imagen aqu&iacute;</span>
+                                        <span class="cpanel-upload-format">PNG, JPG o WEBP</span>
+                                    </span>
+                                    <span class="cpanel-upload-overlay">
+                                        <span class="cpanel-upload-file" id="postCoverFileName">Imagen de portada</span>
+                                        <span class="cpanel-upload-action"><i class="fa-solid fa-rotate"></i> Cambiar</span>
+                                    </span>
+                                </label>
+                                <?= $form->field($ModelBlog, 'RequestFile')->fileInput(['id' => 'postImage', 'class' => 'cpanel-file-input', 'accept' => 'image/*'])->label(false); ?>
+                                <p class="cpanel-post-upload-note"><?= strip_tags($note[$lang]) ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="formComponents mb-5">
+                    </section>
+
+                    <section class="cpanel-post-section">
+                        <div class="cpanel-post-section-heading">
+                            <span class="cpanel-post-section-icon"><i class="fa-solid fa-layer-group"></i></span>
+                            <div>
+                                <h2>Componentes del art&iacute;culo</h2>
+                                <p>Construye el contenido con bloques de texto, imagen o video.</p>
+                            </div>
+                            <span class="cpanel-post-section-line"></span>
+                        </div>
+                    <div class="formComponents mb-4">
                         <?php $carouselItems = 0; foreach ($Components as $k => $c): ?>
 
                             <?php switch($c->Type):
@@ -344,17 +351,18 @@
                                     */
 
                                  ?>
-                                <div class="container mt-3"style="background: #edeeff; border-radius:6px; padding: 20px;">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="fs-4 mb-2 d-flex justify-content-between align-items-center" data-section="form-post" data-value="textco">Componente de Texto</div> 
-                                            <button type="button" style="float: right;" onclick="$(this).parent().parent().parent().remove();" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                            <input type="hidden" name="Components[<?= $k; ?>][Type]" value="1">
+                                <div class="cpanel-post-component cpanel-post-component-text">
+                                    <div class="cpanel-post-component-header">
+                                        <div>
+                                            <span class="cpanel-post-component-kicker">Bloque editorial</span>
+                                            <h3 data-section="form-post" data-value="textco">Componente de Texto</h3>
                                         </div>
-                                        <div class="col-md-12">
-                                             <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= $Component->Description; ?></textarea>
-                                             <input type="hidden" name="Components[<?= $k; ?>][MovilTextBox]" id="image-movil-description-<?= $k; ?>" value="<?= $Component->DescriptionMovil ?: ''; ?>">
-                                        </div>
+                                        <button type="button" onclick="$(this).closest('.cpanel-post-component').remove();" class="cpanel-post-component-remove" aria-label="Eliminar componente"><i class="fa-regular fa-trash-can"></i></button>
+                                        <input type="hidden" name="Components[<?= $k; ?>][Type]" value="1">
+                                    </div>
+                                    <div class="cpanel-post-editor-wrap">
+                                        <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= $Component->Description; ?></textarea>
+                                        <input type="hidden" name="Components[<?= $k; ?>][MovilTextBox]" id="image-movil-description-<?= $k; ?>" value="<?= $Component->DescriptionMovil ?: ''; ?>">
                                     </div>
                                 </div>
 
@@ -372,59 +380,55 @@
                                     */
 
                                  ?>
-                                <div class="container mt-3" style="background: #edeeff; border-radius:6px; padding: 20px;">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="fs-4 mb-2 d-flex justify-content-between align-items-center"><?= $imageComponent[$lang] ?></div> 
-                                            <button type="button" style="float: right;" onclick="$(this).parent().parent().parent().remove();" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                            <input type="hidden" name="Components[<?= $k; ?>][Type]" value="2">
+                                <div class="cpanel-post-component cpanel-post-component-image">
+                                    <div class="cpanel-post-component-header">
+                                        <div>
+                                            <span class="cpanel-post-component-kicker">Media 4:3</span>
+                                            <h3><?= $imageComponent[$lang] ?></h3>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <img style="max-width: 100%;height: auto;" class="img-responsive" id="preview-image-up-<?= $k; ?>" src="<?= $Component->ImagePatch?: Url::to(['/']).'/images/upload-icon/upload-image.png'; ?>" alt="imagen de componente">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12 mt-4">
-                                                    <input class="form-control upimage-component-img" id="imagecomponent-<?= $k; ?>" type="file" data-inf="<?= $k; ?>" data-comp="2" />
-                                                    <input type="hidden" id='name-image-component-up-<?= $k; ?>' name="Components[<?= $k; ?>][ImageName]" value="<?= $Component->ImagePatch?:'' ?>">
-                                                </div>
-                                                <div class="col-md-12 mt-4">
+                                        <button type="button" onclick="$(this).closest('.cpanel-post-component').remove();" class="cpanel-post-component-remove" aria-label="Eliminar componente"><i class="fa-regular fa-trash-can"></i></button>
+                                        <input type="hidden" name="Components[<?= $k; ?>][Type]" value="2">
+                                    </div>
+
+                                    <div class="cpanel-post-image-layout">
+                                        <div class="cpanel-post-component-media">
+                                            <label for="imagecomponent-<?= $k; ?>" class="cpanel-post-upload cpanel-post-component-upload <?= $Component->ImagePatch ? 'has-preview' : '' ?>">
+                                                <img class="cpanel-upload-preview" id="preview-image-up-<?= $k; ?>" src="<?= $Component->ImagePatch?: ''; ?>" alt="imagen de componente">
+                                                <span class="cpanel-upload-empty">
+                                                    <span class="cpanel-upload-icon"><i class="fa-regular fa-image"></i></span>
+                                                    <span class="cpanel-upload-title">Subir imagen</span>
+                                                    <span class="cpanel-upload-help">Haz click o arrastra una imagen</span>
+                                                </span>
+                                                <span class="cpanel-upload-overlay">
+                                                    <span class="cpanel-upload-file">Imagen del componente</span>
+                                                    <span class="cpanel-upload-action"><i class="fa-solid fa-rotate"></i> Cambiar</span>
+                                                </span>
+                                            </label>
+                                            <input class="cpanel-file-input upimage-component-img" id="imagecomponent-<?= $k; ?>" type="file" data-inf="<?= $k; ?>" data-comp="2" accept="image/*" />
+                                            <input type="hidden" id='name-image-component-up-<?= $k; ?>' name="Components[<?= $k; ?>][ImageName]" value="<?= $Component->ImagePatch?:'' ?>">
+                                        </div>
+
+                                        <div class="cpanel-post-component-fields">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
                                                     <label><?= $imageBy[$lang] ?></label>
                                                     <input type="text" class="form-control" id='image-by-<?= $k; ?>' name="Components[<?= $k; ?>][ImageBy]" value="<?= $Component->Imageby?:'' ?>">
                                                 </div>
-                                             </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label><?= $imageText[$lang] ?></label>
-                                             <textarea name="Components[<?= $k; ?>][Description]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= $Component->Description; ?></textarea>
-                                             <input type="hidden" name="Components[<?= $k; ?>][MovilDescription]" id="image-movil-description-<?= $k; ?>" value="<?= $Component->DescriptionMovil ?: ''; ?>">
-                                        </div>
-
-
-                                        <div class="col-md-12 mt-4">
-                                            <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <label><?= $imageTextPosition[$lang] ?></label>
+                                                    <div class="cpanel-post-position-group">
+                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="0" <?= ($Component->Position == 0)? 'checked' : '' ?>><span><?= $left[$lang] ?></span></label>
+                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="1" <?= ($Component->Position == 1)? 'checked' : '' ?>><span><?= $center[$lang] ?></span></label>
+                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="2" <?= ($Component->Position == 2)? 'checked' : '' ?>><span><?= $right[$lang] ?></span></label>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <img class="LogoCLT" src="<?= Yii::getAlias("@web").'/../images/icn/left.png' ?>" alt="Logo" style="width: 90px; height: 90px;"/>
-                                                    <input type="radio" name="Components[<?= $k; ?>][Position]" value="0" <?= ($Component->Position == 0)? 'checked' : '' ?> ><?= $left[$lang] ?>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <img class="LogoCLT" src="<?= Yii::getAlias("@web").'/../images/icn/center.png' ?>" alt="Logo" style="width: 90px; height: 90px;">
-                                                    <input type="radio" name="Components[<?= $k; ?>][Position]" value="1" <?= ($Component->Position == 1)? 'checked' : '' ?>><?= $center[$lang] ?>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <img class="LogoCLT" src="<?= Yii::getAlias("@web").'/../images/icn/right.png' ?>" alt="Logo" style="width: 90px; height: 90px;">
-                                                    <input type="radio" name="Components[<?= $k; ?>][Position]" value="2" <?= ($Component->Position == 2)? 'checked' : '' ?>><?= $right[$lang] ?>
+                                                <div class="col-12">
+                                                    <label><?= $imageText[$lang] ?></label>
+                                                    <textarea name="Components[<?= $k; ?>][Description]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= $Component->Description; ?></textarea>
+                                                    <input type="hidden" name="Components[<?= $k; ?>][MovilDescription]" id="image-movil-description-<?= $k; ?>" value="<?= $Component->DescriptionMovil ?: ''; ?>">
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
                                     </div>
                                 </div>
 
@@ -443,30 +447,28 @@
 
 
                                  ?>
-                                <div class="container mt-3" style="background: #edeeff; border-radius:6px; padding: 20px;">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                             <div class="fs-4 d-flex justify-content-between align-items-center" data-section="form-post" data-value="ytco">Componente de Video YT</div>
-                                             <button type="button" style="float: right;" onclick="$(this).parent().parent().parent().remove();" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                             <input type="hidden" name="Components[<?= $k; ?>][Type]" value="3">
+                                <div class="cpanel-post-component cpanel-post-component-video">
+                                    <div class="cpanel-post-component-header">
+                                        <div>
+                                            <span class="cpanel-post-component-kicker">YouTube</span>
+                                            <h3 data-section="form-post" data-value="ytco">Componente de Video YT</h3>
                                         </div>
+                                        <button type="button" onclick="$(this).closest('.cpanel-post-component').remove();" class="cpanel-post-component-remove" aria-label="Eliminar componente"><i class="fa-regular fa-trash-can"></i></button>
+                                        <input type="hidden" name="Components[<?= $k; ?>][Type]" value="3">
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="previewvideo-<?= $k; ?>" style="display: flex; justify-content: center;align-items: center;">
-                                                <?php if(!$Component->UrlVideo): ?>
-                                                <img style="max-width: 100%;height: auto;" class="img-responsive" src="<?= Url::to(['/']).'images/upload-icon/videoytbad.jpg'; ?>" alt="imagen de componente">
-                                                <?php else: ?>
-                                                    <iframe width="560" height="315" src="<?= $Component->UrlVideo; ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                                                <?php endif; ?>
+                                    <div class="cpanel-post-video-preview previewvideo-<?= $k; ?>">
+                                        <?php if(!$Component->UrlVideo): ?>
+                                            <div class="cpanel-post-video-empty">
+                                                <i class="fa-brands fa-youtube"></i>
+                                                <span>Pega un enlace de YouTube para ver la vista previa</span>
                                             </div>
-                                        </div>
+                                        <?php else: ?>
+                                            <iframe src="<?= $Component->UrlVideo; ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                        <?php endif; ?>
                                     </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12">
-                                            <label data-section="form-post" data-value="videolink">Enlace del video</label>
-                                            <input type="text"  name="Components[<?= $k; ?>][UrlVideo]" data-inf="<?= $k; ?>" value="<?= $Component->UrlVideo?:''; ?>" class="form-control urlvideocamp">
-                                        </div>
+                                    <div class="cpanel-post-video-field">
+                                        <label data-section="form-post" data-value="videolink">Enlace del video</label>
+                                        <input type="text" name="Components[<?= $k; ?>][UrlVideo]" data-inf="<?= $k; ?>" value="<?= $Component->UrlVideo?:''; ?>" class="form-control urlvideocamp" placeholder="https://youtube.com/watch?v=...">
                                     </div>
                                 </div>
 
@@ -527,21 +529,22 @@
 
                         <?php endforeach; ?>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12" style="border: 1px solid; box-sizing: border-box; padding: 16px;">
-                            <div class="mb-2 fw-bold" data-section="form-post" data-value="addcomp">Agregar Componente</div>
-                            <div data-section="form-post" data-value="compdes">Agregué el componente que desee en base en la estructura de su artículo.</div>
-                            <div class="mt-5 mb-2 text-center">
-                                <button type="button" class="addTextBoxComponent btn btn-violet"><i class="fa-solid fa-plus"></i> <span data-section="form-post" data-value="combu1">Texto</span></button>
-                                <button type="button" class="addImageComponent btn btn-violet"><i class="fa-solid fa-plus"></i> <span data-section="form-post" data-value="combu2">Imagen</span></button>
-                                <button type="button" class="addVideoComponent btn btn-violet"><i class="fa-solid fa-plus"></i> <span data-section="form-post" data-value="combu3">Video YT</span></button>
+                    <div class="cpanel-post-add-components">
+                        <div>
+                            <h3 data-section="form-post" data-value="addcomp">Agregar componente</h3>
+                            <p data-section="form-post" data-value="compdes">Agrega bloques de contenido seg&uacute;n la estructura del art&iacute;culo.</p>
+                        </div>
+                        <div class="cpanel-post-component-toolbar">
+                                <button type="button" class="addTextBoxComponent cpanel-post-tool-btn"><i class="fa-regular fa-file-lines"></i> <span data-section="form-post" data-value="combu1">Texto</span></button>
+                                <button type="button" class="addImageComponent cpanel-post-tool-btn"><i class="fa-regular fa-image"></i> <span data-section="form-post" data-value="combu2">Imagen</span></button>
+                                <button type="button" class="addVideoComponent cpanel-post-tool-btn"><i class="fa-brands fa-youtube"></i> <span data-section="form-post" data-value="combu3">Video YT</span></button>
                                 <!-- <button type="button" class="addCarouselComponent btn btn-violet"><i class="fa-solid fa-plus"></i> <span data-section="form-post" data-value="combu4">Carrusel</span></button> -->
-                            </div>
                         </div>
                     </div>
+                    </section>
 
                     <div class="row mt-4">
-                        <div class="col-md-12">
+                        <div class="col-md-12 cpanel-post-form-actions">
                             <!-- BOTÓN DE GUARDAR -->
                             <?php if($ModelBlog->isNewRecord): ?>
                                 <?= /* Html::submitButton('<i class="fa-solid fa-save"></i> <span data-section="form-post" data-value="save">Guardar</span>', [
@@ -654,6 +657,7 @@
 
                 reader.onload = function (e) {
                     $(prev).attr('src', e.target.result);
+                    $(prev).closest('.cpanel-post-upload').addClass('has-preview');
                 }
 
                 reader.readAsDataURL(input.files[0]);
@@ -662,10 +666,43 @@
 
 
         $('#postImage').change(function(){
-
             readURL(this,'#ViewpostImage');
-
+            if (this.files && this.files[0]) {
+                $('#postCoverFileName').text(this.files[0].name);
+            }
         });
+
+        function bindImageDropzone(dropSelector, inputSelector) {
+            $(document).on('dragenter dragover', dropSelector, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).addClass('is-dragover');
+            });
+
+            $(document).on('dragleave dragend drop', dropSelector, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).removeClass('is-dragover');
+            });
+
+            $(document).on('drop', dropSelector, function(e) {
+                var files = e.originalEvent.dataTransfer.files;
+                if (!files || !files.length) {
+                    return;
+                }
+
+                var input = inputSelector ? $(inputSelector)[0] : $('#' + $(this).attr('for'))[0];
+                if (!input) {
+                    return;
+                }
+
+                input.files = files;
+                $(input).trigger('change');
+            });
+        }
+
+        bindImageDropzone('#postCoverDropzone', '#postImage');
+        bindImageDropzone('.cpanel-post-component-upload');
 
 
         function removeTags(str) {
@@ -698,11 +735,11 @@
                }
 
                if(IDVideo){
-                    let frameHtml = '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/'+IDVideo+'\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>';
+                    let frameHtml = '<iframe src=\"https://www.youtube.com/embed/'+IDVideo+'\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>';
                     $('.previewvideo-'+inf).html(frameHtml);
                 }else{
                     $(this).val('');
-                    let frameHtml = '<img style=\"max-width: 100%;height: auto;\" class=\"img-responsive\" src=\"".Url::to(['/'])."images/upload-icon/videoytbad.jpg\"/>';
+                    let frameHtml = '<div class=\"cpanel-post-video-empty\"><i class=\"fa-brands fa-youtube\"></i><span>Pega un enlace de YouTube para ver la vista previa</span></div>';
                     $('.previewvideo-'+inf).html(frameHtml);
                 }
             });
@@ -725,6 +762,7 @@
                 $.ajax({
                         url: '".Url::to(['/blog/picturecomponents'])."',
                         type: 'POST',
+                        dataType: 'json',
                         data: formdata,
                         processData: false,
                         contentType: false,
@@ -767,31 +805,37 @@
             if($(this).prop('files').length > 0)
             {
                 let file = $(this).prop('files')[0];
+                readURL(this, '#preview-image-up-'+inf);
                 formdata.append('ChecklistFilesForm[ImageFile]', file);
                 formdata.append('ChecklistFilesForm[ConditionID]', typComp);
 
                 $.ajax({
                         url: '".Url::to(['/blog/picturecomponents'])."',
                         type: 'POST',
+                        dataType: 'json',
                         data: formdata,
                         processData: false,
                         contentType: false,
                         success: function (result) {
                              if(!result.error){
-                                $('#preview-image-up-'+inf).attr('src',result.urlabsolute);
+                                $('#preview-image-up-'+inf).closest('.cpanel-post-upload').addClass('has-preview');
                                 $('#name-image-component-up-'+inf).val(result.url);
                              }else{
+                                $('#name-image-component-up-'+inf).val('');
                                 alert(result.message);
                              }
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                             $('#name-image-component-up-'+inf).val('');
                              InpCh.val(null);
 
                         }
                     });
 
             }else{
-                $('#preview-image-up-'+inf).attr('src','/CheckListToys/images/logos/Logo_CLT.png');
+                $('#preview-image-up-'+inf).attr('src','');
+                $('#preview-image-up-'+inf).closest('.cpanel-post-upload').removeClass('has-preview');
+                $('#name-image-component-up-'+inf).val('');
             }
              InpCh.val(null);
 
@@ -828,16 +872,15 @@
         
         $(document).on('click','.addTextBoxComponent', function(e){
             AmountComponents++;
-            let HtmlCompText =     '<div class=\"container mt-3\"  style=\"background: #edeeff; border-radius:6px; padding: 20px;\">';
-            HtmlCompText +=            '<div class=\"row\">';
-            HtmlCompText +=                '<div class=\"col-md-12 mb-2\">';
-            HtmlCompText +=                    '<div class=\"fs-4 d-flex justify-content-between align-items-center\"><div>$textComponent[$lang]</div> <button type=\"button\" style=\"float: right;\" onclick=\"$(this).parent().parent().parent().remove();\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></i></button></div>';
-            HtmlCompText +=                     '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"1\">';
-            HtmlCompText +=                '</div>';
-            HtmlCompText +=                '<div class=\"col-md-12\">';
-            HtmlCompText +=                     '<textarea name=\"Components[{{{CODE}}}][TextBox]\" class=\"form-control ckeditorText\" id=\"image-editor-{{{CODE}}}\" data-item=\"{{{CODE}}}\"></textarea>';
-            HtmlCompText +=                     '<input type=\"hidden\" name=\"Components[{{{CODE}}}][MovilTextBox]\" id=\"image-movil-description-{{{CODE}}}\" value=\"\">';
-            HtmlCompText +=                '</div>';
+            let HtmlCompText =     '<div class=\"cpanel-post-component cpanel-post-component-text\">';
+            HtmlCompText +=            '<div class=\"cpanel-post-component-header\">';
+            HtmlCompText +=                '<div><span class=\"cpanel-post-component-kicker\">Bloque editorial</span><h3>$textComponent[$lang]</h3></div>';
+            HtmlCompText +=                '<button type=\"button\" onclick=\"$(this).closest(\\'.cpanel-post-component\\').remove();\" class=\"cpanel-post-component-remove\" aria-label=\"Eliminar componente\"><i class=\"fa-regular fa-trash-can\"></i></button>';
+            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"1\">';
+            HtmlCompText +=            '</div>';
+            HtmlCompText +=            '<div class=\"cpanel-post-editor-wrap\">';
+            HtmlCompText +=                '<textarea name=\"Components[{{{CODE}}}][TextBox]\" class=\"form-control ckeditorText\" id=\"image-editor-{{{CODE}}}\" data-item=\"{{{CODE}}}\"></textarea>';
+            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][MovilTextBox]\" id=\"image-movil-description-{{{CODE}}}\" value=\"\">';
             HtmlCompText +=            '</div>';
             HtmlCompText +=        '</div>';
 
@@ -868,59 +911,27 @@
         $(document).on('click','.addImageComponent', function(e){
             AmountComponents++;
 
-            let HtmlCompImage =    '<div class=\"container mt-3\"  style=\"background: #edeeff; border-radius:6px; padding: 20px;\">';
-            HtmlCompImage +=            '<div class=\"row\">';
-            HtmlCompImage +=                '<div class=\"col-md-12\">';
-            HtmlCompImage +=                     '<div class=\"fs-4 d-flex justify-content-between align-items-center\"><div>$imageComponent[$lang]</div> <button type=\"button\" style=\"float: right;\" onclick=\"$(this).parent().parent().parent().remove();\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></i></button></div>';
-
-            HtmlCompImage +=                     '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"2\">';
+            let HtmlCompImage =    '<div class=\"cpanel-post-component cpanel-post-component-image\">';
+            HtmlCompImage +=            '<div class=\"cpanel-post-component-header\">';
+            HtmlCompImage +=                '<div><span class=\"cpanel-post-component-kicker\">Media 4:3</span><h3>$imageComponent[$lang]</h3></div>';
+            HtmlCompImage +=                '<button type=\"button\" onclick=\"$(this).closest(\\'.cpanel-post-component\\').remove();\" class=\"cpanel-post-component-remove\" aria-label=\"Eliminar componente\"><i class=\"fa-regular fa-trash-can\"></i></button>';
+            HtmlCompImage +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"2\">';
+            HtmlCompImage +=            '</div>';
+            HtmlCompImage +=            '<div class=\"cpanel-post-image-layout\">';
+            HtmlCompImage +=                '<div class=\"cpanel-post-component-media\">';
+            HtmlCompImage +=                    '<label for=\"imagecomponent-{{{CODE}}}\" class=\"cpanel-post-upload cpanel-post-component-upload\">';
+            HtmlCompImage +=                        '<img class=\"cpanel-upload-preview\" id=\"preview-image-up-{{{CODE}}}\" src=\"\" alt=\"imagen de componente\">';
+            HtmlCompImage +=                        '<span class=\"cpanel-upload-empty\"><span class=\"cpanel-upload-icon\"><i class=\"fa-regular fa-image\"></i></span><span class=\"cpanel-upload-title\">Subir imagen</span><span class=\"cpanel-upload-help\">Haz click o arrastra una imagen</span></span>';
+            HtmlCompImage +=                        '<span class=\"cpanel-upload-overlay\"><span class=\"cpanel-upload-file\">Imagen del componente</span><span class=\"cpanel-upload-action\"><i class=\"fa-solid fa-rotate\"></i> Cambiar</span></span>';
+            HtmlCompImage +=                    '</label>';
+            HtmlCompImage +=                    '<input class=\"cpanel-file-input upimage-component-img\" id=\"imagecomponent-{{{CODE}}}\" type=\"file\" data-inf=\"{{{CODE}}}\" data-comp=\"2\" accept=\"image/*\"/>';
+            HtmlCompImage +=                    '<input type=\"hidden\" id=\"name-image-component-up-{{{CODE}}}\" name=\"Components[{{{CODE}}}][ImageName]\">';
             HtmlCompImage +=                '</div>';
-            HtmlCompImage +=                '<div class=\"col-md-6\">';
-            HtmlCompImage +=                    '<div class=\"row\">';
-            HtmlCompImage +=                        '<div class=\"col-md-12\">';
-            HtmlCompImage +=                            '<img style=\"max-width: 100%;height: auto;\" class=\"img-responsive\" id=\"preview-image-up-{{{CODE}}}\" src=\"".Url::to('@raizweb')."images/upload-icon/upload-image.png\" alt=\"imagen de componente\">';
-            HtmlCompImage +=                        '</div>';
-            HtmlCompImage +=                    '</div>';
-            HtmlCompImage +=                    '<div class=\"row\">';
-            HtmlCompImage +=                        '<div class=\"col-md-12 mt-4\">';
-            HtmlCompImage +=                            '<input class=\"form-control upimage-component-img\" id=\"imagecomponent-{{{CODE}}}\" type=\"file\" data-inf=\"{{{CODE}}}\" data-comp=\"2\"/>';
-            HtmlCompImage +=                            '<input type=\"hidden\" id=\"name-image-component-up-{{{CODE}}}\" name=\"Components[{{{CODE}}}][ImageName]\">';
-            HtmlCompImage +=                        '</div>';
-
-            HtmlCompImage +=                        '<div class=\"col-md-12 mt-4\">';
-            HtmlCompImage +=                        '<label>$imageBy[$lang]</label>';
-            HtmlCompImage +=                            '<input type=\"text\" class=\"form-control\" id=\"image-by-{{{CODE}}}\" name=\"Components[{{{CODE}}}][ImageBy]\">';
-            HtmlCompImage +=                        '</div>';
-
-            HtmlCompImage +=                     '</div>';
-            HtmlCompImage +=                '</div>';
-
-            HtmlCompImage +=                '<div class=\"col-md-6\">';
-            HtmlCompImage +=                    '<label>$imageText[$lang]</label>';
-            HtmlCompImage +=                     '<textarea name=\"Components[{{{CODE}}}][Description]\" class=\"form-control ckeditorText\" id=\"image-editor-{{{CODE}}}\" data-item=\"{{{CODE}}}\"></textarea>';
-            HtmlCompImage +=                     '<input type=\"hidden\" name=\"Components[{{{CODE}}}][MovilDescription]\" id=\"image-movil-description-{{{CODE}}}\" value=\"\">';
-            HtmlCompImage +=                '</div>';
-
-            HtmlCompImage +=                '<div class=\"col-md-12 mt-4\">';
-            HtmlCompImage +=                    '<div class=\"row\">';
-            HtmlCompImage +=                        '<div class=\"col-md-12\">';
-            HtmlCompImage +=                            '<label>$imageTextPosition[$lang]</label>';
-            HtmlCompImage +=                        '</div>';
-            HtmlCompImage +=                        '<div class=\"col-md-4\">';
-            HtmlCompImage +=                            '<img class=\"LogoCLT\" src=\"".Yii::getAlias('@web')."/../images/icn/left.png\" alt=\"Logo\" style=\"width: 90px; height: 90px;\"/>';
-            HtmlCompImage +=                            '<input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" value=\"0\">$left[$lang]</input>';
-            HtmlCompImage +=                        '</div>';
-            HtmlCompImage +=                        '<div class=\"col-md-4\">';
-            HtmlCompImage +=                            '<img class=\"LogoCLT\" src=\"".Yii::getAlias('@web')."/../images/icn/center.png\" alt=\"Logo\" style=\"width: 90px; height: 90px;\">';
-            HtmlCompImage +=                            '<input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" checked value=\"1\">$center[$lang]</input>';
-            HtmlCompImage +=                        '</div>';
-            HtmlCompImage +=                        '<div class=\"col-md-4\">';
-            HtmlCompImage +=                            '<img class=\"LogoCLT\" src=\"".Yii::getAlias('@web')."/../images/icn/right.png\" alt=\"Logo\" style=\"width: 90px; height: 90px;\">';
-            HtmlCompImage +=                            '<input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" value=\"2\">$right[$lang]</input>';
-            HtmlCompImage +=                        '</div>';
-            HtmlCompImage +=                    '</div>';
-            HtmlCompImage +=                '</div>';
-                                            
+            HtmlCompImage +=                '<div class=\"cpanel-post-component-fields\"><div class=\"row g-3\">';
+            HtmlCompImage +=                    '<div class=\"col-md-6\"><label>$imageBy[$lang]</label><input type=\"text\" class=\"form-control\" id=\"image-by-{{{CODE}}}\" name=\"Components[{{{CODE}}}][ImageBy]\"></div>';
+            HtmlCompImage +=                    '<div class=\"col-md-6\"><label>$imageTextPosition[$lang]</label><div class=\"cpanel-post-position-group\"><label><input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" value=\"0\"><span>$left[$lang]</span></label><label><input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" checked value=\"1\"><span>$center[$lang]</span></label><label><input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" value=\"2\"><span>$right[$lang]</span></label></div></div>';
+            HtmlCompImage +=                    '<div class=\"col-12\"><label>$imageText[$lang]</label><textarea name=\"Components[{{{CODE}}}][Description]\" class=\"form-control ckeditorText\" id=\"image-editor-{{{CODE}}}\" data-item=\"{{{CODE}}}\"></textarea><input type=\"hidden\" name=\"Components[{{{CODE}}}][MovilDescription]\" id=\"image-movil-description-{{{CODE}}}\" value=\"\"></div>';
+            HtmlCompImage +=                '</div></div>';
             HtmlCompImage +=            '</div>';
             HtmlCompImage +=        '</div>';
 
@@ -950,27 +961,14 @@
         $(document).on('click','.addVideoComponent', function(e){
             AmountComponents++;
 
-            let HtmlCompVideo =    '<div class=\"container mt-3\"  style=\"background: #edeeff; border-radius:6px; padding: 20px;\">';
-            HtmlCompVideo +=            '<div class=\"row\">';
-            HtmlCompVideo +=                '<div class=\"col-md-12\">';
-            HtmlCompVideo +=                     '<div class=\"fs-4 d-flex justify-content-between align-items-center\"><div>$videoComponent[$lang]</div><button type=\"button\" style=\"float: right;\" onclick=\"$(this).parent().parent().parent().remove();\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></i></button></div>';
-
-            HtmlCompVideo +=                     '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"3\">';
-            HtmlCompVideo +=                '</div>';
+            let HtmlCompVideo =    '<div class=\"cpanel-post-component cpanel-post-component-video\">';
+            HtmlCompVideo +=            '<div class=\"cpanel-post-component-header\">';
+            HtmlCompVideo +=                '<div><span class=\"cpanel-post-component-kicker\">YouTube</span><h3>$videoComponent[$lang]</h3></div>';
+            HtmlCompVideo +=                '<button type=\"button\" onclick=\"$(this).closest(\\'.cpanel-post-component\\').remove();\" class=\"cpanel-post-component-remove\" aria-label=\"Eliminar componente\"><i class=\"fa-regular fa-trash-can\"></i></button>';
+            HtmlCompVideo +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"3\">';
             HtmlCompVideo +=            '</div>';
-            HtmlCompVideo +=            '<div class=\"row\">';
-            HtmlCompVideo +=                '<div class=\"col-md-12\">';
-            HtmlCompVideo +=                    '<div class=\"previewvideo-{{{CODE}}}\" style=\"display: flex; justify-content: center;align-items: center;\">';
-            HtmlCompVideo +=                        '<img style=\"max-width: 100%;height: auto;\" class=\"img-responsive\" src=\" ".Url::to(['/'])."images/upload-icon/videoytbad.jpg\" alt=\"imagen de componente\">';
-            HtmlCompVideo +=                    '</div>';
-            HtmlCompVideo +=                '</div>';
-            HtmlCompVideo +=            '</div>';
-            HtmlCompVideo +=            '<div class=\"row mt-2\">';
-            HtmlCompVideo +=                '<div class=\"col-md-12\">';
-            HtmlCompVideo +=                    '<label data-section=\"form-post\" data-value=\"videolink\">$videoLink[$lang]</label>';
-            HtmlCompVideo +=                    '<input type=\"text\"  name=\"Components[{{{CODE}}}][UrlVideo]\" data-inf=\"{{{CODE}}}\" class=\"form-control urlvideocamp\">';
-            HtmlCompVideo +=                '</div>';
-            HtmlCompVideo +=            '</div>';
+            HtmlCompVideo +=            '<div class=\"cpanel-post-video-preview previewvideo-{{{CODE}}}\"><div class=\"cpanel-post-video-empty\"><i class=\"fa-brands fa-youtube\"></i><span>Pega un enlace de YouTube para ver la vista previa</span></div></div>';
+            HtmlCompVideo +=            '<div class=\"cpanel-post-video-field\"><label data-section=\"form-post\" data-value=\"videolink\">$videoLink[$lang]</label><input type=\"text\" name=\"Components[{{{CODE}}}][UrlVideo]\" data-inf=\"{{{CODE}}}\" class=\"form-control urlvideocamp\" placeholder=\"https://youtube.com/watch?v=...\"></div>';
             HtmlCompVideo +=        '</div>';
 
             let AddHtml = HtmlCompVideo.replace(/\{{{CODE}}}/g, AmountComponents);

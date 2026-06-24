@@ -21,6 +21,7 @@ class BlogByProject extends ActiveRecord
     {
         return [
             [['PorfolioID', 'PostBlogID'], 'number'],
+            [['Project'], 'default', 'value' => []],
             [['Project'], 'safe']
         ];
     }

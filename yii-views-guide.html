@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
+        <link rel="icon" type="image/svg+xml" href="/favico/favicon.svg">
+        <link rel="icon" type="image/png" href="/favico/favicon.png">
+        <link rel="shortcut icon" href="/favico/favicon.ico">
+        <link rel="manifest" href="/favico/manifest.json">
+        <link rel="mask-icon" href="/favico/safari-pinned-tab.svg" color="#1e6887">
+        <meta name="msapplication-config" content="/favico/browserconfig.xml">
+        <meta name="theme-color" content="#1e6887">
+
+        <link href="https://www.yiiframework.com/rss.xml" type="application/rss+xml" rel="alternate" title="Lives News for Yii Framework">
+
+        <meta name="csrf-param" content="_csrf">
+<meta name="csrf-token" content="zN6ttQu9c7BNOOeicgkvoLy0S3ShbtfeRxgeNc6Vlq6A78iMTuVD-wJNys8iOUHC29UpHukDmo4xQU9GoPbCxQ==">
+        
+        <title>Application Structure: Views | The Definitive Guide to Yii 2.0 | Yii PHP Framework</title>
+
+        <meta property="og:site_name" content="Yii Framework" />
+        <meta property="og:title" content="Application Structure: Views" />
+        <meta property="og:image" content="https://www.yiiframework.com/image/facebook_cover.png" />
+        <meta property="og:url" content="/doc/guide/2.0/en/structure-views" />
+        <meta property="og:description" content="" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="yiiframework" />
+        <meta name="twitter:title" content="Application Structure: Views" />
+        <meta name="twitter:description" content="" />
+        <meta name="twitter:image" content="https://www.yiiframework.com/image/twitter_cover.png" />
+        <meta name="twitter:image:width" content="120" />
+        <meta name="twitter:image:height" content="120" />
+
+        <link type="application/opensearchdescription+xml" href="/opensearch.xml" title="Yii Search" rel="search">
+<link href="/assets/26ee98d8/css/all.min.css?v=1781907427" rel="stylesheet">
+<script>yiiBaseUrl = ""
+yiiSearchLanguage = "en"
+yiiSearchVersion = "2.0"</script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-707ZP35KCT"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-707ZP35KCT');
+</script>
+    </head>
+    <body data-spy="scroll" data-target="#scrollnav" data-offset="1">
+        
+        <div id="page-wrapper" class="">
+
+            <header class="navbar navbar-inverse navbar-static" id="top">
+    <div class="container">
+        <div id="main-nav-head" class="navbar-header">
+            <a href="/" class="navbar-brand">
+                <img src="/image/logo.svg"
+                     alt="Yii PHP Framework"
+                     width="165" height="35"/>
+            </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" aria-label="Toggle navigation" data-target=".navbar-collapse"><i
+                    class="fa fa-inverse fa-bars"></i></button>
+        </div>
+
+        <div class="navbar-collapse collapse navbar-right">
+            <ul id="main-nav" class="nav navbar-nav navbar-main-menu nav"><li class="active" title="The Definitive Guide to Yii"><a href="/doc/guide">Guide</a></li>
+<li title="API Documentation"><a href="/doc/api">API</a></li>
+<li title="Community Wiki"><a href="/wiki">Wiki</a></li>
+<li title="Community Forum"><a href="/forum">Forum</a></li>
+<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Community <span class="caret"></span></a><ul id="w16" class="dropdown-menu"><li><a href="/chat" tabindex="-1">Live Chat</a></li>
+<li title="Extensions"><a href="/extensions" tabindex="-1">Extensions</a></li>
+<li><a href="/community" tabindex="-1">Resources</a></li>
+<li title="Community Members"><a href="/user" tabindex="-1">Members</a></li>
+<li title="Community Hall of Fame"><a href="/user/halloffame" tabindex="-1">Hall of Fame</a></li>
+<li title="Community Badges"><a href="/badges" tabindex="-1">Badges</a></li></ul></li>
+<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">More <span class="caret"></span></a><ul id="w17" class="dropdown-menu"><li class="separator dropdown-header">Learn</li>
+<li><a href="/books" tabindex="-1">Books</a></li>
+<li><a href="/resources" tabindex="-1">Resources</a></li>
+<li class="separator dropdown-header">Develop</li>
+<li><a href="/download" tabindex="-1">Download Yii</a></li>
+<li><a href="/report-issue" tabindex="-1">Report an Issue</a></li>
+<li><a href="/security" tabindex="-1">Report a Security Issue</a></li>
+<li><a href="/contribute" tabindex="-1">Contribute to Yii</a></li>
+<li><a href="/donate" tabindex="-1">Donate</a></li>
+<li class="separator dropdown-header">About</li>
+<li><a href="/doc/guide/3.0/en/intro-yii" tabindex="-1">What is Yii?</a></li>
+<li><a href="/release-cycle" tabindex="-1">Release Cycle</a></li>
+<li><a href="/news" tabindex="-1">News</a></li>
+<li><a href="/license" tabindex="-1">License</a></li>
+<li><a href="/team" tabindex="-1">Team</a></li>
+<li><a href="/logo" tabindex="-1">Official Logos and Design</a></li></ul></li></ul>
+            
+            <div class="nav navbar-nav navbar-right">
+                <ul id="login-nav" class="nav navbar-nav navbar-main-menu nav"><li><a href="/login">Login</a></li></ul>            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                        <form id="search-form" class="navbar-form" action="/search" method="get">
+<input type="hidden" name="language" value="en">
+<input type="hidden" name="version" value="2.0">
+<input type="hidden" name="type" value="guide">        <div class="form-group nospace">
+            <div class="input-group">
+                <input type="text" class="form-control" id="search" name="q" placeholder="Search Guide&hellip;" autocomplete="off" value="">
+            </div>
+        </div>
+        <div id="search-resultbox"></div>
+        </form>            </div>
+
+            
+        </div>
+    </div>
+</header>
+
+            <a href="https://yii3.yiiframework.com" class="yii3-banner">
+                <strong><span class="yii3-banner__emoji">🚀</span>Yii3 is now available!</strong>
+            </a>
+
+            <div class="section-header-wrap">
+    <div class="container section-header lang-en">
+        <div class="row headline-row">
+            <div class="col-xs-12 col-md-12">
+                <div class="section-headline">The Definitive Guide to Yii 2.0</div>
+            </div>
+                    </div>
+                <div class="row content-selector-row">
+            <div class="col-xs-12 col-md-offset-7 col-md-5">
+                <nav class="version-selector">
+        <div class="btn-group btn-group-justified btn-group-3-element">
+        <div class="btn-group btn-group-sm"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Download <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li role="presentation"><a href="/doc/download/yii-guide-2.0-en.pdf" role="menuitem" tabindex="-1">PDF</a></li>
+<li role="presentation"><a href="/doc/download/yii-docs-2.0-en.tar.gz" role="menuitem" tabindex="-1">Offline HTML (tar.gz)</a></li>
+<li role="presentation"><a href="/doc/download/yii-docs-2.0-en.tar.bz2" role="menuitem" tabindex="-1">Offline HTML (tar.bz2)</a></li></ul></div>                <div class="btn-group btn-group-sm"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">English <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li role="presentation"><a href="/doc/guide/2.0/ar/structure-views" role="menuitem" tabindex="-1">العربية</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/es/structure-views" role="menuitem" tabindex="-1">Español</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/fr/structure-views" role="menuitem" tabindex="-1">Français</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/id/structure-views" role="menuitem" tabindex="-1">Bahasa Indonesia</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/ja/structure-views" role="menuitem" tabindex="-1">日本語</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/pl/structure-views" role="menuitem" tabindex="-1">Polski</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/pt-br/structure-views" role="menuitem" tabindex="-1">Português brasileiro</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/ru/structure-views" role="menuitem" tabindex="-1">Русский</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/uk/structure-views" role="menuitem" tabindex="-1">Українська</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/uz/structure-views" role="menuitem" tabindex="-1">Oʻzbekcha</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/zh-cn/structure-views" role="menuitem" tabindex="-1">简体中文</a></li>
+<li role="presentation"><a href="/doc/guide/2.0/vi/structure-views" role="menuitem" tabindex="-1">Tiếng Việt</a></li></ul></div>
+                <div class="btn-group btn-group-sm"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Version 2.0 <span class="caret"></span></button><ul class="dropdown-menu" role="menu"><li role="presentation"><a href="/doc/guide/1.1/en" role="menuitem" tabindex="-1">1.1</a></li>
+<li role="presentation"><a href="/doc/guide/1.0/en" role="menuitem" tabindex="-1">1.0</a></li></ul></div>    </div>
+</nav>
+            </div>
+        </div>
+            </div>
+</div>
+
+                        <div class="visible-huge fixed lang-en">
+    <nav id="scrollnav" data-spy="affix" data-offset-top="120">
+        <ul class="nav hidden-xs hidden-sm">
+            <li><a href="#views">Views</a></li><li><a href="#creating-views">Creating Views</a><ul class="nav"><li class="subheading"><a href="#security">Security</a></li><li class="subheading"><a href="#organizing-views">Organizing Views</a></li></ul></li><li><a href="#rendering-views">Rendering Views</a><ul class="nav"><li class="subheading"><a href="#rendering-in-controllers">Rendering in Controllers</a></li><li class="subheading"><a href="#rendering-in-widgets">Rendering in Widgets</a></li><li class="subheading"><a href="#rendering-in-views">Rendering in Views</a></li><li class="subheading"><a href="#rendering-in-other-places">Rendering in Other Places</a></li><li class="subheading"><a href="#named-views">Named Views</a></li><li class="subheading"><a href="#accessing-data-in-views">Accessing Data in Views</a></li><li class="subheading"><a href="#sharing-data-among-views">Sharing Data among Views</a></li></ul></li><li><a href="#layouts">Layouts</a><ul class="nav"><li class="subheading"><a href="#creating-layouts">Creating Layouts</a></li><li class="subheading"><a href="#accessing-data-in-layouts">Accessing Data in Layouts</a></li><li class="subheading"><a href="#using-layouts">Using Layouts</a></li><li class="subheading"><a href="#nested-layouts">Nested Layouts</a></li><li class="subheading"><a href="#using-blocks">Using Blocks</a></li></ul></li><li><a href="#using-view-components">Using View Components</a><ul class="nav"><li class="subheading"><a href="#setting-page-titles">Setting Page Titles</a></li><li class="subheading"><a href="#registering-meta-tags">Registering Meta Tags</a></li><li class="subheading"><a href="#registering-link-tags">Registering Link Tags</a></li></ul></li><li><a href="#view-events">View Events</a></li><li><a href="#rendering-static-pages">Rendering Static Pages</a></li><li><a href="#best-practices">Best Practices</a></li><li><a href="#user-notes">User Contributed Notes</a></li>        </ul>
+    </nav>
+</div>
+<div class="container guide-view" xmlns="http://www.w3.org/1999/xhtml">
+    <div class="row visible-xs">
+        <div class="col-md-12">
+            <p class="pull-right topmost">
+                <button type="button" title="Toggle Side-Nav" class="btn btn-primary btn-xs" data-toggle="offcanvas">SideNav</button>
+            </p>
+        </div>
+    </div>
+    <div class="row row-offcanvas">
+        <div class="col-sm-3 col-md-3 col-lg-3 lang-en">
+            <form class="mini-search-form" action="/search" method="get">
+<input type="hidden" name="language" value="en">
+<input type="hidden" name="version" value="2.0">
+<input type="hidden" name="type" value="guide"><input type="text" class="form-control" name="q" placeholder="Search the Guide…" autocomplete="off" aria-label="Search box"> <button type="submit" class="btn btn-primary sr-only">Search</button></form>            <div id="guide-navigation" class="sidenav-offcanvas"><a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-0">Introduction</a><div id="guide-navigation-0" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/intro-yii">About Yii</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/intro-upgrade-from-v1">Upgrading from Version 1.1</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-1">Getting Started</a><div id="guide-navigation-1" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/start-prerequisites">What do you need to know</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-installation">Installing Yii</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-workflow">Running Applications</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-hello">Saying Hello</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-forms">Working with Forms</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-databases">Working with Databases</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-gii">Generating Code with Gii</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/start-looking-ahead">Looking Ahead</a></div>
+<a class="list-group-item has-children active" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-2">Application Structure</a><div id="guide-navigation-2" class="submenu panel-collapse collapse in active-parent"><a class="list-group-item" href="/doc/guide/2.0/en/structure-overview">Application Structure Overview</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-entry-scripts">Entry Scripts</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-applications">Applications</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-application-components">Application Components</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-controllers">Controllers</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-models">Models</a>
+<a class="list-group-item active" href="/doc/guide/2.0/en/structure-views">Views</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-modules">Modules</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-filters">Filters</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-widgets">Widgets</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-assets">Assets</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/structure-extensions">Extensions</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-3">Handling Requests</a><div id="guide-navigation-3" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/runtime-overview">Request Handling Overview</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-bootstrapping">Bootstrapping</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-routing">Routing and URL Creation</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-requests">Requests</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-responses">Responses</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-sessions-cookies">Sessions and Cookies</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-handling-errors">Handling Errors</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/runtime-logging">Logging</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-4">Key Concepts</a><div id="guide-navigation-4" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/concept-components">Components</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-properties">Properties</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-events">Events</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-behaviors">Behaviors</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-configurations">Configurations</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-aliases">Aliases</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-autoloading">Class Autoloading</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-service-locator">Service Locator</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/concept-di-container">Dependency Injection Container</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-5">Working with Databases</a><div id="guide-navigation-5" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/db-dao">Database Access Objects</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/db-query-builder">Query Builder</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/db-active-record">Active Record</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/db-migrations">Migrations</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-sphinx/doc/guide">Sphinx</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-redis/doc/guide">Redis</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-mongodb/doc/guide">MongoDB</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-elasticsearch/doc/guide">ElasticSearch</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-6">Getting Data from Users</a><div id="guide-navigation-6" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/input-forms">Creating Forms</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/input-validation">Validating Input</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/input-file-upload">Uploading Files</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/input-tabular-input">Collecting Tabular Input</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/input-multiple-models">Getting Data for Multiple Models</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/input-form-javascript">Extending ActiveForm on the Client Side</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-7">Displaying Data</a><div id="guide-navigation-7" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/output-formatting">Data Formatting</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/output-pagination">Pagination</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/output-sorting">Sorting</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/output-data-providers">Data Providers</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/output-data-widgets">Data Widgets</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/output-client-scripts">Working with Client Scripts</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/output-theming">Theming</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-8">Security</a><div id="guide-navigation-8" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/security-overview">Security Overview</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/security-authentication">Authentication</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/security-authorization">Authorization</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/security-passwords">Working with Passwords</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/security-cryptography">Cryptography</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-authclient/doc/guide">Auth Clients</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/security-best-practices">Best Practices</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-9">Caching</a><div id="guide-navigation-9" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/caching-overview">Caching Overview</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/caching-data">Data Caching</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/caching-fragment">Fragment Caching</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/caching-page">Page Caching</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/caching-http">HTTP Caching</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-10">RESTful Web Services</a><div id="guide-navigation-10" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/rest-quick-start">Quick Start</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-resources">Resources</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-controllers">Controllers</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-filtering-collections">Filtering Collections</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-routing">Routing</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-response-formatting">Response Formatting</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-authentication">Authentication</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-rate-limiting">Rate Limiting</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-versioning">Versioning</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/rest-error-handling">Error Handling</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-11">Development Tools</a><div id="guide-navigation-11" class="submenu panel-collapse collapse"><a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-debug/doc/guide">Debug Toolbar and Debugger</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-gii/doc/guide">Generating Code using Gii</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-apidoc">Generating API Documentation</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-12">Testing</a><div id="guide-navigation-12" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/test-overview">Testing Overview</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/test-environment-setup">Testing environment setup</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/test-unit">Unit Tests</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/test-functional">Functional Tests</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/test-acceptance">Acceptance Tests</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/test-fixtures">Fixtures</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-13">Special Topics</a><div id="guide-navigation-13" class="submenu panel-collapse collapse"><a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-app-advanced/doc/guide">Advanced Project Template</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-start-from-scratch">Building Application from Scratch</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-console">Console Commands</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-core-validators">Core Validators</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-docker">Docker</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-i18n">Internationalization</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-mailing">Mailing</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-performance-tuning">Performance Tuning</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-shared-hosting">Shared Hosting Environment</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-template-engines">Template Engines</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-yii-integration">Working with Third-Party Code</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/tutorial-yii-as-micro-framework">Using Yii as a micro framework</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-14">Widgets</a><div id="guide-navigation-14" class="submenu panel-collapse collapse"><a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-grid-gridview.html">GridView</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-widgets-listview.html">ListView</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-widgets-detailview.html">DetailView</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/guide-input-forms.html#activerecord-based-forms-activeform">ActiveForm</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-widgets-pjax.html">Pjax</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-widgets-menu.html">Menu</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-widgets-linkpager.html">LinkPager</a>
+<a class="list-group-item" href="https://www.yiiframework.com/doc-2.0/yii-widgets-linksorter.html">LinkSorter</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-bootstrap/doc/guide">Bootstrap Widgets</a>
+<a class="list-group-item" href="https://www.yiiframework.com/extension/yiisoft/yii2-jui/doc/guide">jQuery UI Widgets</a></div>
+<a class="list-group-item has-children" href="#" data-toggle="collapse" data-parent="#guide-navigation" data-target="#guide-navigation-15">Helpers</a><div id="guide-navigation-15" class="submenu panel-collapse collapse"><a class="list-group-item" href="/doc/guide/2.0/en/helper-overview">Helpers Overview</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/helper-array">ArrayHelper</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/helper-html">Html</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/helper-json">Json</a>
+<a class="list-group-item" href="/doc/guide/2.0/en/helper-url">Url</a></div></div>        </div>
+        <div class="col-sm-9 col-md-9 col-lg-9" role="main">
+
+            <div class="guide-content content lang-en">
+
+        <div class="pull-right">
+        
+<div class="star-wrapper">
+    <span class="fa fa-star-o" data-star-url="/ajax/star?type=doc&amp;id=182"></span>            <span class="star-count">2</span> followers    </div>
+    </div>
+
+    <h1 id="views">Views <a href="#views" class="hashlink">&para;</a></h1>
+<div class="toc hidden-lg"><ol><li><a href="#creating-views">Creating Views</a></li>
+<li><a href="#rendering-views">Rendering Views</a></li>
+<li><a href="#layouts">Layouts</a></li>
+<li><a href="#using-view-components">Using View Components</a></li>
+<li><a href="#view-events">View Events</a></li>
+<li><a href="#rendering-static-pages">Rendering Static Pages</a></li>
+<li><a href="#best-practices">Best Practices</a></li></ol></div>
+<p>Views are part of the <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> architecture.
+They are code responsible for presenting data to end users. In a Web application, views are usually created
+in terms of <em>view templates</em> which are PHP script files containing mainly HTML code and presentational PHP code.
+They are managed by the <a href="/doc/api/2.0/yii-web-view">view</a> <a href="/doc/guide/2.0/en/structure-application-components">application component</a> which provides commonly used methods
+to facilitate view composition and rendering. For simplicity, we often call view templates or view template files
+as views.</p>
+<h2 id="creating-views">Creating Views  <a href="#creating-views" class="hashlink">&para;</a></h2><p>As aforementioned, a view is simply a PHP script mixed with HTML and PHP code. The following is the view
+that presents a login form. As you can see, PHP code is used to generate the dynamic content, such as the
+page title and the form, while HTML code organizes them into a presentable HTML page.</p>
+<pre><code class="hljs xml language-html"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">helpers</span>\<span class="hljs-title">Html</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">widgets</span>\<span class="hljs-title">ActiveForm</span>;
+
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@var</span> \yii\web\View $this
+ * <span class="hljs-doctag">@var</span> \yii\widgets\ActiveForm $form
+ * <span class="hljs-doctag">@var</span> \app\models\LoginForm $model
+ */</span>
+
+<span class="hljs-keyword">$this</span>-&gt;title = <span class="hljs-string">'Login'</span>;
+<span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="php"><span class="hljs-meta">&lt;?</span>= Html::encode(<span class="hljs-keyword">$this</span>-&gt;title) <span class="hljs-meta">?&gt;</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Please fill out the following fields to login:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="php"><span class="hljs-meta">&lt;?php</span> $form = ActiveForm::begin(); <span class="hljs-meta">?&gt;</span></span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= $form-&gt;field($model, <span class="hljs-string">'username'</span>) <span class="hljs-meta">?&gt;</span></span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= $form-&gt;field($model, <span class="hljs-string">'password'</span>)-&gt;passwordInput() <span class="hljs-meta">?&gt;</span></span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= Html::submitButton(<span class="hljs-string">'Login'</span>) <span class="hljs-meta">?&gt;</span></span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> ActiveForm::end(); <span class="hljs-meta">?&gt;</span></span>
+</code></pre>
+<p>Within a view, you can access <code>$this</code> which refers to the <a href="/doc/api/2.0/yii-web-view">view component</a> managing
+and rendering this view template.</p>
+<p>Besides <code>$this</code>, there may be other predefined variables in a view, such as <code>$model</code> in the above
+example. These variables represent the data that are <em>pushed</em> into the view by <a href="/doc/guide/2.0/en/structure-controllers">controllers</a>
+or other objects which trigger the <a href="#rendering-views">view rendering</a>.</p>
+<blockquote class="tip"><p><strong>Tip: </strong>The predefined variables are listed in a comment block at beginning of a view so that they can
+  be recognized by IDEs. It is also a good way of documenting your views.</p>
+</blockquote>
+<h3 id="security">Security  <a href="#security" class="hashlink">&para;</a></h3><p>When creating views that generate HTML pages, it is important that you encode and/or filter the data coming
+from end users before presenting them. Otherwise, your application may be subject to
+<a href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross-site scripting</a> attacks.</p>
+<p>To display a plain text, encode it first by calling <a href="/doc/api/2.0/yii-helpers-basehtml#encode()-detail">yii\helpers\Html::encode()</a>. For example, the following code
+encodes the user name before displaying it:</p>
+<pre><code class="hljs xml language-html"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">helpers</span>\<span class="hljs-title">Html</span>;
+<span class="hljs-meta">?&gt;</span></span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"username"</span>&gt;</span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= Html::encode($user-&gt;name) <span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<p>To display HTML content, use <a href="/doc/api/2.0/yii-helpers-htmlpurifier">yii\helpers\HtmlPurifier</a> to filter the content first. For example, the following
+code filters the post content before displaying it:</p>
+<pre><code class="hljs xml language-html"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">helpers</span>\<span class="hljs-title">HtmlPurifier</span>;
+<span class="hljs-meta">?&gt;</span></span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post"</span>&gt;</span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= HtmlPurifier::process($post-&gt;text) <span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<blockquote class="tip"><p><strong>Tip: </strong>While HTMLPurifier does excellent job in making output safe, it is not fast. You should consider
+  <a href="/doc/guide/2.0/en/caching-overview">caching</a> the filtering result if your application requires high performance.</p>
+</blockquote>
+<h3 id="organizing-views">Organizing Views  <a href="#organizing-views" class="hashlink">&para;</a></h3><p>Like <a href="/doc/guide/2.0/en/structure-controllers">controllers</a> and <a href="/doc/guide/2.0/en/structure-models">models</a>, there are conventions to organize views.</p>
+<ul>
+<li>For views rendered by a controller, they should be put under the directory <code>@app/views/ControllerID</code> by default,
+where <code>ControllerID</code> refers to the <a href="/doc/guide/2.0/en/structure-controllers#routes">controller ID</a>. For example, if
+the controller class is <code>PostController</code>, the directory would be <code>@app/views/post</code>; if it is <code>PostCommentController</code>,
+the directory would be <code>@app/views/post-comment</code>. In case the controller belongs to a module, the directory
+would be <code>views/ControllerID</code> under the <a href="/doc/api/2.0/yii-base-module#$basePath-detail">module directory</a>.</li>
+<li>For views rendered in a <a href="/doc/guide/2.0/en/structure-widgets">widget</a>, they should be put under the <code>WidgetPath/views</code> directory by
+default, where <code>WidgetPath</code> stands for the directory containing the widget class file.</li>
+<li>For views rendered by other objects, it is recommended that you follow the similar convention as that for widgets.</li>
+</ul>
+<p>You may customize these default view directories by overriding the <a href="/doc/api/2.0/yii-base-viewcontextinterface#getViewPath()-detail">yii\base\ViewContextInterface::getViewPath()</a>
+method of controllers or widgets.</p>
+<h2 id="rendering-views">Rendering Views  <a href="#rendering-views" class="hashlink">&para;</a></h2><p>You can render views in <a href="/doc/guide/2.0/en/structure-controllers">controllers</a>, <a href="/doc/guide/2.0/en/structure-widgets">widgets</a>, or any
+other places by calling view rendering methods. These methods share a similar signature shown as follows,</p>
+<pre><code class="hljs php"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param</span> string $view view name or file path, depending on the actual rendering method
+ * <span class="hljs-doctag">@param</span> array $params the data to be passed to the view
+ * <span class="hljs-doctag">@return</span> string rendering result
+ */</span>
+methodName($view, $params = [])
+</code></pre>
+<h3 id="rendering-in-controllers">Rendering in Controllers  <a href="#rendering-in-controllers" class="hashlink">&para;</a></h3><p>Within <a href="/doc/guide/2.0/en/structure-controllers">controllers</a>, you may call the following controller methods to render views:</p>
+<ul>
+<li><a href="/doc/api/2.0/yii-base-controller#render()-detail">render()</a>: renders a <a href="#named-views">named view</a> and applies a <a href="#layouts">layout</a>
+to the rendering result.</li>
+<li><a href="/doc/api/2.0/yii-base-controller#renderPartial()-detail">renderPartial()</a>: renders a <a href="#named-views">named view</a> without any layout.</li>
+<li><a href="/doc/api/2.0/yii-web-controller#renderAjax()-detail">renderAjax()</a>: renders a <a href="#named-views">named view</a> without any layout,
+and injects all registered JS/CSS scripts and files. It is usually used in response to AJAX Web requests.</li>
+<li><a href="/doc/api/2.0/yii-base-controller#renderFile()-detail">renderFile()</a>: renders a view specified in terms of a view file path or
+<a href="/doc/guide/2.0/en/concept-aliases">alias</a>.</li>
+<li><a href="/doc/api/2.0/yii-base-controller#renderContent()-detail">renderContent()</a>: renders a static string by embedding it into
+the currently applicable <a href="#layouts">layout</a>. This method is available since version 2.0.1.</li>
+</ul>
+<p>For example,</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">namespace</span> <span class="hljs-title">app</span>\<span class="hljs-title">controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Yii</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">app</span>\<span class="hljs-title">models</span>\<span class="hljs-title">Post</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">web</span>\<span class="hljs-title">Controller</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">web</span>\<span class="hljs-title">NotFoundHttpException</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">actionView</span><span class="hljs-params">($id)</span>
+    </span>{
+        $model = Post::findOne($id);
+        <span class="hljs-keyword">if</span> ($model === <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NotFoundHttpException;
+        }
+
+        <span class="hljs-comment">// renders a view named "view" and applies a layout to it</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;render(<span class="hljs-string">'view'</span>, [
+            <span class="hljs-string">'model'</span> =&gt; $model,
+        ]);
+    }
+}
+</code></pre>
+<h3 id="rendering-in-widgets">Rendering in Widgets  <a href="#rendering-in-widgets" class="hashlink">&para;</a></h3><p>Within <a href="/doc/guide/2.0/en/structure-widgets">widgets</a>, you may call the following widget methods to render views.</p>
+<ul>
+<li><a href="/doc/api/2.0/yii-base-widget#render()-detail">render()</a>: renders a <a href="#named-views">named view</a>.</li>
+<li><a href="/doc/api/2.0/yii-base-widget#renderFile()-detail">renderFile()</a>: renders a view specified in terms of a view file path or
+<a href="/doc/guide/2.0/en/concept-aliases">alias</a>.</li>
+</ul>
+<p>For example,</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">namespace</span> <span class="hljs-title">app</span>\<span class="hljs-title">components</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">base</span>\<span class="hljs-title">Widget</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">helpers</span>\<span class="hljs-title">Html</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListWidget</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Widget</span>
+</span>{
+    <span class="hljs-keyword">public</span> $items = [];
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// renders a view named "list"</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;render(<span class="hljs-string">'list'</span>, [
+            <span class="hljs-string">'items'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;items,
+        ]);
+    }
+}
+</code></pre>
+<h3 id="rendering-in-views">Rendering in Views  <a href="#rendering-in-views" class="hashlink">&para;</a></h3><p>You can render a view within another view by calling one of the following methods provided by the <a href="/doc/api/2.0/yii-base-view">view component</a>:</p>
+<ul>
+<li><a href="/doc/api/2.0/yii-base-view#render()-detail">render()</a>: renders a <a href="#named-views">named view</a>.</li>
+<li><a href="/doc/api/2.0/yii-web-view#renderAjax()-detail">renderAjax()</a>: renders a <a href="#named-views">named view</a> and injects all registered
+JS/CSS scripts and files. It is usually used in response to AJAX Web requests.</li>
+<li><a href="/doc/api/2.0/yii-base-view#renderFile()-detail">renderFile()</a>: renders a view specified in terms of a view file path or
+<a href="/doc/guide/2.0/en/concept-aliases">alias</a>.</li>
+</ul>
+<p>For example, the following code in a view renders the <code>_overview.php</code> view file which is in the same directory
+as the view being currently rendered. Remember that <code>$this</code> in a view refers to the <a href="/doc/api/2.0/yii-base-view">view</a> component:</p>
+<pre><code class="hljs xml language-html"><span class="php"><span class="hljs-meta">&lt;?</span>= <span class="hljs-keyword">$this</span>-&gt;render(<span class="hljs-string">'_overview'</span>) <span class="hljs-meta">?&gt;</span></span>
+</code></pre>
+<h3 id="rendering-in-other-places">Rendering in Other Places  <a href="#rendering-in-other-places" class="hashlink">&para;</a></h3><p>In any place, you can get access to the <a href="/doc/api/2.0/yii-base-view">view</a> application component by the expression
+<code>Yii::$app-&gt;view</code> and then call its aforementioned methods to render a view. For example,</p>
+<pre><code class="hljs php language-php"><span class="hljs-comment">// displays the view file "@app/views/site/license.php"</span>
+<span class="hljs-keyword">echo</span> \Yii::$app-&gt;view-&gt;renderFile(<span class="hljs-string">'@app/views/site/license.php'</span>);
+</code></pre>
+<h3 id="named-views">Named Views  <a href="#named-views" class="hashlink">&para;</a></h3><p>When you render a view, you can specify the view using either a view name or a view file path/alias. In most cases,
+you would use the former because it is more concise and flexible. We call views specified using names as <em>named views</em>.</p>
+<p>A view name is resolved into the corresponding view file path according to the following rules:</p>
+<ul>
+<li>A view name may omit the file extension name. In this case, <code>.php</code> will be used as the extension. For example,
+the view name <code>about</code> corresponds to the file name <code>about.php</code>.</li>
+<li>If the view name starts with double slashes <code>//</code>, the corresponding view file path would be <code>@app/views/ViewName</code>.
+That is, the view is looked for under the <a href="/doc/api/2.0/yii-base-module#$viewPath-detail">application's view path</a>.
+For example, <code>//site/about</code> will be resolved into <code>@app/views/site/about.php</code>.</li>
+<li>If the view name starts with a single slash <code>/</code>, the view file path is formed by prefixing the view name
+with the <a href="/doc/api/2.0/yii-base-module#$viewPath-detail">view path</a> of the currently active <a href="/doc/guide/2.0/en/structure-modules">module</a>.
+If there is no active module, <code>@app/views/ViewName</code> will be used. For example, <code>/user/create</code> will be resolved into
+<code>@app/modules/user/views/user/create.php</code>, if the currently active module is <code>user</code>. If there is no active module,
+the view file path would be <code>@app/views/user/create.php</code>.</li>
+<li>If the view is rendered with a <a href="/doc/api/2.0/yii-base-view#$context-detail">context</a> and the context implements <a href="/doc/api/2.0/yii-base-viewcontextinterface">yii\base\ViewContextInterface</a>,
+the view file path is formed by prefixing the <a href="/doc/api/2.0/yii-base-viewcontextinterface#getViewPath()-detail">view path</a> of the
+context to the view name. This mainly applies to the views rendered within controllers and widgets. For example,
+<code>about</code> will be resolved into <code>@app/views/site/about.php</code> if the context is the controller <code>SiteController</code>.</li>
+<li>If a view is rendered within another view, the directory containing the other view file will be prefixed to
+the new view name to form the actual view file path. For example, <code>item</code> will be resolved into <code>@app/views/post/item.php</code>
+if it is being rendered in the view <code>@app/views/post/index.php</code>.</li>
+</ul>
+<p>According to the above rules, calling <code>$this-&gt;render('view')</code> in a controller <code>app\controllers\PostController</code> will
+actually render the view file <code>@app/views/post/view.php</code>, while calling <code>$this-&gt;render('_overview')</code> in that view
+will render the view file <code>@app/views/post/_overview.php</code>.</p>
+<h3 id="accessing-data-in-views">Accessing Data in Views  <a href="#accessing-data-in-views" class="hashlink">&para;</a></h3><p>There are two approaches to access data within a view: push and pull.</p>
+<p>By passing the data as the second parameter to the view rendering methods, you are using the push approach.
+The data should be represented as an array of name-value pairs. When the view is being rendered, the PHP
+<code>extract()</code> function will be called on this array so that the array is extracted into variables in the view.
+For example, the following view rendering code in a controller will push two variables to the <code>report</code> view:
+<code>$foo = 1</code> and <code>$bar = 2</code>.</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">echo</span> <span class="hljs-keyword">$this</span>-&gt;render(<span class="hljs-string">'report'</span>, [
+    <span class="hljs-string">'foo'</span> =&gt; <span class="hljs-number">1</span>,
+    <span class="hljs-string">'bar'</span> =&gt; <span class="hljs-number">2</span>,
+]);
+</code></pre>
+<p>The pull approach actively retrieves data from the <a href="/doc/api/2.0/yii-base-view">view component</a> or other objects accessible
+in views (e.g. <code>Yii::$app</code>). Using the code below as an example, within the view you can get the controller object
+by the expression <code>$this-&gt;context</code>. And as a result, it is possible for you to access any properties or methods
+of the controller in the <code>report</code> view, such as the controller ID shown in the following:</p>
+<pre><code class="hljs xml language-html">The controller ID is: <span class="php"><span class="hljs-meta">&lt;?</span>= <span class="hljs-keyword">$this</span>-&gt;context-&gt;id <span class="hljs-meta">?&gt;</span></span>
+</code></pre>
+<p>The push approach is usually the preferred way of accessing data in views, because it makes views less dependent
+on context objects. Its drawback is that you need to manually build the data array all the time, which could
+become tedious and error prone if a view is shared and rendered in different places.</p>
+<h3 id="sharing-data-among-views">Sharing Data among Views  <a href="#sharing-data-among-views" class="hashlink">&para;</a></h3><p>The <a href="/doc/api/2.0/yii-base-view">view component</a> provides the <a href="/doc/api/2.0/yii-base-view#$params-detail">params</a> property that you can use
+to share data among views.</p>
+<p>For example, in an <code>about</code> view, you can have the following code which specifies the current segment of the
+breadcrumbs.</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">$this</span>-&gt;params[<span class="hljs-string">'breadcrumbs'</span>][] = <span class="hljs-string">'About Us'</span>;
+</code></pre>
+<p>Then, in the <a href="#layouts">layout</a> file, which is also a view, you can display the breadcrumbs using the data
+passed along <a href="/doc/api/2.0/yii-base-view#$params-detail">params</a>:</p>
+<pre><code class="hljs xml language-html"><span class="php"><span class="hljs-meta">&lt;?</span>= yii\widgets\Breadcrumbs::widget([
+    <span class="hljs-string">'links'</span> =&gt; <span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;params[<span class="hljs-string">'breadcrumbs'</span>]) ? <span class="hljs-keyword">$this</span>-&gt;params[<span class="hljs-string">'breadcrumbs'</span>] : [],
+]) <span class="hljs-meta">?&gt;</span></span>
+</code></pre>
+<h2 id="layouts">Layouts  <a href="#layouts" class="hashlink">&para;</a></h2><p>Layouts are a special type of views that represent the common parts of multiple views. For example, the pages
+for most Web applications share the same page header and footer. While you can repeat the same page header and footer
+in every view, a better way is to do this once in a layout and embed the rendering result of a content view at
+an appropriate place in the layout.</p>
+<h3 id="creating-layouts">Creating Layouts  <a href="#creating-layouts" class="hashlink">&para;</a></h3><p>Because layouts are also views, they can be created in the similar way as normal views. By default, layouts
+are stored in the directory <code>@app/views/layouts</code>. For layouts used within a <a href="/doc/guide/2.0/en/structure-modules">module</a>,
+they should be stored in the <code>views/layouts</code> directory under the <a href="/doc/api/2.0/yii-base-module#$basePath-detail">module directory</a>.
+You may customize the default layout directory by configuring the <a href="/doc/api/2.0/yii-base-module#$layoutPath-detail">yii\base\Module::$layoutPath</a> property of
+the application or modules.</p>
+<p>The following example shows how a layout looks like. Note that for illustrative purpose, we have greatly simplified
+the code in the layout. In practice, you may want to add more content to it, such as head tags, main menu, etc.</p>
+<pre><code class="hljs xml language-html"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">helpers</span>\<span class="hljs-title">Html</span>;
+
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@var</span> \yii\web\View $this
+ * <span class="hljs-doctag">@var</span> string $content
+ */</span>
+<span class="hljs-meta">?&gt;</span></span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginPage() <span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>/&gt;</span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= Html::csrfMetaTags() <span class="hljs-meta">?&gt;</span></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span><span class="php"><span class="hljs-meta">&lt;?</span>= Html::encode(<span class="hljs-keyword">$this</span>-&gt;title) <span class="hljs-meta">?&gt;</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;head() <span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginBody() <span class="hljs-meta">?&gt;</span></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>My Company<span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= $content <span class="hljs-meta">?&gt;</span></span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span><span class="hljs-symbol">&amp;copy;</span> 2014 by My Company<span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endBody() <span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endPage() <span class="hljs-meta">?&gt;</span></span>
+</code></pre>
+<p>As you can see, the layout generates the HTML tags that are common to all pages. Within the <code>&lt;body&gt;</code> section,
+the layout echoes the <code>$content</code> variable which represents the rendering result of content views and is pushed
+into the layout when <a href="/doc/api/2.0/yii-base-controller#render()-detail">yii\base\Controller::render()</a> is called.</p>
+<p>Most layouts should call the following methods like shown in the above code. These methods mainly trigger events
+about the rendering process so that scripts and tags registered in other places can be properly injected into
+the places where these methods are called.</p>
+<ul>
+<li><a href="/doc/api/2.0/yii-base-view#beginPage()-detail">beginPage()</a>: This method should be called at the very beginning of the layout.
+It triggers the <a href="/doc/api/2.0/yii-base-view#EVENT_BEGIN_PAGE-detail">EVENT_BEGIN_PAGE</a> event which indicates the beginning of a page.</li>
+<li><a href="/doc/api/2.0/yii-base-view#endPage()-detail">endPage()</a>: This method should be called at the end of the layout.
+It triggers the <a href="/doc/api/2.0/yii-base-view#EVENT_END_PAGE-detail">EVENT_END_PAGE</a> event which indicates the end of a page.</li>
+<li><a href="/doc/api/2.0/yii-web-view#head()-detail">head()</a>: This method should be called within the <code>&lt;head&gt;</code> section of an HTML page.
+It generates a placeholder which will be replaced with the registered head HTML code (e.g. link tags, meta tags)
+when a page finishes rendering.</li>
+<li><a href="/doc/api/2.0/yii-web-view#beginBody()-detail">beginBody()</a>: This method should be called at the beginning of the <code>&lt;body&gt;</code> section.
+It triggers the <a href="/doc/api/2.0/yii-web-view#EVENT_BEGIN_BODY-detail">EVENT_BEGIN_BODY</a> event and generates a placeholder which will
+be replaced by the registered HTML code (e.g. JavaScript) targeted at the body begin position.</li>
+<li><a href="/doc/api/2.0/yii-web-view#endBody()-detail">endBody()</a>: This method should be called at the end of the <code>&lt;body&gt;</code> section.
+It triggers the <a href="/doc/api/2.0/yii-web-view#EVENT_END_BODY-detail">EVENT_END_BODY</a> event and generates a placeholder which will
+be replaced by the registered HTML code (e.g. JavaScript) targeted at the body end position.</li>
+</ul>
+<h3 id="accessing-data-in-layouts">Accessing Data in Layouts  <a href="#accessing-data-in-layouts" class="hashlink">&para;</a></h3><p>Within a layout, you have access to two predefined variables: <code>$this</code> and <code>$content</code>. The former refers to
+the <a href="/doc/api/2.0/yii-base-view">view</a> component, like in normal views, while the latter contains the rendering result of a content
+view which is rendered by calling the <a href="/doc/api/2.0/yii-base-controller#render()-detail">render()</a> method in controllers.</p>
+<p>If you want to access other data in layouts, you have to use the pull method as described in
+the <a href="#accessing-data-in-views">Accessing Data in Views</a> subsection. If you want to pass data from a content view
+to a layout, you may use the method described in the <a href="#sharing-data-among-views">Sharing Data among Views</a> subsection.</p>
+<h3 id="using-layouts">Using Layouts  <a href="#using-layouts" class="hashlink">&para;</a></h3><p>As described in the <a href="#rendering-in-controllers">Rendering in Controllers</a> subsection, when you render a view
+by calling the <a href="/doc/api/2.0/yii-base-controller#render()-detail">render()</a> method in a controller, a layout will be applied
+to the rendering result. By default, the layout <code>@app/views/layouts/main.php</code> will be used. </p>
+<p>You may use a different layout by configuring either <a href="/doc/api/2.0/yii-base-application#$layout-detail">yii\base\Application::$layout</a> or <a href="/doc/api/2.0/yii-base-controller#$layout-detail">yii\base\Controller::$layout</a>.
+The former governs the layout used by all controllers, while the latter overrides the former for individual controllers.
+For example, the following code makes the <code>post</code> controller to use <code>@app/views/layouts/post.php</code> as the layout
+when rendering its views. Other controllers, assuming their <code>layout</code> property is untouched, will still use the default
+<code>@app/views/layouts/main.php</code> as the layout.</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">namespace</span> <span class="hljs-title">app</span>\<span class="hljs-title">controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">web</span>\<span class="hljs-title">Controller</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> $layout = <span class="hljs-string">'post'</span>;
+    
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>For controllers belonging to a module, you may also configure the module's <a href="/doc/api/2.0/yii-base-module#$layout-detail">layout</a> property to
+use a particular layout for these controllers. </p>
+<p>Because the <code>layout</code> property may be configured at different levels (controllers, modules, application),
+behind the scene Yii takes two steps to determine what is the actual layout file being used for a particular controller.</p>
+<p>In the first step, it determines the layout value and the context module:</p>
+<ul>
+<li>If the <a href="/doc/api/2.0/yii-base-controller#$layout-detail">yii\base\Controller::$layout</a> property of the controller is not <code>null</code>, use it as the layout value and
+the <a href="/doc/api/2.0/yii-base-controller#$module-detail">module</a> of the controller as the context module.</li>
+<li>If the <a href="/doc/api/2.0/yii-base-controller#$layout-detail">yii\base\Controller::$layout</a> property of the controller is <code>null</code>, search through all ancestor modules (including the application itself) of the controller and 
+find the first module whose <a href="/doc/api/2.0/yii-base-module#$layout-detail">layout</a> property is not <code>null</code>. Use that module and
+its <a href="/doc/api/2.0/yii-base-module#$layout-detail">layout</a> value as the context module and the chosen layout value.
+If such a module cannot be found, it means no layout will be applied.</li>
+</ul>
+<p>In the second step, it determines the actual layout file according to the layout value and the context module
+determined in the first step. The layout value can be:</p>
+<ul>
+<li>a path alias (e.g. <code>@app/views/layouts/main</code>).</li>
+<li>an absolute path (e.g. <code>/main</code>): the layout value starts with a slash. The actual layout file will be
+looked for under the application's <a href="/doc/api/2.0/yii-base-module#$layoutPath-detail">layout path</a> which defaults to
+<code>@app/views/layouts</code>.</li>
+<li>a relative path (e.g. <code>main</code>): the actual layout file will be looked for under the context module's
+<a href="/doc/api/2.0/yii-base-module#$layoutPath-detail">layout path</a> which defaults to the <code>views/layouts</code> directory under the
+<a href="/doc/api/2.0/yii-base-module#$basePath-detail">module directory</a>.</li>
+<li>the boolean value <code>false</code>: no layout will be applied.</li>
+</ul>
+<p>If the layout value does not contain a file extension, it will use the default one <code>.php</code>.</p>
+<h3 id="nested-layouts">Nested Layouts  <a href="#nested-layouts" class="hashlink">&para;</a></h3><p>Sometimes you may want to nest one layout in another. For example, in different sections of a Web site, you
+want to use different layouts, while all these layouts share the same basic layout that generates the overall
+HTML5 page structure. You can achieve this goal by calling <a href="/doc/api/2.0/yii-base-view#beginContent()-detail">beginContent()</a> and
+<a href="/doc/api/2.0/yii-base-view#endContent()-detail">endContent()</a> in the child layouts like the following:</p>
+<pre><code class="hljs php language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginContent(<span class="hljs-string">'@app/views/layouts/base.php'</span>); <span class="hljs-meta">?&gt;</span>
+
+...child layout content here...
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endContent(); <span class="hljs-meta">?&gt;</span>
+</code></pre>
+<p>As shown above, the child layout content should be enclosed within <a href="/doc/api/2.0/yii-base-view#beginContent()-detail">beginContent()</a> and
+<a href="/doc/api/2.0/yii-base-view#endContent()-detail">endContent()</a>. The parameter passed to <a href="/doc/api/2.0/yii-base-view#beginContent()-detail">beginContent()</a>
+specifies what is the parent layout. It can be either a layout file or alias.</p>
+<p>Using the above approach, you can nest layouts in more than one levels.</p>
+<h3 id="using-blocks">Using Blocks  <a href="#using-blocks" class="hashlink">&para;</a></h3><p>Blocks allow you to specify the view content in one place while displaying it in another. They are often used together
+with layouts. For example, you can define a block in a content view and display it in the layout.</p>
+<p>You call <a href="/doc/api/2.0/yii-base-view#beginBlock()-detail">beginBlock()</a> and <a href="/doc/api/2.0/yii-base-view#endBlock()-detail">endBlock()</a> to define a block.
+The block can then be accessed via <code>$view-&gt;blocks[$blockID]</code>, where <code>$blockID</code> stands for a unique ID that you assign
+to the block when defining it.</p>
+<p>The following example shows how you can use blocks to customize specific parts of a layout in a content view.</p>
+<p>First, in a content view, define one or multiple blocks:</p>
+<pre><code class="hljs php language-php">...
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginBlock(<span class="hljs-string">'block1'</span>); <span class="hljs-meta">?&gt;</span>
+
+...content of block1...
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endBlock(); <span class="hljs-meta">?&gt;</span>
+
+...
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginBlock(<span class="hljs-string">'block3'</span>); <span class="hljs-meta">?&gt;</span>
+
+...content of block3...
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endBlock(); <span class="hljs-meta">?&gt;</span>
+</code></pre>
+<p>Then, in the layout view, render the blocks if they are available, or display some default content if a block is
+not defined.</p>
+<pre><code class="hljs xml language-html">...
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'block1'</span>])): <span class="hljs-meta">?&gt;</span></span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= <span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'block1'</span>] <span class="hljs-meta">?&gt;</span></span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">else</span>: <span class="hljs-meta">?&gt;</span></span>
+    ... default content for block1 ...
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span></span>
+
+...
+
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'block2'</span>])): <span class="hljs-meta">?&gt;</span></span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= <span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'block2'</span>] <span class="hljs-meta">?&gt;</span></span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">else</span>: <span class="hljs-meta">?&gt;</span></span>
+    ... default content for block2 ...
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span></span>
+
+...
+
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'block3'</span>])): <span class="hljs-meta">?&gt;</span></span>
+    <span class="php"><span class="hljs-meta">&lt;?</span>= <span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'block3'</span>] <span class="hljs-meta">?&gt;</span></span>
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">else</span>: <span class="hljs-meta">?&gt;</span></span>
+    ... default content for block3 ...
+<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endif</span>; <span class="hljs-meta">?&gt;</span></span>
+...
+</code></pre>
+<h2 id="using-view-components">Using View Components  <a href="#using-view-components" class="hashlink">&para;</a></h2><p><a href="/doc/api/2.0/yii-base-view">View components</a> provides many view-related features. While you can get view components
+by creating individual instances of <a href="/doc/api/2.0/yii-base-view">yii\base\View</a> or its child class, in most cases you will mainly use
+the <code>view</code> application component. You can configure this component in <a href="/doc/guide/2.0/en/structure-applications#application-configurations">application configurations</a>
+like the following:</p>
+<pre><code class="hljs php language-php">[
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-string">'components'</span> =&gt; [
+        <span class="hljs-string">'view'</span> =&gt; [
+            <span class="hljs-string">'class'</span> =&gt; <span class="hljs-string">'app\components\View'</span>,
+        ],
+        <span class="hljs-comment">// ...</span>
+    ],
+]
+</code></pre>
+<p>View components provide the following useful view-related features, each described in more details in a separate section:</p>
+<ul>
+<li><a href="/doc/guide/2.0/en/output-theming">theming</a>: allows you to develop and change the theme for your Web site.</li>
+<li><a href="/doc/guide/2.0/en/caching-fragment">fragment caching</a>: allows you to cache a fragment within a Web page.</li>
+<li><a href="/doc/guide/2.0/en/output-client-scripts">client script handling</a>: supports CSS and JavaScript registration and rendering.</li>
+<li><a href="/doc/guide/2.0/en/structure-assets">asset bundle handling</a>: supports registering and rendering of <a href="/doc/guide/2.0/en/structure-assets">asset bundles</a>.</li>
+<li><a href="/doc/guide/2.0/en/tutorial-template-engines">alternative template engines</a>: allows you to use other template engines, such as
+<a href="https://twig.symfony.com/">Twig</a>, <a href="https://www.smarty.net/">Smarty</a>.</li>
+</ul>
+<p>You may also frequently use the following minor yet useful features when you are developing Web pages.</p>
+<h3 id="setting-page-titles">Setting Page Titles  <a href="#setting-page-titles" class="hashlink">&para;</a></h3><p>Every Web page should have a title. Normally the title tag is being displayed in a <a href="#layouts">layout</a>. However, in practice
+the title is often determined in content views rather than layouts. To solve this problem, <a href="/doc/api/2.0/yii-web-view">yii\web\View</a> provides
+the <a href="/doc/api/2.0/yii-web-view#$title-detail">title</a> property for you to pass the title information from content views to layouts.</p>
+<p>To make use of this feature, in each content view, you can set the page title like the following:</p>
+<pre><code class="hljs php language-php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">$this</span>-&gt;title = <span class="hljs-string">'My page title'</span>;
+<span class="hljs-meta">?&gt;</span>
+</code></pre>
+<p>Then in the layout, make sure you have the following code in the <code>&lt;head&gt;</code> section:</p>
+<pre><code class="hljs xml language-html"><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span><span class="php"><span class="hljs-meta">&lt;?</span>= Html::encode(<span class="hljs-keyword">$this</span>-&gt;title) <span class="hljs-meta">?&gt;</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+</code></pre>
+<h3 id="registering-meta-tags">Registering Meta Tags  <a href="#registering-meta-tags" class="hashlink">&para;</a></h3><p>Web pages usually need to generate various meta tags needed by different parties. Like page titles, meta tags
+appear in the <code>&lt;head&gt;</code> section and are usually generated in layouts.</p>
+<p>If you want to specify what meta tags to generate in content views, you can call <a href="/doc/api/2.0/yii-web-view#registerMetaTag()-detail">yii\web\View::registerMetaTag()</a>
+in a content view, like the following:</p>
+<pre><code class="hljs php language-php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">$this</span>-&gt;registerMetaTag([<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'keywords'</span>, <span class="hljs-string">'content'</span> =&gt; <span class="hljs-string">'yii, framework, php'</span>]);
+<span class="hljs-meta">?&gt;</span>
+</code></pre>
+<p>The above code will register a "keywords" meta tag with the view component. The registered meta tag is
+rendered after the layout finishes rendering. The following HTML code will be generated and inserted
+at the place where you call <a href="/doc/api/2.0/yii-web-view#head()-detail">yii\web\View::head()</a> in the layout:</p>
+<pre><code class="hljs php language-php">&lt;meta name=<span class="hljs-string">"keywords"</span> content=<span class="hljs-string">"yii, framework, php"</span>&gt;
+</code></pre>
+<p>Note that if you call <a href="/doc/api/2.0/yii-web-view#registerMetaTag()-detail">yii\web\View::registerMetaTag()</a> multiple times, it will register multiple meta tags,
+regardless whether the meta tags are the same or not.</p>
+<p>To make sure there is only a single instance of a meta tag type, you can specify a key as a second parameter when calling the method.
+For example, the following code registers two "description" meta tags. However, only the second one will be rendered.</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">$this</span>-&gt;registerMetaTag([<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'description'</span>, <span class="hljs-string">'content'</span> =&gt; <span class="hljs-string">'This is my cool website made with Yii!'</span>], <span class="hljs-string">'description'</span>);
+<span class="hljs-keyword">$this</span>-&gt;registerMetaTag([<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'description'</span>, <span class="hljs-string">'content'</span> =&gt; <span class="hljs-string">'This website is about funny raccoons.'</span>], <span class="hljs-string">'description'</span>);
+</code></pre>
+<h3 id="registering-link-tags">Registering Link Tags  <a href="#registering-link-tags" class="hashlink">&para;</a></h3><p>Like <a href="#registering-meta-tags">meta tags</a>, link tags are useful in many cases, such as customizing favicon, pointing to
+RSS feed or delegating OpenID to another server. You can work with link tags in the similar way as meta tags
+by using <a href="/doc/api/2.0/yii-web-view#registerLinkTag()-detail">yii\web\View::registerLinkTag()</a>. For example, in a content view, you can register a link tag like follows,</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">$this</span>-&gt;registerLinkTag([
+    <span class="hljs-string">'title'</span> =&gt; <span class="hljs-string">'Live News for Yii'</span>,
+    <span class="hljs-string">'rel'</span> =&gt; <span class="hljs-string">'alternate'</span>,
+    <span class="hljs-string">'type'</span> =&gt; <span class="hljs-string">'application/rss+xml'</span>,
+    <span class="hljs-string">'href'</span> =&gt; <span class="hljs-string">'https://www.yiiframework.com/rss.xml/'</span>,
+]);
+</code></pre>
+<p>The code above will result in</p>
+<pre><code class="hljs xml language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"Live News for Yii"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"alternate"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"application/rss+xml"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://www.yiiframework.com/rss.xml/"</span>&gt;</span>
+</code></pre>
+<p>Similar as <a href="/doc/api/2.0/yii-web-view#registerMetaTag()-detail">registerMetaTag()</a>, you can specify a key when calling
+<a href="/doc/api/2.0/yii-web-view#registerLinkTag()-detail">registerLinkTag()</a> to avoid generating repeated link tags.</p>
+<h2 id="view-events">View Events  <a href="#view-events" class="hashlink">&para;</a></h2><p><a href="/doc/api/2.0/yii-base-view">View components</a> trigger several events during the view rendering process. You may respond
+to these events to inject content into views or process the rendering results before they are sent to end users.</p>
+<ul>
+<li><a href="/doc/api/2.0/yii-base-view#EVENT_BEFORE_RENDER-detail">EVENT_BEFORE_RENDER</a>: triggered at the beginning of rendering a file
+in a controller. Handlers of this event may set <a href="/doc/api/2.0/yii-base-viewevent#$isValid-detail">yii\base\ViewEvent::$isValid</a> to be <code>false</code> to cancel the rendering process.</li>
+<li><a href="/doc/api/2.0/yii-base-view#EVENT_AFTER_RENDER-detail">EVENT_AFTER_RENDER</a>: triggered after rendering a file by the call of <a href="/doc/api/2.0/yii-base-view#afterRender()-detail">yii\base\View::afterRender()</a>.
+Handlers of this event may obtain the rendering result through <a href="/doc/api/2.0/yii-base-viewevent#$output-detail">yii\base\ViewEvent::$output</a> and may modify
+this property to change the rendering result.</li>
+<li><a href="/doc/api/2.0/yii-base-view#EVENT_BEGIN_PAGE-detail">EVENT_BEGIN_PAGE</a>: triggered by the call of <a href="/doc/api/2.0/yii-base-view#beginPage()-detail">yii\base\View::beginPage()</a> in layouts.</li>
+<li><a href="/doc/api/2.0/yii-base-view#EVENT_END_PAGE-detail">EVENT_END_PAGE</a>: triggered by the call of <a href="/doc/api/2.0/yii-base-view#endPage()-detail">yii\base\View::endPage()</a> in layouts.</li>
+<li><a href="/doc/api/2.0/yii-web-view#EVENT_BEGIN_BODY-detail">EVENT_BEGIN_BODY</a>: triggered by the call of <a href="/doc/api/2.0/yii-web-view#beginBody()-detail">yii\web\View::beginBody()</a> in layouts.</li>
+<li><a href="/doc/api/2.0/yii-web-view#EVENT_END_BODY-detail">EVENT_END_BODY</a>: triggered by the call of <a href="/doc/api/2.0/yii-web-view#endBody()-detail">yii\web\View::endBody()</a> in layouts.</li>
+</ul>
+<p>For example, the following code injects the current date at the end of the page body:</p>
+<pre><code class="hljs php language-php">\Yii::$app-&gt;view-&gt;on(View::EVENT_END_BODY, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">echo</span> date(<span class="hljs-string">'Y-m-d'</span>);
+});
+</code></pre>
+<h2 id="rendering-static-pages">Rendering Static Pages  <a href="#rendering-static-pages" class="hashlink">&para;</a></h2><p>Static pages refer to those Web pages whose main content are mostly static without the need of accessing
+dynamic data pushed from controllers.</p>
+<p>You can output static pages by putting their code in the view, and then using the code like the following in a controller:</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">actionAbout</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;render(<span class="hljs-string">'about'</span>);
+}
+</code></pre>
+<p>If a Web site contains many static pages, it would be very tedious repeating the similar code many times.
+To solve this problem, you may introduce a <a href="/doc/guide/2.0/en/structure-controllers#standalone-actions">standalone action</a>
+called <a href="/doc/api/2.0/yii-web-viewaction">yii\web\ViewAction</a> in a controller. For example,</p>
+<pre><code class="hljs php language-php"><span class="hljs-keyword">namespace</span> <span class="hljs-title">app</span>\<span class="hljs-title">controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">yii</span>\<span class="hljs-title">web</span>\<span class="hljs-title">Controller</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SiteController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">actions</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'page'</span> =&gt; [
+                <span class="hljs-string">'class'</span> =&gt; <span class="hljs-string">'yii\web\ViewAction'</span>,
+            ],
+        ];
+    }
+}
+</code></pre>
+<p>Now if you create a view named <code>about</code> under the directory <code>@app/views/site/pages</code>, you will be able to
+display this view by the following URL:</p>
+<pre><code class="hljs less"><span class="hljs-attribute">http</span>:<span class="hljs-comment">//localhost/index.php?r=site%2Fpage&amp;view=about</span>
+</code></pre>
+<p>The <code>GET</code> parameter <code>view</code> tells <a href="/doc/api/2.0/yii-web-viewaction">yii\web\ViewAction</a> which view is requested. The action will then look
+for this view under the directory <code>@app/views/site/pages</code>. You may configure <a href="/doc/api/2.0/yii-web-viewaction#$viewPrefix-detail">yii\web\ViewAction::$viewPrefix</a>
+to change the directory for searching these views.</p>
+<h2 id="best-practices">Best Practices  <a href="#best-practices" class="hashlink">&para;</a></h2><p>Views are responsible for presenting models in the format that end users desire. In general, views</p>
+<ul>
+<li>should mainly contain presentational code, such as HTML, and simple PHP code to traverse, format and render data.</li>
+<li>should not contain code that performs DB queries. Such code should be done in models.</li>
+<li>should avoid direct access to request data, such as <code>$_GET</code>, <code>$_POST</code>. This belongs to controllers.
+If request data is needed, they should be pushed into views by controllers.</li>
+<li>may read model properties, but should not modify them.</li>
+</ul>
+<p>To make views more manageable, avoid creating views that are too complex or contain too much redundant code.
+You may use the following techniques to achieve this goal:</p>
+<ul>
+<li>use <a href="#layouts">layouts</a> to represent common presentational sections (e.g. page header, footer).</li>
+<li>divide a complicated view into several smaller ones. The smaller views can be rendered and assembled into a bigger
+one using the rendering methods that we have described.</li>
+<li>create and use <a href="/doc/guide/2.0/en/structure-widgets">widgets</a> as building blocks of views.</li>
+<li>create and use helper classes to transform and format data in views.</li>
+</ul>
+
+    <div class="prev-next">
+        <div class="prev-next__left"><a href="/doc/guide/2.0/en/structure-models"><span class="chevron-left" aria-hidden="true"></span> Models</a></div><div class="prev-next__center"><a href="#top">Go to Top <span class="chevron-up" aria-hidden="true"></span></a></div><div class="prev-next__right"><a href="/doc/guide/2.0/en/structure-modules">Modules <span class="chevron-right" aria-hidden="true"></span></a></div>    </div>
+
+        <div class="edit-box">
+        <div class="edit-icon"><i class="fa fa-github"></i></div>
+        <p class="lang-en">
+            Found a typo, or you think this page needs improvement?<br />
+                <a href="https://github.com/yiisoft/yii2/edit/master/docs/guide/structure-views.md">Edit it on GitHub</a> !
+        </p>
+    </div>
+    
+</div>
+        </div>
+    </div>
+</div>
+
+    <div class="comments-wrapper">
+        <div class="container comments">
+            
+<div class="row" id="user-notes">
+    <div class="col-md-offset-2 col-md-9">
+                    <span class="heading">User Contributed Notes <span class="badge">1</span></span>
+            </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-9">
+        <div class="component-comments lang-en" id="comments">
+                                                <div class="row">
+                        <div class="col-md-12">
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <div class="row" id="c20379">
+                                        <div class="col-xs-6">
+                                            <a href="#c20379" class="comment-id">#20379</a>
+                                        </div>
+                                        <div class="col-xs-6 pull-right">
+                                            <div class="voting">  <span class="votes-up">    <span class="votes">5</span> <a href="/doc/guide/2.0/en/structure-views" data-vote-url="/ajax/vote?type=comment&amp;id=20379&amp;vote=1"><i title="Vote Up" class="thumbs-up"></i></a>    </span>  </span>  <span class="votes-down">    <span class="votes">0</span> <a href="/doc/guide/2.0/en/structure-views" data-vote-url="/ajax/vote?type=comment&amp;id=20379&amp;vote=0"><i title="Vote Down" class="thumbs-down"></i></a>    </span>  </span></div>                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment-body">
+                                    <div class="text">
+                                        <div class="markdown"><p><strong>Blocks</strong> can also be used to organize the tab contents.</p>
+<pre><code class="hljs php language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginBlock(<span class="hljs-string">'one'</span>); <span class="hljs-meta">?&gt;</span>
+...content of tab <span class="hljs-comment">#1 ...</span>
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endBlock(); <span class="hljs-meta">?&gt;</span>
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;beginBlock(<span class="hljs-string">'two'</span>); <span class="hljs-meta">?&gt;</span>
+...content of tab <span class="hljs-comment">#2 ...</span>
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">$this</span>-&gt;endBlock(); <span class="hljs-meta">?&gt;</span> 
+
+...
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> Tabs::Widget([
+        <span class="hljs-string">'items'</span> =&gt; [
+            [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'Tab #1'</span>,
+                <span class="hljs-string">'content'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'one'</span>],
+                <span class="hljs-string">'active'</span> =&gt; <span class="hljs-keyword">true</span>,
+            ],
+            [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'Tab #2'</span>,
+                <span class="hljs-string">'content'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;blocks[<span class="hljs-string">'two'</span>],
+            ],
+            ...
+        ]
+    ]); <span class="hljs-meta">?&gt;</span>
+</code></pre>
+</div>                                    </div>
+                                </div>
+                                <div class="comment-footer">
+                                    <a class="user-rank-link gold" href="/user/13986"><img class="user-rank-avatar" src="/user/avatar/13986?v=1" alt="softark"> softark</a> at
+                                    <span class="date text-muted"><small>Nov 17, 2018, 2:09:46 PM</small></span>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-9">
+        <span class="heading">Leave a comment</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-2 col-md-9">
+                    <p><a href="/signup">Signup</a> or <a href="/login">Login</a> in order to comment.</p>
+            </div>
+</div>
+        </div>
+    </div>
+
+            <div class="footer-wrapper">
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4 hidden-xs">
+                        <ul class="footerList">
+  <li class="footerList_item">
+    <div>About</div>
+  </li>
+  <li class="footerList_item">
+    <a href="/doc/guide/3.0/en/intro-yii">About Yii</a>  </li>
+  <li class="footerList_item">
+    <a href="/news">News</a>  </li>
+  <li class="footerList_item">
+    <a href="/license">License</a>  </li>
+  <li class="footerList_item">
+    <a href="/contact">Contact Us</a>  </li>
+</ul>
+                    </div>
+                    <div class="col-md-2 col-sm-4 hidden-xs">
+                        <ul class="footerList">
+  <li class="footerList_item">
+    <div>Downloads</div>
+  </li>
+  <li class="footerList_item">
+    <a href="/download">Framework</a>  </li>
+  <li class="footerList_item">
+    <a href="/download#offline-documentation">Documentation</a>  </li>
+  <li class="footerList_item">
+    <a href="/extensions">Extensions</a>  </li>
+  <li class="footerList_item">
+    <a href="/logo">Logo</a>  </li>
+</ul>
+                    </div>
+                    <div class="col-md-2 col-sm-4 hidden-xs">
+                        <ul class="footerList">
+  <li class="footerList_item">
+    <div>Documentation</div>
+  </li>
+  <li class="footerList_item">
+    <a href="/doc/guide">Guide</a>  </li>
+  <li class="footerList_item">
+    <a href="/doc/api">API</a>  </li>
+  <li class="footerList_item">
+    <a href="/wiki">Wiki</a>  </li>
+  <li class="footerList_item">
+    <a href="/resources">Resources</a>  </li>
+</ul>
+                    </div>
+                    <div class="col-md-2 col-sm-4 hidden-xs">
+                        <ul class="footerList">
+  <li class="footerList_item">
+    <div>Development</div>
+  </li>
+  <li class="footerList_item">
+    <a href="/contribute">Contribute</a>  </li>
+  <li class="footerList_item">
+    <a href="https://github.com/yiisoft/yii2/commits/master" rel="noopener noreferrer" target="_blank">Latest Updates</a>  </li>
+  <li class="footerList_item">
+    <a href="/report-issue">Report a Bug</a>  </li>
+  <li class="footerList_item">
+    <a href="/security">Report Security Issue</a>  </li>
+</ul>
+                    </div>
+                    <div class="col-md-2 col-sm-4 hidden-xs">
+                        <ul class="footerList">
+    <li class="footerList_item">
+        <div>Community</div>
+    </li>
+    <li class="footerList_item">
+        <a href="/forum">Forum</a>    </li>
+    <li class="footerList_item">
+        <a href="/chat">Live Chat</a>    </li>
+    <li class="footerList_item">
+        <a href="https://www.facebook.com/groups/yiitalk/" target="_blank" rel="noopener noreferrer">Facebook Group</a>
+    </li>
+    <li class="footerList_item">
+        <a href="/user/halloffame">Hall of Fame</a>    </li>
+    <li class="footerList_item">
+        <a href="/badges">Badges</a>    </li>
+</ul>
+                    </div>
+                    <div class="col-md-2 col-sm-4 hidden-xs">
+                        <ul class="footerList">
+  <li class="footerList_item">
+      <span class="social">
+          <a href="https://github.com/yiisoft" aria-label="GitHub Account" target="_blank" rel="noopener noreferrer"><i class="fa fa-github"></i></a>
+          <a href="https://x.com/yiiframework" aria-label="Twitter Account" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.facebook.com/groups/yiitalk/" aria-label="Facebook Group" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
+          <a href="/rss.xml" aria-label="RSS Feed"><i class="fa fa-rss"></i></a>      </span>
+  </li>
+  <li class="footerList_item">
+    <a href="/tos">Terms of service</a>  </li>
+  <li class="footerList_item">
+      <a href="/license">License</a>  </li>
+  <li class="footerList_item">
+      <a href="https://github.com/yiisoft-contrib/yiiframework.com" target="_blank" rel="noopener noreferrer">Website Source Code</a>
+  </li>
+  <li class="footerList_item">
+      &nbsp;
+  </li>
+  <li class="footerList_item">
+    &copy; 2008 - 2026 Yii
+  </li>
+  <li class="footerList_item">
+      Design: <a href="https://www.eshill.ru/" target="_blank" rel="noopener noreferrer">Eshill</a>
+  </li>
+</ul>
+                    </div>
+                    <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                        <div class="center-block">
+                            <div>
+                                <ul class="footerList">
+  <li class="footerList_item">
+      <span class="social">
+          <a href="https://github.com/yiisoft" aria-label="GitHub Account" target="_blank" rel="noopener noreferrer"><i class="fa fa-github"></i></a>
+          <a href="https://x.com/yiiframework" aria-label="Twitter Account" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.facebook.com/groups/yiitalk/" aria-label="Facebook Group" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
+          <a href="/rss.xml" aria-label="RSS Feed"><i class="fa fa-rss"></i></a>      </span>
+  </li>
+  <li class="footerList_item">
+    <a href="/tos">Terms of service</a>  </li>
+  <li class="footerList_item">
+      <a href="/license">License</a>  </li>
+  <li class="footerList_item">
+      <a href="https://github.com/yiisoft-contrib/yiiframework.com" target="_blank" rel="noopener noreferrer">Website Source Code</a>
+  </li>
+  <li class="footerList_item">
+      &nbsp;
+  </li>
+  <li class="footerList_item">
+    &copy; 2008 - 2026 Yii
+  </li>
+  <li class="footerList_item">
+      Design: <a href="https://www.eshill.ru/" target="_blank" rel="noopener noreferrer">Eshill</a>
+  </li>
+</ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                        <ul class="footerList">
+    <li class="footerList_item">
+        <div>Supported by</div>
+    </li>
+    <li class="footerList_item">
+            <a href="https://opencollective.com/yiisoft" aria-label="OpenCollective" target="_blank" rel="noopener
+            noreferrer"><img
+                    alt="OpenCollective" height="40" src="/image/collective.png"/></a>
+    </li>
+    <li class="footerList_item">
+        <a href="https://www.jetbrains.com/?from=yii" aria-label="JetBrains website" target="_blank" rel="noopener
+        noreferrer"><img
+                alt="JetBrains logo" width="80" src="/image/jetbrains.svg"/></a>
+    </li>
+</ul>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+        </div> <!-- close the id="page-wrapper" -->
+
+        <script src="/assets/26ee98d8/js/all.min.js?v=1767181282"></script>
+<script>jQuery(function ($) {
+
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('.row-offcanvas').toggleClass('active')
+  });
+
+});</script>    </body>
+</html>

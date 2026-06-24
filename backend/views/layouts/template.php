@@ -8,6 +8,7 @@ $MenuOptions = Yii::$app->AccessControl->MenuOptiions();
 $arrayMes = ['','ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
 $controllerM = Yii::$app->controller->id;
 $UserData = Yii::$app->AccessControl->Verify([]);
+$profileEditUrl = Url::to(['/usuario/update', 'id' => $UserData->AccountID]);
 ?>	
 
 <?php $this->beginPage(); ?>
@@ -16,7 +17,7 @@ $UserData = Yii::$app->AccessControl->Verify([]);
   <link rel="shortcut icon" href="<?= Yii::getAlias("@web") ?>/images/favicon.png"/>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weclick administrativo</title>
+  <title>Brickly administrativo</title>
   <head>
   
     <?php $this->head() ?>
@@ -76,38 +77,38 @@ $UserData = Yii::$app->AccessControl->Verify([]);
   </style>
 </head>
 <?php $this->beginBody() ?>
-<body style="min-height: 100vh;">
+<body class="cpanel-modern" style="min-height: 100vh;">
 
   <!-- MENU MOVIL -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="menuMovil" aria-labelledby="offcanvasExampleLabel" style="background-color: var(--bs-white);">
     <div class="offcanvas-header d-flex justify-content-between align-items-center">
       <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5> -->
-      <img src="<?= Url::to('@raizweb') ?>/images/logo.png" style="width: 80px;" alt="logo">
+      <img src="<?= Url::to('@raizweb') ?>/images/logos/logo_negro.png" class="cpanel-modern-logo" alt="Brickly">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body d-flex justify-content-between flex-column h-100">
-      <div class="d-flex flex-column gap-2">
-        <a class="fs-5 d-flex align-items-center gap-2 mb-2 nav-link px-0 <?= ($controllerM == 'home')? 'active':''; ?>" href="<?= Url::to(['/home']);?>" style="border-radius: 0px; color: var(--bs-dark)">
-          <i class="fa fa-house" style="width: 21px; text-align: center;"></i>
-          <div class="label-menu text-nowrap">Inicio</div>
+      <div class="cpanel-mobile-nav d-flex flex-column">
+        <a class="cpanel-mobile-link d-flex align-items-center nav-link <?= ($controllerM == 'blog')? 'active':''; ?>" href="<?= Url::to(['/blog']);?>">
+          <i class="fa fa-house"></i>
+          <div class="label-menu">Inicio</div>
         </a>
-        <?php foreach($MenuOptions as $menu): ?>
+        <?php foreach($MenuOptions as $menuIndex => $menu): ?>
           <?php if($menu->Type == 1): ?>
-            <a id="pills-user-tab" href="<?= Url::to([$menu->ControllerUse.'/'.$menu->Path]); ?>" class="mb-2 fs-5 nav-link d-flex align-items-center gap-2 px-0 <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" style="border-radius: 0px; color: var(--bs-dark)">
-              <i class="<?= $menu->ClassIcon ?>" style="width: 21px; text-align: center;"></i>
-              <div class="label-menu text-nowrap" style="max-width: 140px; text-overflow: ellipsis; overflow: hidden;"><?= $menu->MenuName; ?></div>
+            <a id="pills-user-tab" href="<?= Url::to([$menu->ControllerUse.'/'.$menu->Path]); ?>" class="cpanel-mobile-link nav-link d-flex align-items-center <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>">
+              <i class="<?= $menu->ClassIcon ?>"></i>
+              <div class="label-menu"><?= $menu->MenuName; ?></div>
             </a>
           <?php else: ?>
-            <a aria-haspopup="true" href="javascript:void(0);" class="fs-5 tooltip-menu nav-link px-0 <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" aria-expanded="false" style="color: var(--bs-dark);">
-              <i class="<?= $menu->ClassIcon ?>" style="width: 21px; text-align: center;"></i>
+            <a aria-haspopup="true" href="#cpanel-mobile-submenu-<?= $menuIndex ?>" class="cpanel-mobile-link tooltip-menu nav-link d-flex align-items-center <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" aria-expanded="false" data-bs-toggle="collapse" role="button" aria-controls="cpanel-mobile-submenu-<?= $menuIndex ?>">
+              <i class="<?= $menu->ClassIcon ?>"></i>
               <!-- <span class="tooltip-menu-text" style="font-size:15px; padding: 6px 0; line-height: 1.1;"><?= $menu->MenuName; ?></span> -->
-              <div class="label-menu text-nowrap" style="max-width: 140px; text-overflow: ellipsis; overflow: hidden;"><?= $menu->MenuName; ?></div>
+              <div class="label-menu"><?= $menu->MenuName; ?></div>
             </a>
-            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-end dropdown-menu" data-bs-popper="static">
+            <div id="cpanel-mobile-submenu-<?= $menuIndex ?>" tabindex="-1" role="menu" class="collapse cpanel-mobile-submenu">
               <?php foreach ($menu->page as $key => $page): ?>
-                <a href="<?= Url::to([$menu->ControllerUse.'/'.$page->PagePath]); ?>" tabindex="0" role="menuitem" class="dropdown-item tooltip-menu" style="color: var(--bs-dark);">
-                  <i class="<?= $page->ClassIcon; ?> float-end text-muted" style="width: 21px; text-align: center;"></i>
-                  <div class="label-menu text-nowrap" style="max-width: 140px; text-overflow: ellipsis; overflow: hidden;"><?= $page->PageName; ?></div>
+                <a href="<?= Url::to([$menu->ControllerUse.'/'.$page->PagePath]); ?>" tabindex="0" role="menuitem" class="dropdown-item tooltip-menu d-flex align-items-center justify-content-between">
+                  <div class="label-menu"><?= $page->PageName; ?></div>
+                  <i class="<?= $page->ClassIcon; ?> float-end text-muted"></i>
                   <!-- <span class="tooltip-menu-text"><?= $page->PageName; ?></span> -->
                 </a>
                 <div tabindex="-1" class="dropdown-divider"></div>
@@ -116,17 +117,17 @@ $UserData = Yii::$app->AccessControl->Verify([]);
           <?php endif; ?>
         <?php endforeach; ?>
       </div>
-      <div>
+      <div class="cpanel-mobile-footer">
         <ul class="side-menu-nav justify-content-center flex-column nav">
-          <li class="profile-user-dropdown dropup dropdown nav-item px-0" data-bs-toggle="modal" data-bs-target="#changeTheme">
-            <a id="light-dark" class="nav-link d-flex align-items-center gap-2 px-0 fs-5">
-              <i class="fa fa-circle-half-stroke" style="width: 21px;"></i>
-              <div class="label-menu text-nowrap d-block">Cambiar tema</div>
+          <li class="nav-item">
+            <a id="pills-profile-tab" href="<?= $profileEditUrl; ?>" class="cpanel-mobile-link nav-link d-flex align-items-center">
+              <i class="fa-solid fa-user"></i>
+              <div class="label-menu text-nowrap d-block">Perfil</div>
             </a>
           </li>
           <li class="nav-item">
-            <a id="pills-user-tab" href="<?= Url::to(['/site/logout']); ?>" class="nav-link d-flex align-items-center gap-2 px-0 fs-5">
-              <i class="fa-solid fa-right-from-bracket" style="width: 21px;"></i>
+            <a id="pills-user-tab" href="<?= Url::to(['/site/logout']); ?>" class="cpanel-mobile-link nav-link d-flex align-items-center">
+              <i class="fa-solid fa-right-from-bracket"></i>
               <div class="label-menu text-nowrap d-block">Cerrar sesión</div>
               <!-- <span class="tooltip-menu-text" style="font-size:15px;padding:0px; line-height: 2.1;">Cerrar sesión</span> -->
             </a>
@@ -139,13 +140,7 @@ $UserData = Yii::$app->AccessControl->Verify([]);
   <div id="root">
     <div class="layout-wrapper d-lg-flex">
       <!-- Menu -->
-        <div class="side-menu flex-lg-column px-2 d-none d-lg-flex" style="z-index:100;">
-          <div class="position-absolute start-100 translate-middle fixed-menu" style="top: 5%; z-index: 999; cursor: pointer;">
-            <div class="pin-background" style="width: 30px; height: 30px; background: var(--menu-color); display: grid; place-items:center;">
-              <i class="fa-solid text-white ms-2" style="color: var(--color-items-menu) !important;"></i>
-              <!-- <i class="fa-solid fa-angle-left fa-thumbtack"></i> -->
-            </div>
-          </div>
+        <div class="side-menu flex-lg-column d-none d-lg-flex" style="z-index:100;">
           <div class="navbar-brand-box" style="padding:10px;font-size:1.1rem;font-weight:bold;">
             <!-- <a class="logo logo-dark" href="/">
               <span class="logo-sm"><img src="/Medic2/images/logo.png" alt="logo" height="30"></span>
@@ -153,37 +148,37 @@ $UserData = Yii::$app->AccessControl->Verify([]);
             <a class="logo logo-light" href="/">
               <span class="logo-sm"><img src="/Medic2/images/logo.png" alt="logo" height="30"></span>
             </a> -->
-            <img src="<?= Url::to('@raizweb') ?>/images/logo.png" alt="logo" class="d-none">
-            <div class="logoMenu mt-3" style="height: 41px;"><a href="https://www.weclickdigital.com/" target="_blank" rel="noopener noreferrer"><img src="<?= Url::to('@raizweb') ?>/images/logo.png" alt="logo"></a></div>
+            <img src="<?= Url::to('@raizweb') ?>/images/logos/logo_negro.png" alt="Brickly" class="d-none">
+            <div class="logoMenu mt-3" style="height: 41px;"><a href="<?= Url::to(['/blog']); ?>"><img src="<?= Url::to('@raizweb') ?>/images/logos/logo_negro.png" alt="Brickly"></a></div>
           </div>
-          <div class="mb-auto mt-5" style="overflow-y: auto; overflow-x: hidden;">
+          <div class="side-menu-main mb-auto">
             <ul role="tablist" class="side-menu-nav nav-pills justify-content-center flex-column nav">
               <li class="nav-item">
-                <a class="d-flex align-items-center mb-2 nav-link px-0 <?= ($controllerM == 'home')? 'active':''; ?>" href="<?= Url::to(['/home']);?>" style="border-radius: 0px;">
+                <a class="d-flex align-items-center nav-link <?= ($controllerM == 'blog')? 'active':''; ?>" href="<?= Url::to(['/blog']);?>">
                   <i class="fa fa-house"></i>
-                  <div class="label-menu text-nowrap" style="font-size: 16px;">Inicio</div>
+                  <div class="label-menu text-nowrap">Inicio</div>
                 </a>
               </li>
               <?php foreach($MenuOptions as $menu): ?>
                 <?php if($menu->Type == 1): ?>
                 <li class="nav-item">
-                  <a id="pills-user-tab" href="<?= Url::to([$menu->ControllerUse.'/'.$menu->Path]); ?>" class="mb-2 nav-link d-flex align-items-center px-0 <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" style="border-radius: 0px;">
+                  <a id="pills-user-tab" href="<?= Url::to([$menu->ControllerUse.'/'.$menu->Path]); ?>" class="mb-2 nav-link d-flex align-items-center <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>">
                     <i class="<?= $menu->ClassIcon ?>"></i>
-                    <div class="label-menu text-nowrap" style="font-size: 16px; max-width: 140px; text-overflow: ellipsis; overflow: hidden;"><?= $menu->MenuName; ?></div>
+                    <div class="label-menu text-nowrap"><?= $menu->MenuName; ?></div>
                   </a>
                 </li>
                 <?php else: ?>
-                  <li class="profile-user-dropdown dropup dropdown nav-item">
-                    <a aria-haspopup="true" href="javascript:void(0);" class="tooltip-menu d-flex align-items-center nav-link px-0 <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" aria-expanded="false">
+                  <li class="profile-user-dropdown dropdown nav-item cpanel-has-submenu">
+                    <a aria-haspopup="true" href="javascript:void(0);" class="tooltip-menu d-flex align-items-baseline nav-link <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" aria-expanded="false" data-bs-toggle="dropdown" data-toggle="dropdown">
                       <i class="<?= $menu->ClassIcon ?>"></i>
                       <!-- <span class="tooltip-menu-text" style="font-size:15px; padding: 6px 0; line-height: 1.1;"><?= $menu->MenuName; ?></span> -->
-                      <div class="label-menu text-nowrap" style="font-size: 16px; max-width: 140px; text-overflow: ellipsis; overflow: hidden;"><?= $menu->MenuName; ?></div>
+                      <div class="label-menu text-nowrap"><?= $menu->MenuName; ?></div>
                     </a>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-end dropdown-menu" data-bs-popper="static">
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu cpanel-sidebar-submenu">
                       <?php foreach ($menu->page as $key => $page): ?>
-                        <a href="<?= Url::to([$menu->ControllerUse.'/'.$page->PagePath]); ?>" tabindex="0" role="menuitem" class="dropdown-item tooltip-menu d-flex flex-row-reverse align-items-center justify-content-between">
-                          <i class="<?= $page->ClassIcon; ?> float-end text-muted"></i>
+                        <a href="<?= Url::to([$menu->ControllerUse.'/'.$page->PagePath]); ?>" tabindex="0" role="menuitem" class="dropdown-item tooltip-menu d-flex align-items-center justify-content-between">
                           <div class="label-menu text-nowrap"><?= $page->PageName; ?></div>
+                          <i class="<?= $page->ClassIcon; ?> float-end text-muted"></i>
                           <!-- <span class="tooltip-menu-text"><?= $page->PageName; ?></span> -->
                         </a>
                         <div tabindex="-1" class="dropdown-divider"></div>
@@ -230,6 +225,12 @@ $UserData = Yii::$app->AccessControl->Verify([]);
                 </a>
               </li> -->
               <li class="nav-item">
+                <a id="pills-profile-desktop-tab" href="<?= $profileEditUrl; ?>" class="mb-2 nav-link d-flex align-items-center px-0">
+                  <i class="fa-solid fa-user"></i>
+                  <div class="label-menu text-nowrap" style="font-size: 16px;">Perfil</div>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a id="pills-user-tab" href="<?= Url::to(['/site/logout']); ?>" class="mb-2 nav-link d-flex align-items-center px-0">
                   <i class="fa-solid fa-right-from-bracket"></i>
                   <div class="label-menu text-nowrap" style="font-size: 16px;">Cerrar sesión</div>
@@ -257,17 +258,22 @@ $UserData = Yii::$app->AccessControl->Verify([]);
         <div class="w-100">
         <div class="w-100 position-relative">
           <!-- TOP BAR -->
-          <div class="p-3 p-lg-4 me-3 border-bottom user-chat-topbar d-flex justify-content-between justify-content-lg-end align-items-center px-3 position-sticky top-0" style="background-color: var(--bs-white); z-index: 2;">
-            <div class="d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#menuMovil" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: var(--bs-dark)"></i></div>
-            <div class="d-flex align-items-center justify-content-end">
-              <div class="me-3 ms-0">
-                <a href="<?= Url::to(['/my-account']); ?>">
+          <div class="cpanel-topbar user-chat-topbar d-flex justify-content-between align-items-center position-sticky top-0">
+            <a href="<?= Url::to(['/blog']); ?>" class="cpanel-topbar-logo" aria-label="Brickly Home">
+              <img src="<?= Url::to('@raizweb') ?>/images/logos/logo_blanco.png" alt="Brickly">
+            </a>
+            <button type="button" class="cpanel-hamburger d-flex d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#menuMovil" aria-controls="menuMovil" aria-label="Abrir menú">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="cpanel-topbar-user d-none d-lg-flex align-items-center justify-content-end">
+              <div class="me-2">
+                <a href="<?= $profileEditUrl; ?>">
                   <img src="<?= !empty($UserData->PhotoUrl) ? Url::to('@raizweb').'/images/profile/'.$UserData->PhotoUrl : Url::to('@raizweb').'/images/profile/avatar1.png'; ?>" class="rounded-circle avatar-xs" alt="prerfil">
                 </a>
               </div>
               <div class="flex-grow-1 ">
                 <h5 class="font-size-16 mb-0 text-truncate">
-                  <a class="text-reset user-profile-show" href="<?= Url::to(['/my-account']); ?>"><?= (!empty($UserData->Name)) ? $UserData->Name : $UserData->UserName; ?> </a>
+                  <a class="text-reset user-profile-show" href="<?= $profileEditUrl; ?>"><?= (!empty($UserData->Name)) ? $UserData->Name : $UserData->UserName; ?> </a>
                 </h5>
               </div>
             </div>

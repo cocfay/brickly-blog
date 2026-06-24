@@ -94,6 +94,7 @@ $ids = [2, 4, 5, 7];
 
             $columns[] = [
                 'header' => 'Acciones',
+                'headerOptions' => ['style' => 'text-align: center;'],
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '<div class="d-flex justify-content-center align-item-center gap-3"> {view} {details} {price} </div>',
                 'buttons' => [

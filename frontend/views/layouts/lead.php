@@ -1,424 +1,413 @@
 <?php
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
-use yii\bootstrap5\Button;
-use yii\bootstrap5\ActiveForm;
 use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
-use common\models\Countries;
-use common\models\ContactAsesor;
-//use manchenkov\yii\recaptcha\ReCaptchaWidget;
 
 AppAsset::register($this);
 $this->beginPage();
 
-$infoUs = Yii::$app->LocationLang->info();
-$lang = $infoUs->language->LanguageCode;
+$controllerId = Yii::$app->controller->id;
+$isBlogSection = $controllerId === 'blog';
+$isVlogSection = $controllerId === 'vlog';
+$isDarkSection = $isVlogSection;
 
-$metadescription = [
-    'es' => 'Software a medida para automatizar procesos y reducir costos. Robustez, seguridad y soporte 24/7. ¡Conoce nuestro portafolio!',
-    'en' => 'Custom software to automate processes and reduce costs. Reliability, security, and 24/7 support. Discover our portfolio!',
-    'fr' => 'Logiciel sur mesure pour automatiser les processus et réduire les coûts. Fiabilité, sécurité et support 24/7. Découvrez notre portfolio !',
-    'it' => 'Software personalizzato per automatizzare i processi e ridurre i costi. Affidabilità, sicurezza e supporto 24/7. Scopri il nostro portfolio!',
-    'pt' => 'Software personalizado para automatizar processos e reduzir custos. Confiabilidade, segurança e suporte 24 horas. Conheça nosso portfólio!',
-    'de' => 'Maßgeschneiderte Software zur Automatisierung von Prozessen und Kostensenkung. Zuverlässigkeit, Sicherheit und 24/7-Support. Entdecken Sie unser Portfolio!'
+$metaDescriptions = [
+    'blog' => 'Blog de Brickly Homes con contenido sobre propiedades, inversión inmobiliaria y tendencias del mercado.',
+    'vlog' => 'Vlog de Brickly Homes con contenido audiovisual sobre propiedades y mercado inmobiliario.',
+    'default' => 'Brickly Homes: propiedades, agentes, asociados y contenido inmobiliario.',
 ];
 
-$metakeybords = [
-    'es' => 'Desarrollo, Desarrollo de plataformas, Desarrollo web, Desarrollo móvil, e-commerce, e-commerce, Diseño web, Agencia de marketing para países en español',
-    'en' => 'Development, Platform development, Web development, Mobile development, E-commerce, Ecommerce, Web design, Marketing agency for Spanish-speaking countries',
-    'fr' => 'Développement, Développement de plateformes, Développement web, Développement mobile, E-commerce, Commerce électronique, Web design, Agence de marketing pour pays hispanophones',
-    'it' => 'Sviluppo, Sviluppo piattaforme, Sviluppo web, Sviluppo mobile, E-commerce, Ecommerce, Web design, Agenzia di marketing per paesi di lingua spagnola',
-    'pt' => 'Desenvolvimento, Desenvolvimento de plataformas, Desenvolvimento web, Desenvolvimento móvel, E-commerce, Comércio eletrônico, Web design, Agência de marketing para países hispânicos',
-    'de' => 'Entwicklung, Plattformentwicklung, Webentwicklung, Mobile-Entwicklung, E-Commerce, Online-Handel, Webdesign, Marketingagentur für spanischsprachige Länder'
+$pageDescription = $metaDescriptions[$controllerId] ?? $metaDescriptions['default'];
+$brandHomeUrl = Yii::getAlias('@web') . '/';
+$logoPath = Yii::getAlias('@web') . ($isDarkSection ? '/images/logos/logo_blanco.png' : '/images/logos/logo_negro.png');
+$headerTextColor = $isDarkSection ? '#ffffff' : '#111111';
+$headerBackground = $isDarkSection ? '#111111' : '#ffffff';
+$bodyBackground = $isDarkSection ? '#111111' : '#ffffff';
+$bodyColor = $isDarkSection ? '#ffffff' : '#111111';
+
+$whatsappUrl = 'https://wa.me/50237649719?text=' . urlencode('¡Hola! Deseo contactar a un asesor.');
+$subscribeUrl = Url::to(['/blog/subscribe']);
+
+$navItems = [
+    ['label' => 'PROPIEDADES', 'url' =>'https://www.bricklyhomes.com//propiedades'],
+    ['label' => 'BUSCAR AGENTE', 'url' => 'https://www.bricklyhomes.com//agentes'],
+    ['label' => 'ASOCIADOS', 'url' => 'https://www.bricklyhomes.com//asociados'],
+    ['label' => 'PRECIOS', 'url' => 'https://www.bricklyhomes.com//precios'],
+    ['label' => 'BLOG', 'url' => 'https://www.bricklyhomes.com//blog', 'active' => $isBlogSection],
 ];
 
+$this->registerCss(<<<CSS
+body.brickly-lead-layout {
+    background-color: {$bodyBackground};
+    color: {$bodyColor};
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.brickly-lead-layout a {
+    text-decoration: none;
+}
+.brickly-header-shell--dark {
+    border-bottom-color: rgba(255,255,255,.12);
+}
+.brickly-header-inner {
+    min-height: 101px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+.brickly-header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 18px 28px;
+}
+.brickly-header-link.active,
+.brickly-mobile-link.active {
+    opacity: .72;
+}
+/* .brickly-mobile-bar {
+    background: {$headerBackground};
+    color: {$headerTextColor};
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    position: sticky;
+    top: 0;
+    z-index: 1041;
+} */
+.brickly-mobile-bar--dark {
+    border-bottom-color: rgba(255,255,255,.12);
+}
+.brickly-mobile-bar__inner {
+    min-height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.brickly-mobile-bar__toggle {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 28px;
+}
+.brickly-mobile-offcanvas__body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.brickly-mobile-offcanvas {
+    --bs-offcanvas-width: min(100vw, 565px);
+    color: #ffffff;
+    width: min(100vw, 565px) !important;
+}
+.brickly-mobile-offcanvas__header {
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px 0px;
+}
+.brickly-mobile-offcanvas__brand img {
+    display: block;
+    width: 120px;
+}
+.brickly-mobile-offcanvas__close {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: rgba(255, 255, 255, .52);
+    display: inline-flex;
+    font-size: 16px;
+    height: 44px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    width: 44px;
+}
+.brickly-mobile-offcanvas__body {
+    padding: 36px 18px 0px;
+}
 
-$modelCA = new ContactAsesor;
-$contryList = Countries::find()->orderBy(['Name' => SORT_ASC])->all();
-$cc = Countries::find()->select(['CountryID'])->where(['Abbreviation' => $infoUs->country_code])->one();
-$contryList = ArrayHelper::map($contryList, 'CountryID', 'Name');
-$countryCode = $cc->CountryID;
-?>	
-
-
+.brickly-mobile-offcanvas__nav {
+    display: flex;
+    flex-direction: column;
+}
+.brickly-mobile-offcanvas__nav .brickly-mobile-link {
+    border-bottom: 1px solid rgba(255, 255, 255, .35);
+    color: #ffffff;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.2;
+    padding: 18px 10px;
+    text-decoration: none;
+    width: 100%;
+}
+.brickly-mobile-offcanvas__nav .brickly-mobile-link.active::after {
+    display: none;
+}
+.brickly-mobile-offcanvas__socials {
+    align-items: center;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 30px 0 29px;
+}
+.brickly-mobile-offcanvas__socials a {
+    align-items: center;
+    color: #ffffff;
+    display: inline-flex;
+    font-size: 22px;
+    justify-content: center;
+    text-decoration: none;
+}
+.brickly-mobile-login {
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, .88);
+    border-radius: 8px;
+    color: #ffffff;
+    display: flex;
+    font-size: clamp(21px, 5vw, 24px);
+    gap: 17px;
+    justify-content: center;
+    min-height: 88px;
+    text-decoration: none;
+    width: 100%;
+}
+.brickly-mobile-login:hover,
+.brickly-mobile-offcanvas__socials a:hover,
+.brickly-mobile-offcanvas__nav .brickly-mobile-link:hover {
+    color: #ffffff;
+}
+@media (max-width: 991.98px) {
+    .brickly-header-inner {
+        min-height: 80px;
+    }
+}
+CSS);
+?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
-    <head>
-        <meta charset="<?= Yii::$app->charset ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="<?= $metadescription[$lang] ?>">
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
-        <?= Html::csrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?></title>
-        <link rel="shortcut icon" href="<?= Yii::getAlias('@web').'/images/icons/favicon.png'?>"/>
-        <?php $this->head() ?>
-        <?php if(!str_contains($_SERVER['SERVER_NAME'], 'dev.mydesk.digital')): ?>
-            <!-- Google tag (gtag.js) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GWVFV7Q21"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-    
-                gtag('config', 'G-7GWVFV7Q21');
-            </script>
-        <?php endif ?>
+<head>
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<?= Html::encode($pageDescription) ?>">
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <link rel="shortcut icon" href="<?= Yii::getAlias('@web') . '/images/favicon.png' ?>"/>
+    <?php $this->head() ?>
+    <?php if (!str_contains($_SERVER['SERVER_NAME'], 'dev.mydesk.digital')): ?>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GWVFV7Q21"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-7GWVFV7Q21');
+        </script>
+    <?php endif ?>
+</head>
+<body class="brickly-lead-layout<?= $isDarkSection ? ' brickly-lead-layout--dark' : '' ?>">
+<?php $this->beginBody() ?>
 
-        <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
-    </head>
-    <body style="background-color: #1F1E1E; color: #ffffff;">
-        <?php $this->beginBody() ?>
-            
-            <?= $content ?>
+<header class="brickly-mobile-bar <?= $isDarkSection ? 'brickly-mobile-bar--dark' : '' ?> d-block d-lg-none">
+    <div class="container brickly-mobile-bar__inner">
+        <a href="<?= $brandHomeUrl ?>" class="brickly-mobile-bar__brand" aria-label="Brickly">
+            <img src="<?= $logoPath ?>" class="img-fluid" alt="Brickly">
+        </a>
+        <button type="button" class="brickly-mobile-bar__toggle" data-bs-toggle="offcanvas" data-bs-target="#bricklyLeadMenu" aria-controls="bricklyLeadMenu" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>
 
-            <!-- MODAL POPUP CONTACTAR A UN ASESOR -->
-            <div class="modal fade" id="FormContactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content" style="background-color: #232323;color: #ffffff;">
-                        <div class="modal-body px-4">
-                            <i class="fa-solid fa-xmark mb-4 d-flex justify-content-end" style="cursor: pointer" data-dismiss="modal" aria-label="Close"></i>
-                            <div class="fs-3 fw-bold lh-1 mb-4 mt-0" data-section="menu" data-value="car">Contactar a un asesor</div>
-                                <div style="font-size: 14px" data-section="contact" data-value="text12">Llena el siguiente formulario y nos pondremos en contacto contigo. Nos esforzamos por responder todas las consultas dentro de las primeras 24 horas en días hábiles.</div>
-                                <div class="row mt-4">
-                                <?php $form = ActiveForm::begin(['action' => ['/home/contactasesor'], 'method' => 'post']) ?>
-                                    <div class="col-12 mb-3">
-                                        <?= $form->field($modelCA, 'Name', ['labelOptions' => ['style' => 'font-size: 16px;', 'data-section' => 'contact', 'data-value' => 'text10']])->textInput(['maxlength' => 'true', 'class' => 'form-control inputAse', 'style' => 'border-color: #fff; background-color: #1f1f1f; color: #fff;']) ?>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="form-label mb-2" style="font-size: 16px" data-section="contact" data-value="text5">Teléfono *</div>
-                                        <div class="col-12">
-                                            <?= $form->field($modelCA, 'Phone', ['options' => ['class' => 'mb-2']])->textInput(['style' => 'border-color: #fff; background-color: #1f1f1f; color: #fff;', 'maxlength' => 'true', 'class' => 'form-control inputAse'])->label(false) ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <?= $form->field($modelCA, 'Country', ['labelOptions' => ['style' => 'font-size: 16px;', 'data-section' => 'contact', 'data-value' => 'text7']])->dropDownList($contryList, ['class' => 'w-100 form-select', 'style' => 'border-color: #fff; background-color: #1f1f1f; color: #fff;', 'options' => [$countryCode => ['Selected' => true]]]) ?>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <?= $form->field($modelCA, 'Email', ['labelOptions' => ['style' => 'font-size: 16px;', 'data-section' => 'contact', 'data-value' => 'text6']])->input('email', ['maxlength' => true, 'class' => 'form-control inputAse', 'style' => 'border-color: #fff; background-color: #1f1f1f; color: #fff;']) ?>
-                                    </div>
-                                    <div class="col-12">
-                                        <?= $form->field($modelCA, 'Consulta', ['labelOptions' => ['style' => 'font-size: 16px;', 'data-section' => 'contact', 'data-value' => 'text11']])->textarea(['maxlength' => true, 'class' => 'form-control inputAse', 'style' => 'min-height: 100px; border-color: #fff; background-color: #1f1f1f; color: #fff;']) ?>
-                                    </div>
-                                    <div class="mt-4 col-12 d-flex justify-content-center align-items-center">
-                                        <button type="submit" class="btn btn-lila"><span data-section="contact" data-value="text9">Enviar</span></button>
-                                        <!-- <input type="hidden" id="recaptcha-token" name="recaptcha-token"> -->
-                                    </div>
-                                <?php ActiveForm::end() ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="offcanvas offcanvas-start brickly-mobile-offcanvas bg-dark" tabindex="-1" id="bricklyLeadMenu" aria-labelledby="bricklyLeadMenuLabel">
+    <div class="offcanvas-header brickly-mobile-offcanvas__header">
+        <a href="<?= $brandHomeUrl ?>" class="brickly-mobile-offcanvas__brand" aria-label="Brickly">
+            <img src="<?= Yii::getAlias('@web') ?>/images/logos/logo_blanco.png" alt="Brickly">
+        </a>
+        <button type="button" class="brickly-mobile-offcanvas__close" data-bs-dismiss="offcanvas" aria-label="Cerrar menu">
+            <i class="btn-close btn-close-white"></i>
+        </button>
+    </div>
+    <div class="offcanvas-body brickly-mobile-offcanvas__body">
 
-            <!-- MODAL CONTACTAR A UN ASESOR -->
-            <div class="formulario position-fixed top-0 end-0 bg-white p-3">
-                <div class="text-end buttonAsesor text-body clearUrl" style="cursor: pointer"><i class="fa-solid fa-xmark"></i></div>
-                <div class="px-3 mb-5 text-body">
-                    <div class="fs-3 fw-bold lh-1 mb-4 mt-4" data-section="menu" data-value="car">Contactar a un asesor</div>
-                    <div style="font-size: 14px" data-section="contact" data-value="text12">Llena el siguiente formulario y nos pondremos en contacto contigo. Nos esforzamos por responder todas las consultas dentro de las primeras 24 horas en días hábiles.</div>
-                    <div class="row mt-4">
-                    <?php $form = ActiveForm::begin(['action' => ['/home/contactasesor'], 'method' => 'post']) ?>
-                        <div class="col-12 mb-3">
-                            <?= $form->field($modelCA, 'Name', ['labelOptions' => ['style' => 'font-size: 16px', 'data-section' => 'contact', 'data-value' => 'text10']])->textInput(['maxlength' => 'true', 'class' => 'form-control inputAse']) ?>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="form-label mb-2" style="font-size: 16px" data-section="contact" data-value="text5">Teléfono *</div>
-                            <div class="col-12">
-                                <?= $form->field($modelCA, 'Phone', ['options' => ['class' => 'mb-2']])->textInput(['maxlength' => 'true', 'class' => 'form-control inputAse'])->label(false) ?>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <?= $form->field($modelCA, 'Country', ['labelOptions' => ['style' => 'font-size: 16px', 'data-section' => 'contact', 'data-value' => 'text7']])->dropDownList($contryList, ['class' => 'w-100 form-select', 'options' => [$countryCode => ['Selected' => true]]]) ?>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <?= $form->field($modelCA, 'Email', ['labelOptions' => ['style' => 'font-size: 16px', 'data-section' => 'contact', 'data-value' => 'text6']])->input('email', ['maxlength' => true, 'class' => 'form-control inputAse']) ?>
-                        </div>
-                        <div class="col-12">
-                            <?= $form->field($modelCA, 'Consulta', ['labelOptions' => ['style' => 'font-size: 16px', 'data-section' => 'contact', 'data-value' => 'text11']])->textarea(['maxlength' => true, 'class' => 'form-control inputAse', 'style' => 'min-height: 100px']) ?>
-                        </div>
-                        <div class="mt-4 col-12 d-flex justify-content-center align-items-center">
-                            <button type="submit" class="btn btn-black"><span data-section="contact" data-value="text9">Enviar</span></button>
-                            <input type="hidden" id="recaptcha-token" name="recaptcha-token">
-                        </div>
-                    <?php ActiveForm::end() ?>
-                    </div>
-                </div>
-            </div>
+        <nav class="brickly-mobile-offcanvas__nav" aria-label="Menu movil">
+        <?php foreach ($navItems as $item): ?>
+            <?php if ($item['label'] === 'BLOG') continue; ?>
+            <a href="<?= $item['url'] ?>" class="brickly-mobile-link<?= !empty($item['active']) ? ' active' : '' ?>"><?= Html::encode($item['label']) ?></a>
+        <?php endforeach; ?>
+        </nav>
 
-            <footer class="container-fluid bg-black">
-                <div class="container py-5">
-                    <div class="row mx-0">
-                        <div class="col-lg-6 mb-5 mb-lg-0 d-flex flex-column align-items-center align-items-md-start">
-                            <a href="<?= Yii::getAlias("@web") ?>/"><img src="<?= Yii::getAlias("@web") ?>/images/home/logo_white.png" style="width: 150px" alt="logo"></a>
-                        </div>
-                        <div class="col-lg-6 fs-4 lh-sm">
-                            <span data-section="footer" data-value="text1">¡Estamos listos para iniciar tu proyecto!</span>
-                            <div class="mt-2" style="font-size: clamp(16px, 1.1vw, 18px)" data-section="footer" data-value="text2">
-                                Nuestro equipo de expertos está preparado
-                                <div class="d-inline d-md-block">para trabajar contigo</div>
-                            </div>
-                            <div class="row mx-0 mt-5" style="font-size: clamp(16px, 1.1vw, 18px)">
-                                <div class="col-md-6 px-0 mb-4 mb-md-0">
-                                    <div class="text-lila mb-2" data-section="footer" data-value="text3">Locación</div>
-                                    <span data-section="footer" data-value="text4">Ciudad de Guatemala</span>
-                                </div>
-                                <div class="col-md-6 px-0">
-                                    <div class="text-lila mb-2" data-section="footer" data-value="text5">Solicita información</div>
-                                    <span class="user-select-none">info@weclickdigital.com</span>
-                                </div>
-                                <div class="col-md-6 px-0 mt-3">
-                                    <div class="text-lila mb-2" data-section="footer" data-value="text6">Síguenos</div>
-                                    <div class="socalmedias">
-                                        <a href="https://www.instagram.com/weclick.digital/?igsh=YTJyYjMxaWNrNWsw#" target="_blank" class="text-decoration-none user-select-none"><img src="<?= Yii::getAlias("@web") ?>/images/icons/IGlila.png" alt="Instagram" style="width: 30px;" srcset=""></a>
-                                        <a href="https://www.facebook.com/WeclickDigital" target="_blank" class="text-decoration-none user-select-none"><img src="<?= Yii::getAlias("@web") ?>/images/icons/FBlila.png" alt="Facebook" style="width: 30px;" srcset=""></a>
-                                        <a href="https://www.linkedin.com/company/weclick-digital/" target="_blank" class="text-decoration-none user-select-none"><img src="<?= Yii::getAlias("@web") ?>/images/icons/INlila.png" alt="LinkedIn" style="width: 30px;" srcset=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mx-0 mt-5">
-                        <div class="col-12" style="font-size: 16px">
-                            <span class="text-lila d-block d-md-inline-block">© Weclick Digital.</span> <span data-section="footer" data-value="text7">Todos los derechos <span class="cdt">reservados</span></span> <?= date("Y") ?>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-
-             <?=  Yii::$app->getModule('jc-chat')->ShowClient(); ?>
-             
-            <a href="https://api.whatsapp.com/send?phone=50258634559&amp;text=<?= urlencode('Hola, quiero contactar a un asesor.') ?>" class="whatsapp-button" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"  alt="WhatsApp" width="30">
-            </a>
-
-    <?php $this->endBody() ?>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
-    <!-- <script src="https://kit.fontawesome.com/5d79548a92.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
-
-    <!-- <script src="<?=Yii::getAlias("@web")?>/js/translate/translate.js"></script> -->
-
-    <!-- MENU DE LA VERSION MOVIL -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="menuResponsive" aria-labelledby="offcanvasExampleLabel" style="background-color: rgb(31, 30, 30); color: rgb(255, 255, 255);">
-        <div class="offcanvas-header">
-            <div class="select-container">
-                <div class="select">
-                    <div class="selected-option">
-                        <div class="select-value d-flex align-items-center justify-content-start gap-3"><img src="<?= Yii::getAlias("@web") ?>/images/flagsIcons/<?= $lang == "es" ? "es" : "us" ?>.svg" style="width: 26px; height: 26px;" alt="" srcset=""></div>
-                        <div class="arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div data-toggle="collapsed" class="options">
-                        <div class="option d-flex align-items-center justify-content-start gap-3" data-href="<?= Url::to(['/home/lang', 'set' => 'en']) ?>" data-lang="en"><img src="<?= Yii::getAlias("@web") ?>/images/flagsIcons/us.svg" style="width: 26px; height: 26px;" alt="" srcset=""> English</div>
-                        <div class="option d-flex align-items-center justify-content-start gap-3" data-href="<?= Url::to(['/home/lang', 'set' => 'es']) ?>" data-lang="es"><img src="<?= Yii::getAlias("@web") ?>/images/flagsIcons/es.svg" style="width: 26px; height: 26px;" alt="" srcset=""> Spanish</div>
-                    </div>
-                </div>
-            </div>
-           <!--  <div><img src="<?= Yii::getAlias("@web") ?>/images/home/logo_white.png" style="width: 110px;" alt="logo"></div> -->
-            <i class="fa-solid fa-xmark fs-2" data-bs-dismiss="offcanvas" aria-label="Close"></i>
+        <div class="brickly-mobile-offcanvas__socials" aria-label="Redes sociales">
+            <a href="https://www.facebook.com/profile.php?id=61588999228778" target="_blank" rel="noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/bricklyoficial/" target="_blank" rel="noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/bricklygt/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.tiktok.com/@bricklyhomes?_r=1&_t=ZP-95NIrCBiYAQ" target="_blank" rel="noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
         </div>
-        <hr>
-        <div class="offcanvas-body fw-bold d-flex flex-column gap-3">
-            <a href="<?= Yii::getAlias("@web") ?>/" class="text-decoration-none text-white position-relative" data-section="menu" data-value="home">Inicio</a>
-            <a href="<?= Yii::getAlias("@web") ?>/services" class="text-decoration-none text-white position-relative" data-section="menu" data-value="ser">Servicios</a>
-            <a href="<?= Yii::getAlias("@web") ?>/porfolio" class="text-decoration-none text-white position-relative" data-section="menu" data-value="por">Portafolio</a>
-            <a href="<?= Yii::getAlias("@web") ?>/blog" class="text-decoration-none text-white position-relative">Blog</a>
-            <a href="#" class="text-decoration-none text-white position-relative buttonAsesor" data-bs-dismiss="offcanvas" data-section="menu" data-value="cont">Contacto</a>
-            <!--<a href="<?= Yii::getAlias("@web") ?>/vlog" class="text-decoration-none text-white position-relative" data-menu="vlog">Vlog</a> -->
-            <!-- <button type="button" class="d-flex align-items-center buttonAsesor mt-4 text-white" style="background: transparent; border: none; font-size: 16px; width: fit-content;"><img src="<?= Yii::getAlias("@web") ?>/images/home/iconasesor.png" class="me-1" style="width:20px; height:20px " alt="Asesor" srcset="">Contactar a un asesor</button> -->
+
+        <!-- <a href="<?= Yii::getAlias('@web') ?>/cpanel" class="brickly-mobile-login">
+            <i class="fa-solid fa-user"></i>
+            <span>INICIAR SESIÓN</span>
+        </a> -->
+    </div>
+</div>
+
+<?= $content ?>
+
+<footer class="brickly-footer bg-dark">
+    <div class="container brickly-footer__container">
+        <div class="brickly-footer__top">
+            <div class="brickly-footer__brand">
+                <a href="<?= $brandHomeUrl ?>" class="brickly-footer__logo-link">
+                    <img src="<?= Yii::getAlias('@web') ?>/images/logos/logo_blanco.png" alt="Brickly" class="brickly-footer__logo">
+                </a>
+            </div>
+
+            <div class="brickly-footer__center">
+                <nav class="brickly-footer__nav d-flex justify-content-between flex-column flex-lg-row" aria-label="Footer">
+                    <a href="<?= Yii::getAlias('@web') ?>/propiedades" style="font-size: 14px">PROPIEDADES</a>
+                    <a href="<?= Yii::getAlias('@web') ?>/agentes" style="font-size: 14px">BUSCAR AGENTE</a>
+                    <a href="<?= Yii::getAlias('@web') ?>/asociados" style="font-size: 14px">ASOCIADOS</a>
+                    <a href="<?= Yii::getAlias('@web') ?>/precios" style="font-size: 14px">PRECIOS</a>
+                </nav>
+
+                <div class="brickly-footer__subscribe">
+                    <span class="brickly-footer__subscribe-label">SUSCRÍBETE</span>
+                    <form class="brickly-footer__subscribe-form" action="<?= $subscribeUrl ?>" method="post" data-subscribe-form>
+                        <label for="footer-subscription-email" class="visually-hidden">Correo electrónico para suscribirse</label>
+                        <input id="footer-subscription-email" name="email" type="email" class="form-control" placeholder="E-mail" aria-label="E-mail" aria-describedby="footer-subscription-error" required>
+                        <button type="submit" class="btn" data-subscribe-button>ENVIAR</button>
+                    </form>
+                    <div id="footer-subscription-error" class="brickly-footer__subscribe-error" data-subscribe-error aria-live="polite"></div>
+                </div>
+            </div>
+
+            <div class="brickly-footer__contact">
+                <div class="brickly-footer__socials">
+                    <a href="https://www.facebook.com/profile.php?id=61588999228778" target="_blank" rel="noreferrer" aria-label="Abrir Facebook de Brickly Homes"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp de Brickly Homes"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/bricklyoficial/" target="_blank" rel="noreferrer" aria-label="Abrir Instagram de Brickly Homes"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/bricklygt/" target="_blank" rel="noreferrer" aria-label="Abrir LinkedIn de Brickly Homes"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.tiktok.com/@bricklyhomes?_r=1&_t=ZP-95NIrCBiYAQ" target="_blank" rel="noreferrer" aria-label="Abrir TikTok de Brickly Homes"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+                <div class="brickly-footer__info">
+                    <span>Edificio Sixtino zona 10, Guatemala</span>
+                    <a href="mailto:info@bricklyhomes.com">info@bricklyhomes.com</a>
+                    <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer">+502 3764-9719</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="brickly-footer__bottom">
+            <span>© Brickly. Todos los derechos reservados <?= date('Y') ?></span>
+            <a href="https://www.bricklyhomes.com/terms">Términos y Condiciones de Servicio</a>
         </div>
     </div>
+</footer>
 
-    <!-- MENSAJE FEEBACK DEL FORMULARIO DE CONTACTO -->
-    <?php if(Yii::$app->session->hasFlash('success')): ?>
-        <div class="modal fade" id="successMSG" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-end">
-                        <i class="fa-solid fa-xmark text-white" data-bs-dismiss="modal" aria-label="Close"></i>
-                    </div>
-                    <div class="modal-body mt-4 mb-5">
-                        <img src="<?= Yii::getAlias('@web') ?>/images/iconos/check.png" class="d-block m-auto" style="width: 80px" alt="check" srcset="">
-                        <div class="text-center fs-3 my-3 fw-bold lh-sm" data-section="message" data-value="text1">¡Gracias por contactarnos!</div>
-                        <div class="text-center mb-4" data-section="message" data-value="text2">Tu solicitud estará siendo atendida<br> por uno de nuestros asesores.</div>
-                        <center>
-                            <button type="button" class="btn btn-lila" data-bs-dismiss="modal" data-section="message" data-value="text3"><span>Continuar</span></button>
-                        </center>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
-            $this->registerJS(' $(function() {$("#successMSG").modal("show")}) ')
-        ?>
-    <?php elseif(Yii::$app->session->hasFlash('error')): ?>
-        <div class="modal fade" id="successMSG" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-end">
-                        <i class="fa-solid fa-xmark text-white" data-bs-dismiss="modal" aria-label="Close"></i>
-                    </div>
-                    <div class="modal-body mt-4 mb-5">
-                        <img src="<?= Yii::getAlias('@web') ?>/images/logo.png" class="d-block m-auto" style="width: 120px" alt="check" srcset="">
-                        <div class="text-center fs-3 my-3 fw-bold lh-sm" data-section="message" data-value="text4">¡Error de validación!</div>
-                        <div class="text-center mb-4" data-section="message" data-value="text5">No pudimos validar la información, intente mas tarde.</div>
-                        <center>
-                            <button type="button" class="btn btn-lila" data-bs-dismiss="modal"><span data-section="message" data-value="text3">Continuar</span></button>
-                        </center>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
-            $this->registerJS('$("#successMSG").modal("show")')
-        ?>
-    <?php endif ?>
-       
-    <script>
-        AOS.init({
-            once: true 
-        });
+<div class="brickly-toast" id="brickly-subscribe-toast" aria-live="polite" aria-atomic="true">
+    <i class="fa-regular fa-circle-check"></i>
+    <span>Gracias por suscribirte.</span>
+</div>
 
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        grecaptcha.ready(function() {
-            if(grecaptcha && document.getElementById('recaptcha-token') != null){
-                grecaptcha.execute('6LeKNtcqAAAAAKoOTJiylGVGWAq-jRLrj5lGnmrW', {action: 'submit'}).then(function(token) {
-                    document.getElementById('recaptcha-token').value = token;
-                    //console.log("Token generado: " + token);  // Verifica que no sea vacío
-                });
-            }
-            if(grecaptcha && document.getElementById('recaptcha-token2') != null){
-                grecaptcha.execute('6LeKNtcqAAAAAKoOTJiylGVGWAq-jRLrj5lGnmrW', {action: 'submit'}).then(function(token) {
-                    document.getElementById('recaptcha-token2').value = token;
-                    //console.log("Token generado: " + token);  // Verifica que no sea vacío
-                });
-            }
-            if(grecaptcha && document.getElementById('recaptcha-token3') != null){
-                grecaptcha.execute('6LeKNtcqAAAAAKoOTJiylGVGWAq-jRLrj5lGnmrW', {action: 'submit'}).then(function(token) {
-                    document.getElementById('recaptcha-token3').value = token;
-                    //console.log("Token generado: " + token);  // Verifica que no sea vacío
-                });
-            }
-        });
+<?php $this->endBody() ?>
 
-        url = window.location.pathname.split('/')
+<script>
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ once: true });
+    }
 
-        const menu = document.querySelector(".container .menu-fixed")
-        let text = `
-            <div class="container d-flex align-items-center justify-content-between flex-column flex-lg-row">
-                <div class="mb-4 mb-lg-0"><a href="<?= Yii::getAlias("@web") ?>/" class="text-decoration-none"><img src="<?= Yii::getAlias("@web") ?>/images/home/logo_white.png" style="width: 150px;" alt="logo"></a></div>
-                <div class="d-flex align-items-center text-white fw-bold" style="gap: 1.5rem;">
-                    <a href="<?= Yii::getAlias("@web") ?>/blog" class="text-decoration-none text-white position-relative">Blog</a>
-                    <!--<a href="<?= Yii::getAlias("@web") ?>/vlog" class="text-decoration-none text-white position-relative" data-section="menu" data-value="">Vlog</a> -->
-                    <div class="select-container">
-                        <div class="select">
-                            <div class="selected-option">
-                                <div class="select-value d-flex align-items-center justify-content-start gap-3"><img src="<?= Yii::getAlias("@web") ?>/images/flagsIcons/<?= $lang == "es" ? "es" : "us" ?>.svg" style="width: 26px; height: 26px;" alt="" srcset=""></div>
-                                <div class="arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
-                            </div>
-                            <div data-toggle="collapsed" class="options">
-                                <div class="option d-flex align-items-center justify-content-start gap-3" data-href="<?= Url::to(['/home/lang', 'set' => 'en']) ?>" data-lang="en"><img src="<?= Yii::getAlias("@web") ?>/images/flagsIcons/us.svg" style="width: 26px; height: 26px;" alt="" srcset=""> English</div>
-                                <div class="option d-flex align-items-center justify-content-start gap-3" data-href="<?= Url::to(['/home/lang', 'set' => 'es']) ?>" data-lang="es"><img src="<?= Yii::getAlias("@web") ?>/images/flagsIcons/es.svg" style="width: 26px; height: 26px;" alt="" srcset=""> Spanish</div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="<?= Yii::getAlias("@web") ?>/cpanel" target="_blank" class="button-label cursor-hover-item wow animated fadeInUp animated d-flex align-items-center" data-wow-delay="0s" style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;"> <i class="fa-regular fa-circle-user"></i> <span data-section="menu" data-value="login">Iniciar sesión</span></a>
-                </div>
-            </div>
-        `
-        let text2 = `
-            <div class="container d-flex d-lg-none justify-content-between align-items-center my-5">
-                <div data-bs-toggle="offcanvas" data-bs-target="#menuResponsive" aria-controls="offcanvasExample"><i class="fa-solid fa-bars text-white fs-2"></i></div>
-                <div style="width: 100%" class="position-relative">
-                    <a href="<?= Yii::getAlias("@web") ?>/" class="text-decoration-none">
-                        <img src="<?= Yii::getAlias("@web") ?>/images/home/logo_white.png" alt="logo" class="d-block position-absolute top-50 translate-middle" style="width: 110px; left: calc(100% - 52%);">
+    const menu = document.querySelector('.menu-fixed');
+    if (menu) {
+        const desktopHeader = `
+            <div class="brickly-header-shell <?= $isDarkSection ? 'brickly-header-shell--dark' : '' ?> d-none d-lg-block">
+                <div class="container brickly-header-inner py-lg-2 py-xl-4">
+                    <a href="<?= $brandHomeUrl ?>" class="brickly-header-brand" aria-label="Brickly">
+                        <img src="<?= $logoPath ?>" alt="Brickly">
                     </a>
+                    <nav class="brickly-header-nav" aria-label="Principal">
+                        <?php foreach ($navItems as $item): ?>
+                            <a href="<?= $item['url'] ?>" class="brickly-header-link<?= !empty($item['active']) ? ' active' : '' ?>"><?= Html::encode($item['label']) ?></a>
+                        <?php endforeach; ?>
+                    </nav>
                 </div>
             </div>
-        `
-        menu.insertAdjacentHTML('afterbegin', text)
-        menu.insertAdjacentHTML('beforebegin', text2)
+        `;
 
-        const buttonAsesor = document.querySelectorAll('.buttonAsesor')
-        const formulario = document.querySelector('.formulario')
-        buttonAsesor.forEach(items => {
-            items.addEventListener('click', () =>{
-                formulario.classList.contains('active') ? formulario.classList.remove('active') : formulario.classList.add('active')
-            })
-        })
+        menu.insertAdjacentHTML('afterbegin', desktopHeader);
+    }
 
-        const itemsMenu = menu.querySelectorAll('a')
+    const subscribeForm = document.querySelector('[data-subscribe-form]');
+    if (subscribeForm) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        const subscribeInput = subscribeForm.querySelector('input[name="email"]');
+        const subscribeButton = subscribeForm.querySelector('[data-subscribe-button]');
+        const subscribeError = document.querySelector('[data-subscribe-error]');
+        const subscribeToast = document.getElementById('brickly-subscribe-toast');
+        let subscribeToastTimeout = null;
 
-        itemsMenu.forEach(i =>{
-            if(window.location.href.replace(/\/home$/, '/') === i.href)
-                i.classList.add('active')
-        })
-
-
-
-        function blurMenu(){
-            const menu = document.querySelector('.menu-fixed');
-            
-            if (window.scrollY > 50) {
-                menu.classList.add('blur');
-            } else {
-                menu.classList.remove('blur');
+        const showSubscribeToast = () => {
+            if (!subscribeToast) return;
+            subscribeToast.classList.add('is-visible');
+            if (subscribeToastTimeout) {
+                window.clearTimeout(subscribeToastTimeout);
             }
-        }
+            subscribeToastTimeout = window.setTimeout(() => {
+                subscribeToast.classList.remove('is-visible');
+            }, 4000);
+        };
 
-        window.addEventListener("scroll", blurMenu);
-        window.addEventListener("load", blurMenu);
+        subscribeForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const email = subscribeInput ? subscribeInput.value.trim() : '';
+            if (!email) return;
 
-        const selectedOption = document.querySelectorAll('.selected-option');
-        const selectValue = document.querySelector('.select-value');
-        const optionContainer = document.querySelectorAll('.options');
-        const optionList = document.querySelectorAll('.option');
+            if (subscribeError) {
+                subscribeError.textContent = '';
+            }
 
-        /** Toggle function */
-        const selectToggle = ()=>{
-            optionContainer.forEach(oc =>{
-                if(oc.dataset.toggle == 'collapsed'){
-                    oc.dataset.toggle = '';
-                }else{
-                    oc.dataset.toggle = 'collapsed'
+            if (subscribeButton) {
+                subscribeButton.disabled = true;
+                subscribeButton.dataset.originalText = subscribeButton.dataset.originalText || subscribeButton.innerHTML;
+                subscribeButton.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+            }
+
+            try {
+                const body = new URLSearchParams();
+                body.append('email', email);
+                body.append('_csrf', csrfToken);
+
+                const response = await fetch(subscribeForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: body.toString()
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    if (subscribeInput) {
+                        subscribeInput.value = '';
+                    }
+                    showSubscribeToast();
+                } else if (subscribeError) {
+                    subscribeError.textContent = result.message || 'No pudimos procesar tu suscripción en este momento';
                 }
-            })
-        }
-
-        /** When click on seleted-option */
-        selectedOption.forEach( so => { so.addEventListener('click', selectToggle) })
-
-        /** This function update select value */
-        const updateSelectValue = (option) => {
-            //selectValue.innerHTML = option.innerHTML;
-    
-            window.location.href = option.dataset.href;
-            //localStorage.setItem('selectLang', ''+option.dataset.lang+'')
-        }
-
-        optionList.forEach((option) => {
-            /* if(option.dataset.lang === document.querySelector("html").getAttribute('lang')){
-                selectValue.innerHTML = option.innerHTML;
-            } */
-            option.addEventListener('click', (e) => {
-                updateSelectValue(option)
-                selectToggle()
-            })  
-        })
-
-        document.querySelector('.clearUrl').addEventListener('click', function() {
-            // Elimina el fragmento de la URL sin recargar la página
-            history.replaceState(null, null, ' ');
+            } catch (error) {
+                if (subscribeError) {
+                    subscribeError.textContent = 'No pudimos procesar tu suscripción en este momento';
+                }
+            } finally {
+                if (subscribeButton) {
+                    subscribeButton.disabled = false;
+                    subscribeButton.innerHTML = subscribeButton.dataset.originalText || 'ENVIAR';
+                }
+            }
         });
-
-        if (window.location.href.endsWith('#contact-advisor')) {
-            document.querySelector('.button-label').click()
-        }
-
-    </script>
-    </body>
+    }
+</script>
+</body>
 </html>
 <?php $this->endPage() ?>

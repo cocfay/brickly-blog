@@ -12,11 +12,9 @@ class AppAssetTemplateNew extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/templatenew/color.css',
-        'css/templatenew/style.css',
         'js/sweetalert-master/dist_f/sweetalert.css',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
-        'css/porfolio.css'
+        'css/cpanel-modern.css'
     ];
     public $js = [
         'js/sweetalert-master/dist_f/sweetalert.min.js',

@@ -64,6 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'class' => 'yii\grid\ActionColumn',
                             'header' => 'Acciones',
+                            'headerOptions' => ['style' => 'text-align: center;'],
                             'template' => '<div class="btn-group" > {eye} </div>',
                             'buttons' => [
                                 'eye' => function($url, $model){

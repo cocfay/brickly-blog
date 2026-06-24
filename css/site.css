@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('../css/fonts/RedHatDisplay-VariableFont_wght.woff2') format('woff2'),
+         url('../css/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('../css/fonts/RedHatDisplay-Italic.woff2') format('woff2'),
+         url('../css/fonts/RedHatDisplay-Italic.ttf') format('truetype');
+    font-weight: 300 900;
+    font-style: italic;
+    font-display: swap;
+}
+
 :root {
     --color-principal: #0f294a;
     --color-principalhv: #7e98bb;
@@ -17,6 +35,15 @@
 html,
 body {
     height: 100%;
+    font-family: 'Red Hat Display', sans-serif;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: 'Red Hat Display', sans-serif;
 }
 .btn-color-especial{background: var(--color-butons); color:white;}
 

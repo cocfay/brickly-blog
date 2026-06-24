@@ -4,89 +4,99 @@
     use yii\bootstrap5\Button;
     use yii\bootstrap5\ActiveForm;
     use yii\helpers\Url;
+    use yii\data\ActiveDataProvider;
+    use common\models\PostBlog;
 
     use common\components\datatables\DataTables;
+
+	$dataProvider = $dataProvider ?? new ActiveDataProvider([
+	    'query' => PostBlog::find()->where(['Verified' => 1, 'Featured' => 0])->orderBy(['PostBlogID' => SORT_DESC]),
+	    'pagination' => [
+	        'pageSize' => 10,
+	    ],
+	]);
 
     $this->title = 'Listado de entradas';
 ?>
 
-<div class="HomeRole">
-    <div class="container-fluid">
+<div class="HomeRole cpanel-table-page cpanel-posts-page">
+    <div class="container-fluid px-0">
     <div class="row">
-        <div class="col-md-12 d-flex justify-content-between align-items-center gap-4">
-            <h2 style="white-space: pre;"><?= Html::encode($this->title)?></h2>
-            <!-- <hr class="w-100" style="color: #86c455; border:solid 1.5px;">
-            <i class="fa fa-arrow-left" onClick="history.back(-1)" style="
-                border: solid;
-                padding: 10px;
-                border-radius: 50%;
-                margin-left: 10px;
-                cursor:pointer;
-                color: #00A7C2;
-                width: 40px;
-            "></i> -->
-            <a href="<?= Url::to(['tendencia']) ?>" class="btn btn-warning">En tendencia</a>
+        <div class="col-md-12 d-flex justify-content-between align-items-start gap-4 cpanel-page-heading">
+            <div>
+                <h1><?= Html::encode($this->title)?></h1>
+                <a href="<?= Url::to(['form-post']) ?>" class="btn btn-primary cpanel-create-btn cpanel-add-entry-btn"><i class="fa-solid fa-plus"></i> Agregar entrada</a>
+            </div>
         </div>
     </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <!-- <h2 style="color: var(--color-principal);"><?= Html::encode($this->title)?></h2> -->
-            <a href="<?= Url::to(['form-post']) ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Agregar entrada</a>
-        </div>
-        <hr>
         <div class="row">
             <div class="col-12">
                 <?php   
                     echo DataTables::widget([
                             'dataProvider' => $dataProvider,
+                            'options' => ['class' => 'cpanel-posts-grid'],
+                            'tableOptions' => [
+                                'id' => 'posts-table',
+                                'class' => 'table table-striped cpanel-posts-table display',
+                                'cellspacing' => '0',
+                                'width' => '100%',
+                            ],
                             'columns' => [
-                                ['class' => 'yii\grid\SerialColumn','contentOptions'=>['style'=>'background-color:var(--bs-table-bg);'],],
+                                [
+                                    'class' => 'yii\grid\SerialColumn',
+                                    'headerOptions' => ['class' => 'cpanel-col-number'],
+                                    'contentOptions'=>['class' => 'cpanel-col-number'],
+                                ],
                                 // Simple columns defined by the data contained in $dataProvider.
                                 // Data from the model's column will be used.
                                 [
-                                  'attribute' => 'Nombre',
+                                  'attribute' => 'Entrada',
                                    'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
                                     'value' => function ($data) {
                                         return $data->title; // $data['name'] for array data, e.g. using SqlDataProvider.
                                     },
                                     'format' => 'text',
-                                    'contentOptions'=>['style'=>'text-align: center; vertical-align:middle;'],
+                                    'contentOptions'=>['class' => 'cpanel-post-title-cell'],
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'header' => 'Acciones',
-                                    'template' => '<div class="btn-group" > {update} {view} {delete} </div>',
+                                    'headerOptions' => ['style' => 'text-align: center;'],
+                                    'template' => '<div class="cpanel-table-actions"> {update} {view} {delete} </div>',
                                     'buttons' => [
                                         'delete' => function($url, $model){
-                                            return Html::a('<span class="fa fa-trash"></span>', ['deletepts', 'id' => $model->PostBlogID], [
-                                                'class' => 'btn btn-danger click-confirm',
+                                            return Html::a('<span class="fa-regular fa-trash-can"></span>', ['deletepts', 'id' => $model->PostBlogID], [
+                                                'class' => 'cpanel-table-action btn btn-link click-confirm',
                                                 'tittle-alert' => 'Eliminar información',
                                                 'text-alert'  => '¿Estás seguro? Cuando elimines la entrada, no podrás recuperarlo más tarde.',
                                             ]);
                                         },
                                         'update' => function($url, $model){
-                                            return Html::a('<span class="fa fa-edit"></span>', ['form-post', 'edit' => $model->PostBlogID], [
-                                                'class' => 'btn btn-primary',
+                                            return Html::a('<span class="fa-regular fa-pen-to-square"></span>', ['form-post', 'edit' => $model->PostBlogID], [
+                                                'class' => 'cpanel-table-action btn btn-link',
                                             ]);
                                         },
 
                                         'view' => function($url, $model){
 
-                                            return Html::a('<span class="fa fa-eye" title="Ver"></span>', 'https://www.weclickdigital.com/blog/post/' . $model->PostBlogID, [
-                                                'class' => 'btn btn-info', 'target' => '_blank'
+                                            return Html::a('<span class="fa-regular fa-eye" title="Ver"></span>', 'https://www.weclickdigital.com/blog/post/' . $model->PostBlogID, [
+                                                'class' => 'cpanel-table-action btn btn-link', 'target' => '_blank'
                                             ]);
                                         
                                         },
                                        
                                     ],
-                                    'contentOptions'=>['style'=>'min-width: 100px; text-align: center; vertical-align:middle;'],
+                                    'contentOptions'=>['class'=>'cpanel-actions-cell'],
                                 ],
                                 
                             ],
                             'clientOptions' => [
                             "lengthMenu"=> [[10,20,-1], [10,20,Yii::t('app',"All")]],
-                            "info"=>false,
+                            "info"=>true,
                             "retrieve" => true,
-                            "responsive"=>'true', 
+                            "responsive"=> true,
+                            "autoWidth"=> false,
+                            "scrollX"=> false,
                             "dom"=> 'lfTrtip',
                             "tableTools"=>[
                                 "aButtons"=> [  
@@ -95,8 +105,9 @@
                             'language'=>[
                                 'processing'    => Yii::t('app', 'Procesando...'),
                                 'search'        => Yii::t('app', 'Buscar:'),
-                                'lengthMenu'    => Yii::t('app','Mostrar _MENU_ Entradas'),
-                                'info'        => Yii::t('app','Mostrando del _START_ al _END_ de _TOTAL_ entradas'),
+                                'searchPlaceholder' => Yii::t('app', 'Buscar entrada...'),
+                                'lengthMenu'    => Yii::t('app','Mostrar _MENU_ registros'),
+                                'info'        => Yii::t('app','Mostrando _START_ a _END_ de _TOTAL_ registros'),
                                 'infoEmpty'  => Yii::t('app','Mostrando del 0 al 0 de 0 entradas'),
                                 'infoFiltered'  => Yii::t('app','(Filtrado de _MAX_ entradas totales)'),
                                 'infoPostFix'   => '',
@@ -143,5 +154,17 @@ if (Yii::$app->session->hasFlash('error')):
 
         ');
 endif;
+
+$this->registerJS("
+$(function(){
+    var filter = $('.cpanel-posts-grid .dataTables_filter');
+    var input = filter.find('input[type=\"search\"], input').first();
+
+    if (input.length && !input.parent().hasClass('cpanel-filter-input-wrap')) {
+        input.wrap('<span class=\"cpanel-filter-input-wrap\"></span>');
+        input.before('<i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i>');
+    }
+});
+");
 
 ?>

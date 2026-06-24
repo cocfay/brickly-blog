@@ -24,6 +24,9 @@ class AppAsset extends AssetBundle
         'css/home.css',
         'css/porfolio.css',
         'css/site.css',
+        'css/header.css',
+        'css/footer.css',
+        'css/blog-redesign.css',
     ];
     public $js = [
         /* 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js', */

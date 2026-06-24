@@ -172,6 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $columns[] = [
                     'class' => 'yii\grid\ActionColumn',
                     'header' => 'Acciones',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'template' => '<div class="btn-group" > {edit}{view}{delete} </div>',
                     'buttons' => [
                         'edit' => function($url, $model){
@@ -392,6 +393,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'class' => 'yii\grid\ActionColumn',
                                 'header' => 'Acciones',
+                                'headerOptions' => ['style' => 'text-align: center;'],
                                 'template' => '<div class="btn-group" > {edit}{view}{delete} </div>',
                                 'buttons' => [
                                     'edit' => function($url, $model){

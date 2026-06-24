@@ -1,99 +1,162 @@
 <?php
-    use yii\helpers\Url;
-    use yii\widgets\LinkPager;
-    $this->title = "Categorías";
+use yii\helpers\Url;
 
-    $names = [
-        'en' => 'NameEn',
-        'fr' => 'NameFr',
-        'it' => 'NameIt',
-        'es' => 'NameEs',
-        'de' => 'NameDe',
-        'pt' => 'NamePt'
-    ];
+$names = 'NameEs';
+$categoryName = $model->$names;
+$this->title = $categoryName;
 
-    $names = $names[$lang] ?? $names['en'];
-
-    $meses = [
-        1 => $lang == 'es' ? 'Enero' : 'January',
-        2 => $lang == 'es' ? 'Febrero' : 'Febrary',
-        3 => $lang == 'es' ? 'Marzo' : 'March',
-        4 => $lang == 'es' ? 'Abril' : 'April',
-        5 => $lang == 'es' ? 'Mayo' : 'May',
-        6 => $lang == 'es' ? 'Junio' : 'June',
-        7 => $lang == 'es' ? 'Julio' : 'July',
-        8 => $lang == 'es' ? 'Agosto' : 'August',
-        9 => $lang == 'es' ? 'Septiembre' : 'September',
-        10 => $lang == 'es' ? 'Octubre' : 'October',
-        11 => $lang == 'es' ? 'Noviembre' : 'November',
-        12 => $lang == 'es' ? 'Diciembre' : 'Dicember'
-    ];
+$loadedPosts = isset($pagination) ? $pagination->offset + count($posts) : count($posts);
+$hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
+$search = $search ?? '';
 ?>
-<style>
-    .marginY{
-        margin: 8rem auto 6rem auto;
-    }
-    .article:hover .lh-sm:not(.bg-lila){
-        color: #FF0461 !important;
-    }
-    .marginY > div{
-        margin: 12rem 0 2rem 0;
-    }
-    @media screen and (max-width: 834px) {
-        .marginY{
-            margin: 2rem auto;
-        }
-    }
-    @media screen and (max-width: 576px) {
-        .main-post .title{
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            overflow: hidden;
-            position: relative;
-            line-height: 1.5em;
-        }
-
-        .main-post .description{
-            -webkit-line-clamp: 3 !important;
-        }
-        .marginY > div{
-            margin: 0;
-        }
-    }
-</style>
 
 <div class="container">
-    <div class="menu-fixed d-none d-md-block"></div>
+    <div class="menu-fixed"></div>
 </div>
 
-<div class="container marginY">
-    <div class="row mx-0">
-        <div class="col-12 px-2 px-md-3">
-            <div class="mt-0 mt-md-5 mb-5" style="font-size: clamp(18px, 3vw, 50px)"><?= $model->$names ?></div>
+<main class="brickly-blog-page brickly-category-page">
+    <section class="container brickly-category-hero">
+        <div class="brickly-category-hero__content">
+            <span class="brickly-section-kicker">CATEGOR&Iacute;A</span>
+            <h1><?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?></h1>
+            <p>Ideas, tendencias y consejos para transformar espacios con m&aacute;s valor.</p>
         </div>
-    </div>
-    <div class="row mx-0 m-auto article">
-        <?php foreach ($posts as $datos): ?>
-            <div class="col-md-6 mb-5 px-2 px-md-3" style="margin-top: 0;">
-                <a href="<?= Url::to(['blog/post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-white">
-                    <div class="position-relative"><img src="<?= $datos->ImagePost ?>" class="w-100" alt="image" style="border-radius: 18px;"></div>
-                    <div class="my-3 lh-sm" style="font-size: clamp(1.5rem, 1.4vw, 24px)"><?= $datos->title ?></div>
-                    <div class="text-limit-2" style="font-size: clamp(1rem, 1.1vw, 18px)">
-                        <?php $c = $datos->centerComponents[0] ?>
-                        <?php if($c->Type == 1):?>
-                                <?= strip_tags($c->textBoxC->Description) ?>
-                        <?php endif ?>
-                    </div>
-                </a>
-                <div class="d-flex gap mt-3 align-items-center tags-entry">
-                    <?php foreach($datos->blogBy as $tags): ?>
-                        <a href="<?= Url::to(['categories', 'id' => $tags->CollectionID]) ?>" class="text-decoration-none text-white"><div style="background:#0D0D22; border:1px solid white; border-radius: 10px; padding: 0 1.5rem;"><?= $tags->$names ?></div></a>
-                    <?php endforeach ?>
-                    <div><?= $meses[date("n", strtotime($datos->CreateAT))] ?> <?= date("Y", strtotime($datos->CreateAT)) ?></div>
-                </div>
-            </div>
-        <?php endforeach ?>
-    </div>
-    <?= LinkPager::widget(['pagination' => $pagination, 'options' => ['class' => 'my-custom-pagination']]); ?>
-</div>
+
+        <div class="brickly-category-hero__aside">
+            <a href="<?= Url::to(['/blog']) ?>" class="brickly-category-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Atr&aacute;s</span>
+            </a>
+            <form action="#" method="get" class="brickly-search-form brickly-category-search-form" data-category-search>
+                <input type="search" name="q" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="Buscar art&iacute;culos" aria-label="Buscar art&iacute;culos">
+                <button type="submit" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <section class="container brickly-category-results">
+        <div class="brickly-category-results__meta" data-category-count>
+            <?= (int) $pagination->totalCount ?> art&iacute;culos encontrados
+        </div>
+
+        <div class="row g-4" id="brickly-category-posts-grid">
+            <?php foreach ($posts as $datos): ?>
+                <?= $this->render('_postCard', ['datos' => $datos]) ?>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="brickly-category-empty<?= empty($posts) ? ' is-visible' : '' ?>" data-category-empty>
+            No encontramos art&iacute;culos para esta b&uacute;squeda.
+        </div>
+
+        <div class="brickly-blog-more text-center<?= $hasMorePosts ? '' : ' d-none' ?>" data-category-more>
+            <button type="button" class="brickly-outline-button brickly-load-more-button" data-url="<?= Url::to(['category-load-more', 'id' => $model->CollectionID]) ?>" data-offset="<?= $loadedPosts ?>" data-limit="6" data-search="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>">
+                <span>VER M&Aacute;S</span>
+                <i class="fa-solid fa-angle-right"></i>
+            </button>
+        </div>
+    </section>
+</main>
+
+<?php
+$this->registerJS(<<<JS
+(function () {
+    const form = document.querySelector('[data-category-search]');
+    const input = form ? form.querySelector('input[name="q"]') : null;
+    const grid = document.getElementById('brickly-category-posts-grid');
+    const button = document.querySelector('.brickly-load-more-button');
+    const moreWrap = document.querySelector('[data-category-more]');
+    const empty = document.querySelector('[data-category-empty]');
+    const count = document.querySelector('[data-category-count]');
+
+    if (!grid || !button) return;
+
+    const originalButtonText = button.innerHTML;
+
+    const setButtonLoading = function (loading) {
+        button.disabled = loading;
+        button.classList.toggle('is-loading', loading);
+        button.innerHTML = loading
+            ? '<span>CARGANDO</span><i class="fa-solid fa-spinner fa-spin"></i>'
+            : originalButtonText;
+    };
+
+    const appendItems = function (html, replace) {
+        const template = document.createElement('template');
+        template.innerHTML = html || '';
+        const items = Array.from(template.content.children);
+
+        if (replace) {
+            grid.innerHTML = '';
+        }
+
+        items.forEach((item, index) => {
+            item.classList.add('brickly-post-card-item--new');
+            item.style.transitionDelay = (index * 45) + 'ms';
+            grid.appendChild(item);
+
+            window.requestAnimationFrame(() => {
+                item.classList.add('is-visible');
+            });
+        });
+    };
+
+    const loadPosts = async function (replace) {
+        const url = new URL(button.dataset.url, window.location.origin);
+        url.searchParams.set('offset', replace ? '0' : (button.dataset.offset || '0'));
+        url.searchParams.set('limit', button.dataset.limit || '6');
+        url.searchParams.set('q', input ? input.value.trim() : (button.dataset.search || ''));
+
+        setButtonLoading(true);
+
+        try {
+            const response = await fetch(url.toString(), {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            });
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error('No se pudieron cargar los articulos.');
+            }
+
+            appendItems(result.html, replace);
+            button.dataset.offset = result.nextOffset;
+            button.dataset.search = input ? input.value.trim() : '';
+
+            if (count) {
+                count.innerHTML = result.total + (result.total === 1 ? ' art&iacute;culo encontrado' : ' art&iacute;culos encontrados');
+            }
+
+            if (empty) {
+                empty.classList.toggle('is-visible', result.total === 0);
+            }
+
+            if (moreWrap) {
+                moreWrap.classList.toggle('d-none', !result.hasMore);
+            }
+        } catch (error) {
+            button.innerHTML = '<span>INTENTAR DE NUEVO</span><i class="fa-solid fa-rotate-right"></i>';
+            button.disabled = false;
+            button.classList.remove('is-loading');
+            return;
+        }
+
+        setButtonLoading(false);
+    };
+
+    button.addEventListener('click', function () {
+        loadPosts(false);
+    });
+
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            loadPosts(true);
+        });
+    }
+})();
+JS);
+?>

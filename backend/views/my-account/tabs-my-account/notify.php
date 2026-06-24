@@ -125,7 +125,7 @@ $ActualDate = new \DateTime();
                     'class' => 'yii\grid\ActionColumn',
                     'header' => 'Acciones',
                     //'format' => 'raw',
-                    'headerOptions' => ['style' => 'width: 16%'],
+                    'headerOptions' => ['style' => 'width: 16%; text-align: center;'],
                     'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
                     'template' => '<div class="btn-group" > {view} {delete} </div>',
                     'buttons' => [

@@ -56,6 +56,7 @@ $this->registerCss('
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'header' => 'Acciones',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'template' => '<div class="btn-group" > {update} {project} {delete} </div>',
                     'buttons' => [
                         'delete' => function($url, $model){

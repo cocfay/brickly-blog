@@ -36,6 +36,7 @@ class PostBlog extends ActiveRecord
 
             [['RequestFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, webp'],
 
+            [['Featured'], 'default', 'value' => 0],
             [['AccountID', 'PostBlogID', 'Featured', 'Home'], 'number'],
             //[['Labels'], 'safe']
         ];
@@ -169,8 +170,7 @@ class PostBlog extends ActiveRecord
         return $this->hasMany(PostBlogTitle::className(), ['PostBlogID' => 'PostBlogID']);
     }
     public function getCurrentTitle(){
-        $infoUs = Yii::$app->LocationLang->info();
-        $codLang = $infoUs->language->LanguageCode;
+        $codLang = Yii::$app->language ?: 'es';
         return $this->hasOne(PostBlogTitle::className(), ['PostBlogID' => 'PostBlogID'])->onCondition(['Lang'=>  $codLang]);
     }
 
@@ -223,7 +223,7 @@ class PostBlog extends ActiveRecord
     }
 
     public function getProject(){
-        $infoUs = Yii::$app->LocationLang->info();
+        $infoUs = Yii::$app->params['InfoLocation'] ?? (object) ['country_code' => 'GT'];
 
         $recti = ($infoUs->country_code == 'ES' || $infoUs->country_code == 'PA') ? ['!=', 'Restriction', 1] : [];
         $rGT = ($infoUs->country_code == 'GT') ? ['!=', 'NGuatemala', 1] : [];

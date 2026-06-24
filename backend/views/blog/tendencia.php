@@ -4,8 +4,17 @@
     use yii\bootstrap5\Button;
     use yii\bootstrap5\ActiveForm;
     use yii\helpers\Url;
+    use yii\data\ActiveDataProvider;
+    use common\models\PostBlog;
 
     use common\components\datatables\DataTables;
+
+	$dataProvider = $dataProvider ?? new ActiveDataProvider([
+	    'query' => PostBlog::find()->where(['Verified' => 1, 'Featured' => 1])->orderBy(['PostBlogID' => SORT_DESC]),
+	    'pagination' => [
+	        'pageSize' => 10,
+	    ],
+	]);
 
     $this->title = 'Entradas en tendencia';
 ?>
@@ -49,6 +58,7 @@
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'header' => 'Acciones',
+                                    'headerOptions' => ['style' => 'text-align: center;'],
                                     'template' => '<div class="btn-group gap-3" > {update} {delete} </div>',
                                     'buttons' => [
                                         'delete' => function($url, $model){
@@ -91,10 +101,10 @@
                                 'zeroRecords'   => Yii::t('app','No se encontraron registros coincidentes'),
                                 'emptyTable'    => Yii::t('app','No hay datos disponibles en la tabla'),
                                 'paginate' => [
-                                    'first'  => Yii::t('app','Primero'),
-                                    'previous'  => Yii::t('app','Anterior'),
-                                    'next'    => Yii::t('app','Siguiente'),
-                                    'last'    => Yii::t('app','Último'),
+                                    'first'  => Yii::t('app','<<'),
+                                    'previous'  => Yii::t('app','<i class="fa-solid fa-chevron-left"></i>'),
+                                    'next'    => Yii::t('app','<i class="fa-solid fa-chevron-right"></i>'),
+                                    'last'    => Yii::t('app','>>'),
                                 ],
                                 'aria' => [
                                     'sortAscending' => Yii::t('app',': activate to sort column ascending'),

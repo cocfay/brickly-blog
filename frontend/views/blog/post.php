@@ -3,16 +3,7 @@
     
     $this->title = "Publicación";
 
-    $names = [
-        'en' => 'NameEn',
-        'fr' => 'NameFr',
-        'it' => 'NameIt',
-        'es' => 'NameEs',
-        'de' => 'NameDe',
-        'pt' => 'NamePt'
-    ];
-
-    $names = $names[$lang] ?? $names['en'];
+    $names = 'NameEs';
 
     $meses = [
         1 => 'Enero',
@@ -29,85 +20,62 @@
         12 => 'Diciembre'
     ];
 
-    if(!empty($model->project)){
-        $col = "col-lg-8 pe-0 pe-md-4 ps-0 ps-md-2";
-        $display = "";
-    }else{
-        $col = "col-lg-12";
-        $display = "d-none";
-    }
-    $infoUs = Yii::$app->LocationLang->info();
-    //if($data->Restriction == 1 && ($infoUs->country_code == 'PA' || $infoUs->country_code == 'ES') ){ continue; } 
-?>
+    $featuredProperties = $featuredProperties ?? [];
+    $relatedPosts = $relatedPosts ?? ($more ?? []);
+    $moreTopics = $moreTopics ?? [];
+    $moreTopicsLoaded = $moreTopicsLoaded ?? (count($relatedPosts) + count($moreTopics));
+    $moreTopicsTotal = $moreTopicsTotal ?? $moreTopicsLoaded;
+    $hasMoreTopics = $moreTopicsLoaded < $moreTopicsTotal;
 
-<style>
-    .article a:hover > .position-relative::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #ff04602c;
-        border-radius: 18px;
-    }
-    .marginY{
-        margin: 8rem auto 6rem auto;
-    }
-    .video-container {
-        position: relative;
-        width: 100%;
-        padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
-        height: 0;
-        overflow: hidden;
-    }
+    $primaryTag = static function ($post) use ($names) {
+        return !empty($post->blogBy[0]) ? $post->blogBy[0]->$names : 'Blog';
+    };
 
-    .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    
-    @media screen and (max-width: 834px) {
-        .marginY{
-            margin: 2rem auto;
+    $formatDate = static function ($post) use ($meses) {
+        return $meses[date('n', strtotime($post->CreateAT))] . ', ' . date('Y', strtotime($post->CreateAT));
+    };
+
+    $extractDescription = static function ($post) {
+        if (!empty($post->centerComponents[0]) && (int) $post->centerComponents[0]->Type === 1) {
+            return trim(strip_tags($post->centerComponents[0]->textBoxC->Description));
         }
-    }
 
-    p, li{
-        font-size: clamp(16px, 1.9vw, 1.1rem) !important;
-    }
-</style>
+        return '';
+    };
+
+    $articleUrl = Url::to(['post', 'id' => $model->PostBlogID], true);
+    $articleExcerpt = $extractDescription($model);
+    $articleImage = method_exists($model, 'PatchIMG') ? $model->PatchIMG() : $model->ImagePost;
+?>
 
 <div class="container">
     <div class="menu-fixed d-none d-md-block"></div>
 </div>
-<div class="d-none d-md-block"><br><br></div>
-<div class="container marginY">
-    <div class="row mx-0">
-        <!-- <div class="col-12 mb-5">
-            <div class="d-none d-lg-flex align-items-center flex-column flex-lg-row justify-content-center justify-content-lg-between mt-5">
-                <div class="d-flex gap-4">
-                    <div>Categorio 1</div>
-                    <div>Categorio 2</div>
-                    <div>Categorio 3</div>
-                    <div>Categorio 4</div>
+
+<main class="brickly-blog-detail">
+    <section class="container brickly-blog-detail__wrap">
+        <div class="brickly-blog-detail__actions">
+            <a href="<?= Url::to(['/blog']) ?>" class="brickly-category-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Atr&aacute;s</span>
+            </a>
+        </div>
+
+        <div class="row g-5 align-items-start">
+            <article class="col-xl-8 brickly-article-main">
+                <div class="mb-4">
+                    <span class="brickly-chip"><?= $primaryTag($model) ?></span>
+                    <h1 class="brickly-article-title mt-4 mb-3"><?= $model->VTitle ?></h1>
+                    <p class="brickly-article-date mb-3"><?= $formatDate($model) ?></p>
+                    <?php if (!empty($articleImage)): ?>
+                        <img src="<?= htmlspecialchars($articleImage, ENT_QUOTES, 'UTF-8') ?>" class="w-100 brickly-article-hero-image" alt="<?= htmlspecialchars($model->VTitle, ENT_QUOTES, 'UTF-8') ?>">
+                    <?php endif; ?>
+                    <?php if ($articleExcerpt): ?>
+                        <p class="brickly-article-excerpt mb-0"><?= $articleExcerpt ?></p>
+                    <?php endif; ?>
                 </div>
-                <div><i class="fa-solid fa-magnifying-glass text-white fs-3"></i></div>
-            </div>
-        </div> -->
-        <div class="<?= $col ?>">
-            <div class="mt-3 mb-5 lh-sm" style="font-size: clamp(24px, 2.8vw, 2.4rem)"><?= $model->VTitle ?></div>
-            <div class="position-relative"><img src="<?= $model->ImagePost ?>" class="w-100" alt="image" style="aspect-ratio: 16/ 9; object-fit: cover; border-radius: 30px;"></div>
-            <div class="d-flex gap mt-3 align-items-center tags-entry mt-4 mb-5">
-                <?php foreach($model->blogBy as $tags): ?>
-                    <a href="<?= Url::to(['categories', 'id' => $tags->CollectionID]) ?>" class="text-decoration-none text-white"><div style="background:#0D0D22; border:1px solid white; border-radius: 10px; padding: 0 1.5rem;"><?= $tags->$names ?></div></a>
-                <?php endforeach ?>
-                <div><?= date("d/m/Y", strtotime($model->CreateAT)) ?></div>
-            </div>
-            <div class="">
+
+                <div class="brickly-article-body">
                 <?php foreach ($Components as $k => $c): ?>
                     <?php switch($c->Type): case 1:?>
                         <?php $Component = $c->textBoxC; ?>
@@ -156,99 +124,150 @@
                         <?php break ?>
                     <?php endswitch ?>
                 <?php endforeach ?>
-            </div>
-        </div>
-        <div class="col-lg-4 ps-0 ps-md-4 <?= $display ?>">
-            <div class="mt-3 mb-5 lh-sm d-none d-lg-block text-limit" style="font-size: clamp(24px, 2.8vw, 1.7rem); color: transparent; -webkit-line-clamp: 5;"><?= $model->VTitle ?></div>
-            <div class="fs-3 mt-5 mt-lg-0" data-section="blog" data-value="text5">Nuestras soluciones</div>
-            <?php foreach ($model->project as $key => $data): ?>
-                <div class="cubo my-5" style="background: #2e2b2b">
-                    <div class="m-auto row align-items-center">
-                        <div class="image col-12 px-0">
-                            <a href="<?= !empty($data->Link) ? $data->Link : '#' ?>" target="_blank">
-                                <img src="<?= Yii::getAlias('@web').'/images/'.$data->Image ?>" onerror="this.src='https://as1.ftcdn.net/v2/jpg/04/84/88/76/1000_F_484887682_Mx57wpHG4lKrPAG0y7Q8Q7bJ952J3TTO.jpg'" alt="ImagePorfolio" srcset="">
-                            </a>
-                        </div>
-                        <div class="datacard col-12 px-3 pt-3 pb-3">
-                            <div class="title fw-bold fs-4"><?= $data->Title ?></div>
-                            <a href="<?= Url::to(['/porfolio/anexos', 'id' => $data->PorfolioID]) ?>" class="btn btn-lila my-2" style="font-size: 16px;" data-section="porfolio" data-value="text8">Ver proyecto</a>
-                            <div style="font-size: 16px;">
-                                <span class="fw-bold" style="font-size: 16px;" data-section="porfolio" data-value="text9">Cliente:</span> <?= $data->Client ?>
-                            </div>
-                            <?php $proyect = 'Proyect' . strtoupper($lang) ?>
-                            <div class="shortdescription" style="font-size: 16px;"><span class="fw-bold" data-section="porfolio" data-value="text10">Proyecto:</span> <?= $data->$proyect ?></div>
-                            <?php if(!empty($data->Link)): ?>
-                                <div><a href="<?= $data->Link ?>" class="text-decoration-none" style="font-size: 16px;" target="_blank" data-section="porfolio" data-value="text11">Visitar sitio</a></div>
-                            <?php endif ?>
-                            <div class="longdescription mt-2" style="font-size: 16px;"><?= $data->Description ?></div>
-                        </div>
+                </div>
+
+                <div class="brickly-share-bar d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4">
+                    <h2 class="h4 mb-0">Compartir artículo</h2>
+                    <div class="d-flex align-items-center justify-content-center gap-3 gap-md-4">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($articleUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="Compartir en Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://wa.me/?text=<?= urlencode($model->VTitle . ' ' . $articleUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="Compartir en WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= urlencode($articleUrl) ?>&title=<?= urlencode($model->VTitle) ?>" target="_blank" rel="noopener noreferrer" aria-label="Compartir en LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="<?= $articleUrl ?>" onclick="navigator.clipboard && navigator.clipboard.writeText(this.href); return false;" aria-label="Copiar enlace"><i class="fa-solid fa-link"></i></a>
                     </div>
                 </div>
-            <?php endforeach ?>
+
+            </article>
+
+            <aside class="col-xl-4 brickly-blog-sidebar brickly-detail-sidebar">
+                <?php if (!empty($relatedPosts)): ?>
+                    <section class="brickly-sidebar-card">
+                        <h3>Artículos relacionados</h3>
+                        <div class="d-grid gap-4">
+                            <?php foreach($relatedPosts as $datos): ?>
+                                <article class="brickly-detail-related-post">
+                                    <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
+                                        <div class="row g-3 align-items-center">
+                                            <div class="col-5">
+                                                <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="w-100">
+                                            </div>
+                                            <div class="col-7">
+                                                <span class="brickly-chip"><?= $primaryTag($datos) ?></span>
+                                                <h4><?= $datos->title ?></h4>
+                                                <p><?= $formatDate($datos) ?></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </article>
+                            <?php endforeach ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
+
+                <section class="brickly-sidebar-card">
+                    <h3>Propiedades destacadas</h3>
+                    <?php if (!empty($featuredProperties)): ?>
+                        <?php foreach ($featuredProperties as $property): ?>
+                            <article class="brickly-property-mockup">
+                                <a href="<?= htmlspecialchars($property['url'], ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="brickly-property-mockup__link text-decoration-none text-reset">
+                                    <img src="<?= htmlspecialchars(!empty($property['image']) ? $property['image'] : Yii::getAlias('@web') . '/images/logos/logo_negro.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <div class="brickly-property-mockup__content">
+                                        <h4 class="brickly-property-mockup__title"><?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?></h4>
+                                        <p><?= htmlspecialchars($property['location'], ENT_QUOTES, 'UTF-8') ?></p>
+                                        <strong><?= $property['priceUSD'] !== null ? '$' . number_format((float) $property['priceUSD'], 0, '.', ',') : 'Consultar' ?></strong>
+                                    </div>
+                                </a>
+                            </article>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </section>
+            </aside>
         </div>
-        <!-- <div class="col-12 fs-4 lh-sm my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores consequuntur blanditiis tempora.</div>
-        <div class="col-md-6 mb-4 mb-md-0">
-            <img src="<?= Yii::getAlias("@web") ?>/images/home/articulo.png" class="w-100" alt="image" style="aspect-ratio: 16/ 9; object-fit: cover; border-radius: 30px;">
-        </div>
-        <div class="col-md-6 mb-4 mb-md-0">
-            <img src="<?= Yii::getAlias("@web") ?>/images/home/articulo.png" class="w-100" alt="image" style="aspect-ratio: 16/ 9; object-fit: cover; border-radius: 30px;">
-        </div>
-        <div class="col-12 fs-4 lh-sm my-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores consequuntur blanditiis tempora.</div>
-        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores consequuntur blanditiis tempora. Doloremque molestias, tempore eius repudiandae ut pariatur earum. Repellendus cumque illum culpa cum at animi labore beatae corporis! Quam a omnis at, nam sequi cupiditate modi labore odio atque quas deleniti odit amet non nemo doloribus pariatur enim nostrum aperiam, dolore praesentium quisquam? Debitis expedita magnam aliquid dolore. Deleniti vitae sint amet aperiam! Illo asperiores, iure quo earum ipsum magnam. Animi fugiat quia similique soluta libero sequi, voluptas fuga officia perspiciatis nam. Ipsum cum placeat harum eaque hic. Laboriosam qui eligendi nesciunt cumque consequuntur minima voluptatum! Quaerat molestias nam dolores commodi ipsam eveniet eum modi tempora dicta error odit rerum a, debitis quod explicabo sint quis, dolor nobis? Tempore cupiditate odio a laborum quaerat non, quos ullam laudantium velit rem magnam quidem eius explicabo consectetur veritatis vero deserunt nobis tenetur quod commodi, ex dolore quibusdam vel? Odit, minus!</div>
-        </div> -->
-    </div>
-</div>
-<div class="container">
-    <hr class="my-5 opacity-100" style="border: 1px solid gray">
-</div>
-<div class="container my-5">
-    <div class="row mx-0 related">
-        <div class="col-12 fs-3 lh-sm my-4" data-section="blog" data-value="text6">Contenido relacionado</div>
-        <?php foreach($more as $datos): ?>
-            <div class="col-md-4 my-4">
-                <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-white">
-                    <div class="position-relative"><img src="<?= $datos->ImagePost ?>" class="w-100" alt="image" style="aspect-ratio: 16/ 9; object-fit: cover;"></div>
-                    <div class="fs-4 my-3 lh-sm text-limit-3"><?= $datos->title ?></div>
-                    <div class="d-flex gap mt-3 align-items-center tags-entry" style="font-size: 12px">
-                        <?php foreach(array_slice($datos->blogBy, 0, 1) as $tags): ?>
-                            <div style="background:#0D0D22; border:1px solid white; border-radius: 10px; padding: 0 0.8rem;"><?= $tags->$names ?></div>
-                        <?php endforeach ?>
-                        <div><?= $meses[date("n", strtotime($datos->CreateAT))] ?> <?= date("y", strtotime($datos->CreateAT)) ?></div>
+
+        <?php if (!empty($moreTopics)): ?>
+            <section class="brickly-more-topics">
+                <h2>Explora más temas de interés</h2>
+                <div class="row g-4" id="brickly-post-more-topics-grid">
+                    <?php foreach($moreTopics as $datos): ?>
+                        <?= $this->render('_postCard', ['datos' => $datos]) ?>
+                    <?php endforeach ?>
+                </div>
+                <?php if ($hasMoreTopics): ?>
+                    <div class="brickly-blog-more text-center">
+                        <button type="button" class="brickly-outline-button brickly-load-more-button brickly-post-more-topics-button" data-url="<?= Url::to(['post-more-topics', 'id' => $model->PostBlogID]) ?>" data-offset="<?= $moreTopicsLoaded ?>" data-limit="6">
+                            <span>VER M&Aacute;S</span>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </button>
                     </div>
-                </a>
-            </div>
-        <?php endforeach ?>
-    </div>
-    <!-- <div class="row mx-0 my-5 vlog">
-        <div class="col-md-8 position-relative mb-4 mb-lg-0">
-            <a href="#" class="text-decoration-none">
-                <img src="<?= Yii::getAlias("@web") ?>/images/home/play2.png" class="opacity-75 position-absolute top-50 start-50 translate-middle IconPlay1" style="width: 80px" alt="play" srcset="">
-                <img src="<?= Yii::getAlias("@web") ?>/images/home/play1.png" class="position-absolute top-50 start-50 translate-middle IconPlay2" style="width: 80px" alt="play" srcset="">
-                <img src="https://media.istockphoto.com/id/2166773378/photo/autumn-on-lake-gosau-in-salzkammergut-austria.jpg?s=1024x1024&amp;w=is&amp;k=20&amp;c=7aQ4RNky5oVOk4ju1lDxu18_3m9sFziIYEEnafBt9XA=" alt="" srcset="" class="w-100 h-100" style="object-fit: cover;">
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="#" class="text-decoration-none">
-                <div class="position-relative">
-                    <img src="<?= Yii::getAlias("@web") ?>/images/home/play2.png" class="opacity-75 position-absolute top-50 start-50 translate-middle IconPlay1" style="width: 80px" alt="play" srcset="">
-                    <img src="<?= Yii::getAlias("@web") ?>/images/home/play1.png" class="position-absolute top-50 start-50 translate-middle IconPlay2" style="width: 80px" alt="play" srcset="">
-                    <img src="https://media.istockphoto.com/id/2166773378/photo/autumn-on-lake-gosau-in-salzkammergut-austria.jpg?s=1024x1024&w=is&k=20&c=7aQ4RNky5oVOk4ju1lDxu18_3m9sFziIYEEnafBt9XA=" alt="" srcset="" class="w-100 mb-4" style="object-fit: cover;">
-                </div>
-            </a>
-            <a href="#" class="text-decoration-none d-none d-md-block">
-                <div class="position-relative">
-                    <img src="<?= Yii::getAlias("@web") ?>/images/home/play2.png" class="opacity-75 position-absolute top-50 start-50 translate-middle IconPlay1" style="width: 80px" alt="play" srcset="">
-                    <img src="<?= Yii::getAlias("@web") ?>/images/home/play1.png" class="position-absolute top-50 start-50 translate-middle IconPlay2" style="width: 80px" alt="play" srcset="">
-                    <img src="https://media.istockphoto.com/id/2166773378/photo/autumn-on-lake-gosau-in-salzkammergut-austria.jpg?s=1024x1024&w=is&k=20&c=7aQ4RNky5oVOk4ju1lDxu18_3m9sFziIYEEnafBt9XA=" alt="" srcset="" class="w-100" style="object-fit: cover;">
-                </div>
-            </a>
-        </div>
-        <div class="col-12 position-relative d-block d-md-none">
-            <a href="#" class="text-decoration-none">
-                <img src="<?= Yii::getAlias("@web") ?>/images/home/play2.png" class="opacity-75 position-absolute top-50 start-50 translate-middle IconPlay1" style="width: 80px" alt="play" srcset="">
-                <img src="<?= Yii::getAlias("@web") ?>/images/home/play1.png" class="position-absolute top-50 start-50 translate-middle IconPlay2" style="width: 80px" alt="play" srcset="">
-                <img src="https://media.istockphoto.com/id/2166773378/photo/autumn-on-lake-gosau-in-salzkammergut-austria.jpg?s=1024x1024&amp;w=is&amp;k=20&amp;c=7aQ4RNky5oVOk4ju1lDxu18_3m9sFziIYEEnafBt9XA=" alt="" srcset="" class="w-100 h-100" style="object-fit: cover;">
-            </a>
-        </div>
-    </div> -->
-</div>
+                <?php endif; ?>
+            </section>
+        <?php endif; ?>
+    </section>
+</main>
+
+<?php
+$this->registerJS(<<<JS
+(function () {
+    const button = document.querySelector('.brickly-post-more-topics-button');
+    const grid = document.getElementById('brickly-post-more-topics-grid');
+
+    if (!button || !grid) return;
+
+    const originalText = button.innerHTML;
+
+    button.addEventListener('click', async function () {
+        if (button.classList.contains('is-loading')) return;
+
+        const url = new URL(button.dataset.url, window.location.origin);
+        url.searchParams.set('offset', button.dataset.offset || '0');
+        url.searchParams.set('limit', button.dataset.limit || '6');
+
+        button.classList.add('is-loading');
+        button.disabled = true;
+        button.innerHTML = '<span>CARGANDO</span><i class="fa-solid fa-spinner fa-spin"></i>';
+
+        try {
+            const response = await fetch(url.toString(), {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            });
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error('No se pudieron cargar mas posts.');
+            }
+
+            const template = document.createElement('template');
+            template.innerHTML = result.html || '';
+            const items = Array.from(template.content.children);
+
+            items.forEach((item, index) => {
+                item.classList.add('brickly-post-card-item--new');
+                item.style.transitionDelay = (index * 45) + 'ms';
+                grid.appendChild(item);
+
+                window.requestAnimationFrame(() => {
+                    item.classList.add('is-visible');
+                });
+            });
+
+            button.dataset.offset = result.nextOffset;
+
+            if (!result.hasMore) {
+                button.closest('.brickly-blog-more')?.remove();
+                return;
+            }
+
+            button.innerHTML = originalText;
+            button.disabled = false;
+            button.classList.remove('is-loading');
+        } catch (error) {
+            button.innerHTML = '<span>INTENTAR DE NUEVO</span><i class="fa-solid fa-rotate-right"></i>';
+            button.disabled = false;
+            button.classList.remove('is-loading');
+        }
+    });
+})();
+JS);
+?>

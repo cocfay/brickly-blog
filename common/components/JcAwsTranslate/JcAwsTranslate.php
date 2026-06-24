@@ -15,11 +15,7 @@ class JcAwsTranslate extends \yii\web\Request {
 
     public function init(){
 
-      $this->client = new TranslateClient([
-          'profile' => 'default',
-          'region' => 'us-east-1',
-          'version' => 'latest'
-      ]);
+      $this->client = null;
 
       return $this;
 
@@ -35,8 +31,6 @@ class JcAwsTranslate extends \yii\web\Request {
 
     public function translate($text="",$_options=[]){
 
-
-
      $modelLog = new LogTranslate([
                                   'ReferrerUrl'=> Yii::$app->request->referrer,
                                   'CurrentUrl' => Yii::$app->request->url
@@ -49,17 +43,7 @@ class JcAwsTranslate extends \yii\web\Request {
         $options = array_merge($options,$_options);
       }
 
-      try {
-          $result = $this->client->translateText([
-              'SourceLanguageCode' => $options['CurrentLG'],
-              'TargetLanguageCode' => $options['TargetLG'],
-              'Text' => $text,
-          ]);
-          return (Object)['error'=> false, 'text'=> $result['TranslatedText']];
-      } catch(AwsException $e) {
-          // output error message if fails
-          return (Object)['error' => true, 'message' => "Failed: ".$e->getMessage()];
-      }
+      return (Object)['error'=> false, 'text'=> $text];
 
 
     }

@@ -30,7 +30,7 @@
 			$UserData =  Yii::$app->AccessControl->Verify();
 			
 			// $this->layout = $UserData->getLayout();
-			$this->layout = "/lead";
+			$this->layout = "/template2";
 			$data = [];
 			$data['UserData'] = $UserData;
 

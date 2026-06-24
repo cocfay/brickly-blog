@@ -6,16 +6,20 @@
   $this->title = 'Menú';
 ?>
 
-<div class="container-fluid">
-  <h1 style="color: var(--color-principal);">Menús</h1>
-    <hr>
-    <?= Html::a('<i class="fa fa-plus"></i> Crear nuevo menú', ['createmenu'], ['class'=>'btn btn-primary']) ?>
-    <br><br><br>
-  <div class="row-fluid">
+<div class="container-fluid px-0 cpanel-menus-page">
+  <div class="cpanel-page-heading">
+    <div>
+      <h1>Menús</h1>
+      <p class="cpanel-page-subtitle">Administra los menús, accesos, rutas y roles del panel.</p>
+    </div>
+    <?= Html::a('<i class="fa-solid fa-plus"></i> Crear nuevo menú', ['createmenu'], ['class'=>'btn btn-primary cpanel-create-btn']) ?>
+  </div>
+  <div class="cpanel-menus-grid">
 <?php 
 
 echo DataTables::widget([
     'dataProvider' => $dataProvider,
+    'tableOptions' => ['class' => 'table table-striped dt-responsive dataTable no-footer dtr-inline display responsive nowrap cpanel-menus-table', 'cellspacing' => '0', 'width' => '100%'],
     'columns' => [
 
         ['class' => 'yii\grid\SerialColumn'],
@@ -31,7 +35,9 @@ echo DataTables::widget([
           'attribute' => 'Icon',
            'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
             'value' => function ($data) {
-              $htm = "<i class='fa ".$data->ClassIcon."''></i>";
+              $classIcon = trim((string) $data->ClassIcon);
+              $iconClass = (strpos($classIcon, 'fa') === 0) ? $classIcon : 'fa-solid '.$classIcon;
+              $htm = "<i class='".$iconClass." cpanel-menu-icon'></i>";
                 return $htm; // $data['name'] for array data, e.g. using SqlDataProvider.
             },
             'format' => 'html',
@@ -54,12 +60,12 @@ echo DataTables::widget([
             'format' => 'text',
             'contentOptions'=>['style'=>'vertical-align:middle;'],
         ],
-       [
+       /* [
         'attribute' => 'Path',
          'class' => 'yii\grid\DataColumn',
          'format' => 'text',
          'contentOptions'=>['style'=>'vertical-align:middle;'],
-        ],
+        ], */
         
         [
            'attribute' => 'Pages',
@@ -97,18 +103,20 @@ echo DataTables::widget([
 
         [
             'class' => 'yii\grid\ActionColumn',
+            'header' => 'Acciones',
+            'headerOptions' => ['style' => 'text-align: center;'],
             'template' => '<div class="btn-group" > {update} {delete} </div>',
             'buttons' => [
                 'delete' => function($url, $model){
-                    return Html::a('<span class="fa fa-trash"></span>', ['delete', 'id' => $model->MenuID], [
-                        'class' => 'btn btn-danger click-confirm',
+                    return Html::a('<span class="fa-regular fa-trash-can"></span>', ['delete', 'id' => $model->MenuID], [
+                        'class' => 'cpanel-table-action click-confirm',
                         'tittle-alert' => 'Eliminar información',
                         'text-alert'  => '¿Estás seguro?. Cuando elimines el menú['.$model->MenuName.'],no podrás recuperarlo más tarde.',
                     ]);
                 },
                 'update' => function($url, $model){
-                    return Html::a('<span class="fa fa-edit"></span>', ['update', 'id' => $model->MenuID,], [
-                        'class' => 'btn btn-primary',
+                    return Html::a('<span class="fa-regular fa-pen-to-square"></span>', ['update', 'id' => $model->MenuID,], [
+                        'class' => 'cpanel-table-action',
 
                         
                     ]);
@@ -121,7 +129,7 @@ echo DataTables::widget([
     ],
     'clientOptions' => [
     "lengthMenu"=> [[10,20,-1], [10,20,Yii::t('app',"All")]],
-    "info"=>false,
+    "info"=>true,
     "retrieve" => true,
     "responsive"=>'true', 
     "dom"=> 'lfTrtip',
@@ -149,8 +157,9 @@ echo DataTables::widget([
     ],'language'=>[
                     'processing'    => Yii::t('app', 'Procesando...'),
                     'search'        => Yii::t('app', 'Buscar:'),
-                    'lengthMenu'    => Yii::t('app','Mostrar _MENU_ Entradas'),
-                    'info'        => Yii::t('app','Mostrando del _START_ al _END_ de _TOTAL_ entradas'),
+                    'searchPlaceholder' => Yii::t('app', 'Buscar menu...'),
+                    'lengthMenu'    => Yii::t('app','Mostrar _MENU_ registros'),
+                    'info'        => Yii::t('app','Mostrando _START_ a _END_ de _TOTAL_ registros'),
                     'infoEmpty'  => Yii::t('app','Mostrando del 0 al 0 de 0 entradas'),
                     'infoFiltered'  => Yii::t('app','(Filtrado de _MAX_ entradas totales)'),
                     'infoPostFix'   => '',
@@ -192,4 +201,15 @@ if (Yii::$app->session->hasFlash('success')):
 
 			');
 	endif;
+$this->registerJS("
+$(function(){
+    var filter = $('.cpanel-menus-grid .dataTables_filter');
+    var input = filter.find('input[type=\"search\"], input').first();
+
+    if (input.length && !input.parent().hasClass('cpanel-filter-input-wrap')) {
+        input.wrap('<span class=\"cpanel-filter-input-wrap\"></span>');
+        input.before('<i class=\"fa-solid fa-magnifying-glass\" aria-hidden=\"true\"></i>');
+    }
+});
+");
  ?>

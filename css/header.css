@@ -1,60 +1,84 @@
-.navbar{
-    background-color: #00195C;
-    color: #ffffff;
-    padding: 10px 0 14px 0;
-    font-size: 14px;
+body.brickly-blog-layout .menu-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    margin-top: 1.35rem;
+    transition: all 0.3s ease;
 }
-.navbar a{
-    color: #ffffff;
+
+body.brickly-blog-layout .menu-fixed.blur {
+    margin-top: 0;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 30px rgba(17, 17, 17, 0.08);
+    backdrop-filter: blur(14px);
 }
-.element{
-    cursor: pointer;
+
+.brickly-header-shell,
+.brickly-mobile-bar {
+    background: #ffffff;
 }
-.subElement{
-    background-color: #000922;
-    /* top: 150%; */
-    left: 10%;
-    box-sizing: border-box;
-    padding: 6px 0;
-    width: max-content;
-    display: none;
-    z-index: 2;
-}
-.subElement a:not(:last-child){
-    border-bottom: 1.5px solid white;
-}
-.subElement a{
-    text-decoration: none;
+
+.brickly-header-inner,
+.brickly-mobile-bar__inner {
     display: flex;
     align-items: center;
-    padding: 10px 15px;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 84px;
+    border-bottom: 1px solid #bdbdbd;
 }
-.element:hover .subElement{
-    display: block;
+
+.brickly-header-brand img,
+.brickly-mobile-bar__brand img,
+.brickly-mobile-offcanvas__logo {
+    max-width: clamp(120px, 10vw, 200px);
 }
-.subElement a:hover{
-    background-color: #00195C;
+
+.brickly-header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.65rem;
+    flex: 1;
 }
-.logo{
-    width: 150px;
-}
-.menuOptions{
+
+.brickly-header-link {
+    position: relative;
+    color: #151515;
+    text-decoration: none;
     font-size: 14px;
+    letter-spacing: 0.03em;
+    font-weight: 400;
 }
-.btnContact > div:first-child{
-    background-color: black;
-    box-sizing: border-box;
-    padding: 10px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
+
+.brickly-header-link.active::after,
+.brickly-mobile-offcanvas__body a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.55rem;
+    height: 2px;
+    background: #111111;
 }
-.btnContact > div:last-child{
-    background-color: #dcdcdc;
-    box-sizing: border-box;
-    padding: 8px 15px 8px 35px;
-    font-weight: bold;
-    border-radius: 0 20px 0 0;
+
+.brickly-header-trigger,
+.brickly-mobile-bar__toggle {
+    border: 0;
+    background: transparent;
+    color: #111111;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+}
+
+.brickly-mobile-bar__inner {
+    min-height: 72px;
+}
+
+@media (max-width: 991.98px) {
+    body.brickly-blog-layout .menu-fixed {
+        margin-top: 0;
+    }
 }

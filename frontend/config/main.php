@@ -10,6 +10,7 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'es',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -46,8 +47,17 @@ return [
     'params' => $params,
     'defaultRoute' => 'blog',
     'on beforeRequest' => function($event) {
-        $infous = Yii::$app->LocationLang->infoSet();
-        yii::$app->params['InfoLocation'] = $infous;  
+        Yii::$app->language = 'es';
+        yii::$app->params['InfoLocation'] = (object) [
+            'error' => false,
+            'ip' => '127.0.0.1',
+            'country_name' => 'Guatemala',
+            'country_code' => 'GT',
+            'language' => (object) [
+                'LanguageCode' => 'es',
+                'Language' => 'Spanish',
+            ],
+        ];
         yii::setAlias('@proyectroot', '@webroot');        
         yii::setAlias('@raizweb', '@web');        
     }

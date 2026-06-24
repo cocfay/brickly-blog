@@ -1,8 +1,215 @@
-footer{
-    background-color: #424242;
-    color: white;
-    margin-top: 4rem;
+.brickly-footer {
+    background: #1f1f1f;
+    color: #ffffff;
+    margin-top: 64px;
+    overflow: hidden;
+    padding: 40px 0 32px;
 }
-.footerWidth{
-    width: 95%;
+
+.brickly-footer__container {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: 100%;
+}
+
+.brickly-footer__top {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: space-between;
+    max-width: 100%;
+}
+
+.brickly-footer__brand,
+.brickly-footer__contact {
+    flex: 1 1 220px;
+}
+
+.brickly-footer__center {
+    display: flex;
+    flex: 1 1 520px;
+    flex-direction: column;
+    gap: 28px;
+    min-width: 0;
+}
+
+.brickly-footer__logo {
+    max-width: 100%;
+    width: 200px;
+}
+
+.brickly-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+}
+
+.brickly-footer__nav a,
+.brickly-footer__bottom a,
+.brickly-footer__contact a,
+.brickly-footer__socials a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.brickly-footer__nav a:hover,
+.brickly-footer__bottom a:hover,
+.brickly-footer__contact a:hover,
+.brickly-footer__socials a:hover {
+    color: #d9d9d9;
+}
+
+.brickly-footer__subscribe {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.brickly-footer__subscribe-label {
+    font-size: 14px;
+}
+
+.brickly-footer__subscribe-form {
+    align-items: stretch;
+    display: flex;
+    gap: 8px;
+}
+
+.brickly-footer__subscribe-form input {
+    background: #1a1a1a;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: #ffffff;
+    min-height: 39px;
+}
+
+.brickly-footer__subscribe-form input::placeholder {
+    color: rgba(255, 255, 255, .75);
+}
+
+.brickly-footer__subscribe-form button {
+    background: #000000;
+    border: 0;
+    border-radius: 0;
+    color: #ffffff;
+    font-weight: 600;
+    min-width: 132px;
+    padding: 0 20px;
+}
+
+.brickly-footer__subscribe-form button:disabled {
+    opacity: .75;
+}
+
+.brickly-footer__subscribe-error {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 18px;
+}
+
+.brickly-footer__contact {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.brickly-footer__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.brickly-footer__socials i {
+    font-size: 20px;
+}
+
+.brickly-footer__info {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 8px;
+}
+
+.brickly-footer__bottom {
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, .24);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    gap: 16px;
+    justify-content: space-between;
+    padding-top: 24px;
+}
+
+.brickly-toast {
+    align-items: center;
+    background: #1a1a1a;
+    border-radius: 8px;
+    bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .3);
+    color: #ffffff;
+    display: none;
+    font-size: 15px;
+    gap: 10px;
+    padding: 14px 22px;
+    position: fixed;
+    right: 24px;
+    z-index: 9999;
+}
+
+.brickly-toast.is-visible {
+    display: flex;
+}
+
+.brickly-toast i {
+    color: #4caf50;
+    font-size: 18px;
+}
+
+@media (max-width: 1199.98px) {
+    .brickly-footer__contact,
+    .brickly-footer__info {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .brickly-footer {
+        margin-top: 48px;
+        padding: 48px 0 28px;
+    }
+
+    .brickly-footer__top {
+        flex-direction: column;
+    }
+
+    .brickly-footer__brand,
+    .brickly-footer__center,
+    .brickly-footer__contact {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .brickly-footer__logo {
+        width: min(190px, 100%);
+    }
+
+    .brickly-footer__subscribe-form {
+        flex-direction: column;
+    }
+
+    .brickly-footer__subscribe-form button {
+        min-height: 44px;
+    }
+
+    .brickly-footer__bottom {
+        align-items: flex-start;
+        flex-direction: column-reverse;
+    }
 }

@@ -2,11 +2,11 @@
 	use yii\helpers\Url; 
     $this->title = 'Bienvenido';
  ?>
-<div class="container-fluid" style="color: var(--color-principal);text-align: center;">
-	<div>
-		<img src="<?= Yii::getAlias("@web"); ?>/images/logo.png" class="img-rounded" style="max-height: 230px;width: auto;">
+<div class="container-fluid px-0 cpanel-home-page">
+	<div class="cpanel-home-logo-wrap">
+		<img src="<?= Yii::getAlias("@web"); ?>/images/logo.png" class="img-rounded cpanel-home-logo" alt="Brickly">
 	</div>
-	<h1>Bienvenido <?=  $UserData->Name?:$UserData->UserName; ?> </h1>
+	<h1 class="cpanel-home-title">Bienvenido <?=  $UserData->Name?:$UserData->UserName; ?> </h1>
 
     <?php 
         $data = [];
@@ -81,9 +81,9 @@
         // Ordenar por ServiceID
         ksort($data);
     ?>
-	<div class="m-auto mt-5" style="width: min(900px, 100%); color: var(--bs-dark);">
+	<div class="cpanel-home-projects m-auto mt-5">
 		<div class="text-center mb-3 fs-4">Bandeja de proyectos</div>
-		<div style="border: 1.6px solid var(--bs-dark);" class="w-100 p-3 row m-auto">
+		<div class="cpanel-home-project-grid w-100 p-3 row m-auto">
 			<?php foreach($data as $id => $services): ?>
 				<a href="<?= Url::to(['service-requests/', 'id' => $id]) ?>" target="_blank" class="text-decoration-none col-md-4 mb-4" style="color: var(--bs-dark);">
 				<!-- <div class="d-flex flex-column justify-content-center align-items-start"> -->

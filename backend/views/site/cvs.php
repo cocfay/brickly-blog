@@ -68,6 +68,7 @@ echo DataTables::widget([
         [
             'class' => 'yii\grid\ActionColumn',
             'header' => 'Acciones',
+            'headerOptions' => ['style' => 'text-align: center;'],
             'template' => '<div class="btn-group"> {view} {check} {delete} </div>',
             'buttons' => [
                 'delete' => function($url, $model){
@@ -133,10 +134,10 @@ echo DataTables::widget([
                     'zeroRecords'   => Yii::t('app','No se encontraron registros coincidentes'),
                     'emptyTable'    => Yii::t('app','No hay datos disponibles en la tabla'),
                     'paginate' => [
-                        'first'  => Yii::t('app','Primero'),
-                        'previous'  => Yii::t('app','Anterior'),
-                        'next'    => Yii::t('app','Siguiente'),
-                        'last'    => Yii::t('app','Último'),
+                        'first'  => Yii::t('app','<<'),
+                        'previous'  => Yii::t('app','<i class="fa-solid fa-chevron-left"></i>'),
+                        'next'    => Yii::t('app','<i class="fa-solid fa-chevron-right"></i>'),
+                        'last'    => Yii::t('app','>>'),
                     ],
                     'aria' => [
                         'sortAscending' => Yii::t('app',': activate to sort column ascending'),

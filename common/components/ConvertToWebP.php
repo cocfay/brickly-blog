@@ -4,6 +4,12 @@ namespace common\components;
 use Yii;
 class ConvertToWebP{
 
+	public $fullPath;
+	public $outPutQuality;
+	public $deleteOriginal;
+	public $extension;
+	public $newFilefullPath;
+
 	public function __construct(){}
 
 	public function convert(
