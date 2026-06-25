@@ -208,7 +208,6 @@
         }
     </style>
     <?php if (Yii::$app->session->hasFlash('success')): ?>
-        <br><br><br>
         <center>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fa-solid fa-circle-check"></i>
@@ -218,7 +217,6 @@
         </center>
     <?php endif; ?>
     <?php if (Yii::$app->session->hasFlash('error')): ?>
-        <br><br><br>
         <center>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="fa-solid fa-triangle-exclamation"></i>
@@ -322,6 +320,7 @@
                                         <span class="cpanel-upload-action"><i class="fa-solid fa-rotate"></i> Cambiar</span>
                                     </span>
                                 </label>
+                                <?= $form->field($ModelBlog, 'ImagePost')->hiddenInput(['id' => 'postImageUrl'])->label(false); ?>
                                 <?= $form->field($ModelBlog, 'RequestFile')->fileInput(['id' => 'postImage', 'class' => 'cpanel-file-input', 'accept' => 'image/*'])->label(false); ?>
                                 <p class="cpanel-post-upload-note"><?= strip_tags($note[$lang]) ?></p>
                             </div>
@@ -704,18 +703,6 @@
         bindImageDropzone('#postCoverDropzone', '#postImage');
         bindImageDropzone('.cpanel-post-component-upload');
 
-
-        function removeTags(str) {
-            if ((str===null) || (str===''))
-                return false;
-            else
-                str = str.toString();
-            const regex1 = /&nbsp;/ig;
-            const regex2 = /&nbsp/ig;
-
-            return str.replace( /(<([^>]+)>)/ig, '').replaceAll(regex1, '').replaceAll(regex2, '').trim();
-        }
-
          $('.formComponents').on('change','.urlvideocamp',function(e){
                let CampText =  $(this).val();
                let inf = $(this).data('inf');
@@ -855,7 +842,7 @@
 
                         if(contentck != ''){
                             
-                            $('#image-movil-description-'+codeid).val(removeTags(contentck));
+                            $('#image-movil-description-'+codeid).val(contentck);
                           }
                         else{
                             $('#image-movil-description-'+codeid).val('');
@@ -895,7 +882,7 @@
                         editores['item'+AmountComponents] = editor;
                         if(contentck != ''){
                             
-                            $('#image-movil-description-'+AmountComponents).val(removeTags(contentck));
+                            $('#image-movil-description-'+AmountComponents).val(contentck);
                           }
                         else{
                             $('#image-movil-description-'+AmountComponents).val('');
@@ -946,7 +933,7 @@
                         editores['item'+AmountComponents] = editor;
                         if(contentck != ''){
                             
-                            $('#image-movil-description-'+AmountComponents).val(removeTags(contentck));
+                            $('#image-movil-description-'+AmountComponents).val(contentck);
                           }
                         else{
                             $('#image-movil-description-'+AmountComponents).val('');

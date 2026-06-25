@@ -79,7 +79,7 @@
 
                                         'view' => function($url, $model){
 
-                                            return Html::a('<span class="fa-regular fa-eye" title="Ver"></span>', 'https://www.weclickdigital.com/blog/post/' . $model->PostBlogID, [
+                                            return Html::a('<span class="fa-regular fa-eye" title="Ver"></span>', Url::to('@raizweb') . '/blog/post/' . $model->PostBlogID, [
                                                 'class' => 'cpanel-table-action btn btn-link', 'target' => '_blank'
                                             ]);
                                         

@@ -254,6 +254,21 @@
 
 			if($postBlogModel->load(Yii::$app->request->post())){
 
+				$postBlogModel->RequestFile  = UploadedFile::getInstance($postBlogModel, 'RequestFile');
+				$postBlogModel->AccountID = $UserData->AccountID;
+
+				$Components = isset(Yii::$app->request->post()['Components'])? Yii::$app->request->post()['Components'] : false;
+				if(!$Components){
+					if($postBlogModel->RequestFile != null){
+						$postBlogModel->upload();
+					}
+					Yii::$app->session->setFlash('error', "Debe incluir como minimo 1 componente para generar un Post.");
+					$data['CbyB']->load(Yii::$app->request->post());
+					$data['Project']->load(Yii::$app->request->post());
+					$data['Components'] = [];
+					return $this->render('postform', $data);
+				}
+
 				$postBlogModel->CreateAT = $postBlogModel->CreateAT . ' ' . date("H:i:s");
 				$postBlogModel->Featured = 0;
 				/* if(!isset(Yii::$app->request->post()['PostBlog']['CollectionID'])){
@@ -339,12 +354,12 @@
 					
 
 
-					$postBlogModel->RequestFile  = UploadedFile::getInstance($postBlogModel, 'RequestFile');
-					$postBlogModel->AccountID = $UserData->AccountID;
 					if($postBlogModel->RequestFile != null){
-						$NameImageExtractP = explode('/post/', $postBlogModel->ImagePost);
-						if(isset($NameImageExtractP[1])){
-							$unlinkImage[] =  $fPath.'/post/'.$NameImageExtractP[1];
+						if(!empty($postBlogModel->ImagePost)){
+							$NameImageExtractP = explode('/post/', $postBlogModel->ImagePost);
+							if(isset($NameImageExtractP[1])){
+								$unlinkImage[] =  $fPath.'/post/'.$NameImageExtractP[1];
+							}
 						}
 						$upload = $postBlogModel->upload();
 					}
@@ -380,19 +395,7 @@
 						}
 					}
 
-					$Components = isset(Yii::$app->request->post()['Components'])? Yii::$app->request->post()['Components'] : false;
-					if(!$Components){
-						Yii::$app->session->setFlash('error', "Debe incluir como minimo 1 componente para generar un Post.");
-		             	$transaction->rollBack();
-		             	return $this->refresh();
-					}
-
 					foreach ($Components as $Componenet) {
-						$Componenet['TextBox'] = $this->cleanCkeditorEmptyParagraph($Componenet['TextBox'] ?? '');
-						$Componenet['MovilTextBox'] = $this->cleanCkeditorEmptyParagraph($Componenet['MovilTextBox'] ?? '');
-						$Componenet['Description'] = $this->cleanCkeditorEmptyParagraph($Componenet['Description'] ?? '');
-						$Componenet['MovilDescription'] = $this->cleanCkeditorEmptyParagraph($Componenet['MovilDescription'] ?? '');
-
 						$Center = new PostBlogCenterComponents(['PostBlogID'=>$postBlogModel->PostBlogID]);
 						switch ($Componenet['Type']) {
 							case '1':

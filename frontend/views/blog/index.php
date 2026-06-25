@@ -66,7 +66,7 @@ $categoryIcons = [
 <div class="brickly-blog-page">
     <section class="container brickly-blog-hero">
         <div class="row align-items-center g-4 g-xl-5">
-            <div class="col-lg-5">
+            <div class="col-lg-5 px-xl-0">
                 <span class="brickly-section-kicker">BLOG</span>
                 <h1 class="brickly-blog-hero__title">Ideas, tendencias y oportunidades inmobiliarias</h1>
                 <p class="brickly-blog-hero__text">Contenido útil para tomar mejores decisiones al comprar, vender o invertir en propiedades.</p>
@@ -134,7 +134,7 @@ $categoryIcons = [
     </section>
 
     <section class="container brickly-blog-content">
-        <div class="row g-5 align-items-start">
+        <div class="row g-4 g-xl-5 align-items-start">
             <div class="col-xl-8">
                 <div class="brickly-content-heading">
                     <h2>Explora más temas de interés</h2>
@@ -205,7 +205,7 @@ $categoryIcons = [
 
                     <section class="brickly-sidebar-card brickly-sidebar-card--subscribe">
                         <h3>Suscríbete al blog</h3>
-                        <p style="font-size: 16px">Recibe contenido exclusivo sobre el mercado inmobiliario directo en tu correo.</p>
+                        <p style="font-size: 16px" class="fw-normal">Recibe contenido exclusivo sobre el mercado inmobiliario directo en tu correo.</p>
                         <form action="#" method="post" onsubmit="return false;" class="brickly-subscribe-form">
                             <input type="email" placeholder="Tu correo electrónico" style="font-size: 16px" aria-label="Tu correo electrónico">
                             <button type="submit" class="btn">Suscribirme</button>

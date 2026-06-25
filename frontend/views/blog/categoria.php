@@ -17,15 +17,15 @@ $search = $search ?? '';
 <main class="brickly-blog-page brickly-category-page">
     <section class="container brickly-category-hero">
         <div class="brickly-category-hero__content">
-            <span class="brickly-section-kicker">CATEGOR&Iacute;A</span>
-            <h1><?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?></h1>
-            <p>Ideas, tendencias y consejos para transformar espacios con m&aacute;s valor.</p>
+            <span class="brickly-section-kicker">CATEGORÍA</span>
+            <div style="font-size:clamp(24px, 3vw, 40px); font-weight: 500;"><?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?></div>
+            <p class="fw-normal">Ideas, tendencias y consejos para transformar espacios con más valor.</p>
         </div>
 
         <div class="brickly-category-hero__aside">
             <a href="<?= Url::to(['/blog']) ?>" class="brickly-category-back">
                 <i class="fa-solid fa-arrow-left"></i>
-                <span>Atr&aacute;s</span>
+                <span>Atrás</span>
             </a>
             <form action="#" method="get" class="brickly-search-form brickly-category-search-form" data-category-search>
                 <input type="search" name="q" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="Buscar art&iacute;culos" aria-label="Buscar art&iacute;culos">

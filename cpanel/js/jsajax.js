@@ -126,8 +126,8 @@ function eliminarPost(a) {
             text: "Are you sure to delete this post?",
             type: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes",
+            confirmButtonColor: "#000000",
+            confirmButtonText: "Ok",
             cancelButtonText: "No",
             closeOnConfirm: false,
             closeOnCancel: true
@@ -174,8 +174,8 @@ function eliminarTag(a) {
             text: "Are you sure you want to delete this tag?",
             type: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes",
+            confirmButtonColor: "#000000",
+            confirmButtonText: "Ok",
             cancelButtonText: "No",
             closeOnConfirm: false,
             closeOnCancel: true

@@ -153,7 +153,7 @@
                                             <div class="col-7">
                                                 <span class="brickly-chip"><?= $primaryTag($datos) ?></span>
                                                 <h4><?= $datos->title ?></h4>
-                                                <p><?= $formatDate($datos) ?></p>
+                                                <p class="fw-normal"><?= $formatDate($datos) ?></p>
                                             </div>
                                         </div>
                                     </a>

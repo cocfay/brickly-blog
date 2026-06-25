@@ -254,7 +254,7 @@ CSS);
 <?= $content ?>
 
 <footer class="brickly-footer bg-dark">
-    <div class="container brickly-footer__container">
+    <div class="container">
         <div class="brickly-footer__top">
             <div class="brickly-footer__brand">
                 <a href="<?= $brandHomeUrl ?>" class="brickly-footer__logo-link">
@@ -282,14 +282,14 @@ CSS);
             </div>
 
             <div class="brickly-footer__contact">
-                <div class="brickly-footer__socials">
+                <div class="brickly-footer__socials m-auto m-lg-0">
                     <a href="https://www.facebook.com/profile.php?id=61588999228778" target="_blank" rel="noreferrer" aria-label="Abrir Facebook de Brickly Homes"><i class="fa-brands fa-facebook"></i></a>
                     <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp de Brickly Homes"><i class="fa-brands fa-whatsapp"></i></a>
                     <a href="https://www.instagram.com/bricklyoficial/" target="_blank" rel="noreferrer" aria-label="Abrir Instagram de Brickly Homes"><i class="fa-brands fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/bricklygt/" target="_blank" rel="noreferrer" aria-label="Abrir LinkedIn de Brickly Homes"><i class="fa-brands fa-linkedin"></i></a>
                     <a href="https://www.tiktok.com/@bricklyhomes?_r=1&_t=ZP-95NIrCBiYAQ" target="_blank" rel="noreferrer" aria-label="Abrir TikTok de Brickly Homes"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
-                <div class="brickly-footer__info">
+                <div class="brickly-footer__info mb-4 mb-lg-0">
                     <span>Edificio Sixtino zona 10, Guatemala</span>
                     <a href="mailto:info@bricklyhomes.com">info@bricklyhomes.com</a>
                     <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer">+502 3764-9719</a>
@@ -345,6 +345,12 @@ CSS);
         const subscribeToast = document.getElementById('brickly-subscribe-toast');
         let subscribeToastTimeout = null;
 
+        const setSubscribeError = (message = '') => {
+            if (!subscribeError) return;
+            subscribeError.textContent = message;
+            subscribeError.classList.toggle('is-visible', Boolean(message));
+        };
+
         const showSubscribeToast = () => {
             if (!subscribeToast) return;
             subscribeToast.classList.add('is-visible');
@@ -361,9 +367,7 @@ CSS);
             const email = subscribeInput ? subscribeInput.value.trim() : '';
             if (!email) return;
 
-            if (subscribeError) {
-                subscribeError.textContent = '';
-            }
+            setSubscribeError();
 
             if (subscribeButton) {
                 subscribeButton.disabled = true;
@@ -392,13 +396,11 @@ CSS);
                         subscribeInput.value = '';
                     }
                     showSubscribeToast();
-                } else if (subscribeError) {
-                    subscribeError.textContent = result.message || 'No pudimos procesar tu suscripción en este momento';
+                } else {
+                    setSubscribeError(result.message || 'No pudimos procesar tu suscripción en este momento');
                 }
             } catch (error) {
-                if (subscribeError) {
-                    subscribeError.textContent = 'No pudimos procesar tu suscripción en este momento';
-                }
+                setSubscribeError('No pudimos procesar tu suscripción en este momento');
             } finally {
                 if (subscribeButton) {
                     subscribeButton.disabled = false;

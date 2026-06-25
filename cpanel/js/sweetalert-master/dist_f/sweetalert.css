@@ -933,3 +933,20 @@ body.stop-scrolling {
     -moz-transform: translateY(145%);
     -o-transform: translateY(145%);
     transform: translateY(145%); } }
+/* Brickly cpanel SweetAlert button theme */
+.sweet-alert button.confirm,
+.sweet-alert button.confirm:hover,
+.sweet-alert button.confirm:focus,
+.sweet-alert button.confirm:active {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.sweet-alert button.cancel,
+.sweet-alert button.cancel:hover,
+.sweet-alert button.cancel:focus,
+.sweet-alert button.cancel:active {
+  background-color: #3a3a3a !important;
+  color: #ffffff !important;
+}

@@ -17,8 +17,8 @@ $totalPosts = isset($pagination) ? (int) $pagination->totalCount : count($posts)
     <section class="container brickly-category-hero">
         <div class="brickly-category-hero__content">
             <span class="brickly-section-kicker">BUSQUEDA</span>
-            <h1>Resultados de busqueda</h1>
-            <p>
+            <div style="font-size:clamp(24px, 3vw, 40px); font-weight: 500;">Resultados de busqueda</div>
+            <p class="fw-normal">
                 <?php if ($search !== ''): ?>
                     Coincidencias para &quot;<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>&quot;.
                 <?php else: ?>

@@ -29,7 +29,8 @@ class PostBlog extends ActiveRecord
 	public function rules()
     {
         return [
-            [['AccountID', 'ImagePost','VTitle', 'CreateAT'], 'required'],
+            [['AccountID', 'VTitle', 'CreateAT'], 'required'],
+            [['ImagePost'], 'validateCoverImage', 'skipOnEmpty' => false],
             // [['discard'], 'safe'],
             [['CreateAT'],  'string'],
             [['VTitle'], 'string','max' => 600],
@@ -40,6 +41,13 @@ class PostBlog extends ActiveRecord
             [['AccountID', 'PostBlogID', 'Featured', 'Home'], 'number'],
             //[['Labels'], 'safe']
         ];
+    }
+
+    public function validateCoverImage($attribute)
+    {
+        if (empty($this->ImagePost) && empty($this->RequestFile)) {
+            $this->addError($attribute, 'Imagen de portada no puede estar vacía.');
+        }
     }
 
     public function attributeLabels()

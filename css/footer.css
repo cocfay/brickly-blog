@@ -106,9 +106,13 @@
 
 .brickly-footer__subscribe-error {
     color: #ff6b6b;
+    display: none;
     font-size: 12px;
     margin-top: 6px;
-    min-height: 18px;
+}
+
+.brickly-footer__subscribe-error.is-visible {
+    display: block;
 }
 
 .brickly-footer__contact {
