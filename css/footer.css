@@ -3,7 +3,7 @@
     color: #ffffff;
     margin-top: 64px;
     overflow: hidden;
-    padding: 40px 0 32px;
+    font-weight: 500;
 }
 
 .brickly-footer__container {
@@ -31,7 +31,6 @@
     display: flex;
     flex: 1 1 520px;
     flex-direction: column;
-    gap: 28px;
     min-width: 0;
 }
 
@@ -142,13 +141,11 @@
 
 .brickly-footer__bottom {
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, .24);
     display: flex;
     flex-wrap: wrap;
     font-size: 12px;
     gap: 16px;
     justify-content: space-between;
-    padding-top: 24px;
 }
 
 .brickly-toast {
@@ -204,16 +201,15 @@
         width: min(190px, 100%);
     }
 
-    .brickly-footer__subscribe-form {
+    /* .brickly-footer__subscribe-form {
         flex-direction: column;
-    }
-
+    } */
+     
     .brickly-footer__subscribe-form button {
         min-height: 44px;
     }
 
     .brickly-footer__bottom {
-        align-items: flex-start;
         flex-direction: column-reverse;
     }
 }

@@ -253,7 +253,7 @@ CSS);
 
 <?= $content ?>
 
-<footer class="brickly-footer bg-dark">
+<footer class="brickly-footer py-5 bg-dark">
     <div class="container">
         <div class="brickly-footer__top">
             <div class="brickly-footer__brand">
@@ -262,15 +262,15 @@ CSS);
                 </a>
             </div>
 
-            <div class="brickly-footer__center">
-                <nav class="brickly-footer__nav d-flex justify-content-between flex-column flex-lg-row" aria-label="Footer">
+            <div class="brickly-footer__center gap-1 gap-xl-5">
+                <nav class="brickly-footer__nav d-flex justify-content-between flex-column flex-lg-row mt-xl-3" aria-label="Footer">
                     <a href="<?= Yii::getAlias('@web') ?>/propiedades" style="font-size: 14px">PROPIEDADES</a>
                     <a href="<?= Yii::getAlias('@web') ?>/agentes" style="font-size: 14px">BUSCAR AGENTE</a>
                     <a href="<?= Yii::getAlias('@web') ?>/asociados" style="font-size: 14px">ASOCIADOS</a>
                     <a href="<?= Yii::getAlias('@web') ?>/precios" style="font-size: 14px">PRECIOS</a>
                 </nav>
 
-                <div class="brickly-footer__subscribe">
+                <div class="brickly-footer__subscribe mt-4 mt-lg-0">
                     <span class="brickly-footer__subscribe-label">SUSCRÍBETE</span>
                     <form class="brickly-footer__subscribe-form" action="<?= $subscribeUrl ?>" method="post" data-subscribe-form>
                         <label for="footer-subscription-email" class="visually-hidden">Correo electrónico para suscribirse</label>
@@ -282,21 +282,21 @@ CSS);
             </div>
 
             <div class="brickly-footer__contact">
-                <div class="brickly-footer__socials m-auto m-lg-0">
+                <div class="brickly-footer__socials mt-xl-2">
                     <a href="https://www.facebook.com/profile.php?id=61588999228778" target="_blank" rel="noreferrer" aria-label="Abrir Facebook de Brickly Homes"><i class="fa-brands fa-facebook"></i></a>
                     <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp de Brickly Homes"><i class="fa-brands fa-whatsapp"></i></a>
                     <a href="https://www.instagram.com/bricklyoficial/" target="_blank" rel="noreferrer" aria-label="Abrir Instagram de Brickly Homes"><i class="fa-brands fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/bricklygt/" target="_blank" rel="noreferrer" aria-label="Abrir LinkedIn de Brickly Homes"><i class="fa-brands fa-linkedin"></i></a>
                     <a href="https://www.tiktok.com/@bricklyhomes?_r=1&_t=ZP-95NIrCBiYAQ" target="_blank" rel="noreferrer" aria-label="Abrir TikTok de Brickly Homes"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
-                <div class="brickly-footer__info mb-4 mb-lg-0">
+                <div class="brickly-footer__info">
                     <span>Edificio Sixtino zona 10, Guatemala</span>
                     <a href="mailto:info@bricklyhomes.com">info@bricklyhomes.com</a>
                     <a href="<?= $whatsappUrl ?>" target="_blank" rel="noreferrer">+502 3764-9719</a>
                 </div>
             </div>
         </div>
-
+        <hr class="my-5">
         <div class="brickly-footer__bottom">
             <span>© Brickly. Todos los derechos reservados <?= date('Y') ?></span>
             <a href="https://www.bricklyhomes.com/terms">Términos y Condiciones de Servicio</a>
