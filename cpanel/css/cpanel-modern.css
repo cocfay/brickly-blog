@@ -31,6 +31,10 @@
     scrollbar-width: thin;
 }
 
+.chosen-container-multi .chosen-choices .search-choice .search-choice-close {
+    top: 9px;
+}
+
 .cpanel-modern::-webkit-scrollbar {
     height: 10px;
     width: 10px;
@@ -3071,14 +3075,15 @@ body.cpanel-modern .modal-backdrop,
     gap: 8px;
     min-height: 48px !important;
     padding: 8px 50px 8px 18px !important;
+    position: relative;
 }
 
 .cpanel-modern .cpanel-user-form-page .chosen-container-multi .chosen-choices::after {
     color: #111827;
     content: "\f078";
-    font-family: "Font Awesome 6 Free";
+    font-family: "Font Awesome 7 Free"; /* ¡Cambia el 6 por el 7! */
     font-size: 14px;
-    font-weight: 900;
+    font-weight: 900; /* Requerido para iconos tipo 'Solid' */
     line-height: 1;
     pointer-events: none;
     position: absolute;

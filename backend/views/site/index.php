@@ -11,12 +11,17 @@ $logo = Yii::getAlias('@raizweb') . '/images/logos/logo_negro.png';
 
 <style>
     @font-face {
-        font-family: 'product-sans';
-        src: url('<?= $web ?>/css/fonts/product-sans/ProductSans-Regular.ttf');
+        font-family: 'Red Hat Display';
+        src: url('../css/fonts/RedHatDisplay-VariableFont_wght.woff2') format('woff2'),
+            url('../css/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
+        font-weight: 500 900;
+        font-style: normal;
+        font-display: swap;
     }
 
+
     body {
-        font-family: 'product-sans', Arial, sans-serif;
+        font-family: 'Red Hat Display', Arial, sans-serif;
         background: #f5f6f8 !important;
         min-height: 100vh;
     }
