@@ -76,12 +76,12 @@
     gap: 8px;
 }
 
-.brickly-footer__subscribe-form input {
-    background: #1a1a1a;
+.brickly-footer__subscribe-form input, .brickly-footer__subscribe-form:focus {
+    background: #1a1a1a !important;
     border: 0;
     border-radius: 0;
     box-shadow: none;
-    color: #ffffff;
+    color: #ffffff !important;
     min-height: 39px;
 }
 

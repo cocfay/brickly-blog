@@ -70,9 +70,6 @@
                     <?php if (!empty($articleImage)): ?>
                         <img src="<?= htmlspecialchars($articleImage, ENT_QUOTES, 'UTF-8') ?>" class="w-100 brickly-article-hero-image" alt="<?= htmlspecialchars($model->VTitle, ENT_QUOTES, 'UTF-8') ?>">
                     <?php endif; ?>
-                    <?php if ($articleExcerpt): ?>
-                        <p class="brickly-article-excerpt mb-0"><?= $articleExcerpt ?></p>
-                    <?php endif; ?>
                 </div>
 
                 <div class="brickly-article-body">
@@ -83,36 +80,26 @@
                         <?php break ?>
                         <?php case 2: ?>
                         <?php $Component = $c->imageC; ?>
-                        <?php 
-                            $right = "";
-                            $left = "";
-                            $column = "";
-                            if($Component->Position === 0){
-                                $left = "<img src='{$Component->PatchIMG()}' tags='Image' style='width: 100%; object-fit: contain'>";
-                                $right = "<span>{$Component->Description}</span>";
-                            }elseif($Component->Position === 2){
-                                $left = "<span>{$Component->Description}</span>";
-                                $right = "<img src='{$Component->PatchIMG()}' tags='Image' style='width: 100%; object-fit: contain'>";
-                                $column = "position-column";
-                            }
-                        ?>
-                        <div class="row mt-4 mb-4 <?= $column ?>listImagePosition">
-                            <?php if($Component->Position === 0 || $Component->Position === 2): ?>
-                                <div class="col-lg-6">
-                                    <?= $left ?>    
-                                </div>
-                                <div class="col-lg-6">
-                                    <?= $right ?>
-                                </div>
-                            <?php elseif($Component->Position === 1): ?>
-                                <div class="col-12">
+                        <?php if($Component->Position === 0): ?>
+                            <div class="mt-5 brickly-image-float-left clearfix">
+                                <img src='<?= $Component->PatchIMG() ?>' tags='Image' class="brickly-float-img" alt="">
+                                <?= $Component->Description ?>
+                            </div>
+                        <?php elseif($Component->Position === 2): ?>
+                            <div class="mt-5 brickly-image-float-right clearfix">
+                                <img src='<?= $Component->PatchIMG() ?>' tags='Image' class="brickly-float-img" alt="">
+                                <?= $Component->Description ?>
+                            </div>
+                        <?php elseif($Component->Position === 1): ?>
+                            <div class="row mt-5 listImagePosition">
+                                <div class="col-12 my-3 px-0">
                                     <img src='<?= $Component->PatchIMG(); ?>' tags='Image' class="d-block m-auto" style='width: min(700px, 100%); object-fit: contain'>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 my-3 px-0">
                                     <?= $Component->Description ?> 
                                 </div>
-                            <?php endif ?>
-                        </div>
+                            </div>
+                        <?php endif ?>
                         <?php break ?>
                         <?php case 3: ?>
                             <?php $Component = $c->ytVideoC ?>
