@@ -53,6 +53,9 @@
             $data['model'] = new ValidarUser();
 			$data['redirect'] = '';
 
+			// Contar admins para controlar botón de eliminar
+			$data['totalAdmins'] = UserAccount::find()->where(['TypeUser' => 1])->count();
+
             return $this->render('index', $data);
         }
 
@@ -82,6 +85,8 @@
 
             $data['model'] = new ValidarUser();
 			$data['redirect'] = '/my-account#nav-users';
+			// Contar admins para controlar botón de eliminar
+			$data['totalAdmins'] = UserAccount::find()->where(['TypeUser' => 1])->count();
             return $this->render('index', $data);
         }
 
@@ -93,12 +98,21 @@
 			$data = [];
 			$url = !empty($url) ? $url : '/usuario';
 			$this->layout = false;
+
+			// Verificar si el usuario a eliminar es administrador
+			$ModelUserAccount = UserAccount::findOne(['AccountID' => $id]);
+			if ($ModelUserAccount && $ModelUserAccount->TypeUser == 1) {
+				Yii::$app->session->setFlash('error', "No se puede eliminar un usuario administrador.");
+				$this->redirect([$url]);
+				return;
+			}
+
 			$ModelAccount = Account::findOne($id);
 			$transaction = \Yii::$app->db->beginTransaction();
 			try {
 				if($ModelAccount->delete()){
 					$transaction->commit();
-					Yii::$app->session->setFlash('success', "Menu delete correctly.");
+					Yii::$app->session->setFlash('success', "Usuario eliminado correctamente.");
 
 					$this->redirect([$url]);
 				}else{
@@ -327,6 +341,15 @@
 				// $valid = $ModelAgency->validate() && $valid;
 				//$valid = $ModelByRole->validate() && $valid;
 
+				// Proteger usuarios admin: no permitir cambiar su tipo de usuario ni roles
+				$isTargetAdmin = ($ModelFindUserAccount->TypeUser == 1);
+				if ($isTargetAdmin) {
+					// Forzar mantener el tipo de usuario como administrador
+					$ModelUserAccount->TypeUser = 1;
+					// Restaurar los roles originales del admin
+					$ModelByRole->RoleID = ArrayHelper::map($ModelFindUserAccount->userByRoles, 'RoleID', 'RoleID');
+				}
+
 				if($ModelUserAccount->TypeUser != 4){
 					$ModelAccount->ParentAccount = NULL;
 				}
@@ -364,42 +387,29 @@
 					        exit();
 						}
 
-
-						// $ModelAgency->AccountID = $ModelAccount->AccountID;
-
-						// if(!$ModelAgency->save()){
-						// 	Yii::$app->session->setFlash('error', "There was an error updating the user.");
-					    //     $transaction->rollBack();
-					    //     echo "create Agency";
-					    //     exit();
-						// }
-
-						/* if(!is_array($ModelByRole->RoleID) || count($ModelByRole->RoleID) <= 0){
-							Yii::$app->session->setFlash('error', "Ocurrio un error al intentar crear el usuario, porfavor intentelo nuevamente.");
-							$transaction->rollBack();
-							echo "UserByRole";
-							exit();
-						} */
-						if(!is_array($ModelByRole->RoleID)){
-							$modelRole = UserByRole::find()->where(['UserName' => $ModelUserAccount->UserName])->one();
-							$modelRole->RoleID = $ModelByRole->getAttributes()["RoleID"];
-							if(!$modelRole->save()){
-								Yii::$app->session->setFlash('error', "Ocurrio un error al intentar crear el usuario, porfavor intentelo nuevamente.");
-								$transaction->rollBack();
-								echo "OnlyUserByRole";
-								exit();
-							}
-						}else{
-							UserByRole::deleteAll(['UserName' => $ModelUserAccount->UserName]);
-							foreach($ModelByRole->RoleID as $k =>$v){
-								$modelRole = new UserByRole;
-								$modelRole->UserName =  $ModelUserAccount->UserName;
-								$modelRole->RoleID = $v;
+						// Si es admin, saltar la actualización de roles
+						if (!$isTargetAdmin) {
+							if(!is_array($ModelByRole->RoleID)){
+								$modelRole = UserByRole::find()->where(['UserName' => $ModelUserAccount->UserName])->one();
+								$modelRole->RoleID = $ModelByRole->getAttributes()["RoleID"];
 								if(!$modelRole->save()){
 									Yii::$app->session->setFlash('error', "Ocurrio un error al intentar crear el usuario, porfavor intentelo nuevamente.");
 									$transaction->rollBack();
-									echo "UserByRole";
+									echo "OnlyUserByRole";
 									exit();
+								}
+							}else{
+								UserByRole::deleteAll(['UserName' => $ModelUserAccount->UserName]);
+								foreach($ModelByRole->RoleID as $k =>$v){
+									$modelRole = new UserByRole;
+									$modelRole->UserName =  $ModelUserAccount->UserName;
+									$modelRole->RoleID = $v;
+									if(!$modelRole->save()){
+										Yii::$app->session->setFlash('error', "Ocurrio un error al intentar crear el usuario, porfavor intentelo nuevamente.");
+										$transaction->rollBack();
+										echo "UserByRole";
+										exit();
+									}
 								}
 							}
 						}

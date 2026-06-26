@@ -2,7 +2,7 @@
     font-family: 'Red Hat Display';
     src: url('../css/fonts/RedHatDisplay-VariableFont_wght.woff2') format('woff2'),
          url('../css/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
-    font-weight: 300 900;
+    font-weight: 500 900;
     font-style: normal;
     font-display: swap;
 }
@@ -11,7 +11,7 @@
     font-family: 'Red Hat Display';
     src: url('../css/fonts/RedHatDisplay-Italic.woff2') format('woff2'),
          url('../css/fonts/RedHatDisplay-Italic.ttf') format('truetype');
-    font-weight: 300 900;
+    font-weight: 500 900;
     font-style: italic;
     font-display: swap;
 }

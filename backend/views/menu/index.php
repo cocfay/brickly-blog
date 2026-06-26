@@ -179,23 +179,20 @@ echo DataTables::widget([
 </div>
 <?php 
 if (Yii::$app->session->hasFlash('success')):
-		$this->registerJS('
-			$(document).ready(function(){
-				_Message("success","¡Exito!","'.Yii::$app->session->getFlash('success').'");
-			});
+	$this->registerJS('
+		$(document).ready(function(){
+			showMassAlert("success","'.Yii::$app->session->getFlash('success').'");
+		});
+	');
+endif;
 
-			');
-	endif;
-
-	if (Yii::$app->session->hasFlash('error')):
-
-		$this->registerJS('
-			$(document).ready(function(){
-				_Message("error","¡Error!","'.Yii::$app->session->getFlash('error').'");
-			});
-
-			');
-	endif;
+if (Yii::$app->session->hasFlash('error')):
+	$this->registerJS('
+		$(document).ready(function(){
+			showMassAlert("danger","'.Yii::$app->session->getFlash('error').'");
+		});
+	');
+endif;
 $this->registerJS("
 $(function(){
     var filter = $('.cpanel-menus-grid .dataTables_filter');

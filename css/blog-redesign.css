@@ -11,7 +11,6 @@
     display: inline-block;
     margin-bottom: 0.75rem;
     font-size: 0.8rem;
-    font-weight: 500;
     letter-spacing: 0.08em;
     color: #222222;
 }
@@ -23,7 +22,6 @@
 .brickly-blog-hero__title {
     font-size: clamp(22px, 3.2vw, 43px);
     line-height: 1.12;
-    font-weight: 500;
     margin-bottom: 1rem;
     color: #111111;
 }
@@ -32,7 +30,6 @@
     font-size: 18px;
     line-height: 1.6;
     color: #505050;
-    font-weight: 500;
 }
 
 .brickly-blog-hero__image-wrap {
@@ -126,7 +123,6 @@
 .brickly-list-post__date {
     color: #7a7a7a;
     font-size: 0.9rem;
-    font-weight: 500;
 }
 
 .brickly-featured-card__footer {
@@ -139,7 +135,6 @@
 .brickly-read-more {
     color: #111111;
     text-decoration: none;
-    font-weight: 500;
 }
 
 .brickly-post-list {
@@ -166,7 +161,10 @@
     margin: 0.85rem 0 0.55rem;
     font-size: 20px;
     line-height: 1.15;
-    font-weight: 400;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
 }
 
 .brickly-content-heading {
@@ -175,7 +173,6 @@
 
 .brickly-content-heading h2 {
     font-size: clamp(1.8rem, 3vw, 2.5rem);
-    font-weight: 500;
     margin: 0;
 }
 
@@ -210,7 +207,6 @@
 
 .brickly-sidebar-card h3 {
     font-size: 1.8rem;
-    font-weight: 500;
     margin-bottom: 1.15rem;
 }
 
@@ -277,7 +273,6 @@
 
 .brickly-sidebar-list__link strong {
     color: #111111;
-    font-weight: 500;
 }
 
 .brickly-sidebar-list span {
@@ -307,8 +302,7 @@
 
 .brickly-property-mockup h4 {
     margin: 0 0 0.35rem;
-    font-size: 1.45rem;
-    font-weight: 500;
+    font-size: 18px;
     color: #1a1a1a;
 }
 
@@ -463,14 +457,12 @@
     max-width: 760px;
     font-size: clamp(22px, 3vw, 48px);
     line-height: 1.08;
-    font-weight: 500;
     color: #000000;
 }
 
 .brickly-article-date {
     color: #6f6f6f;
     font-size: 1.05rem;
-    font-weight: 500;
 }
 
 .brickly-article-excerpt {
@@ -514,7 +506,6 @@
     margin-top: 0.4rem;
     margin-bottom: 0.4rem;
     color: #000000;
-    font-weight: 500;
 }
 
 .brickly-article-body img {
@@ -627,7 +618,6 @@
     margin-bottom: 3rem;
     color: #000000;
     font-size: clamp(2rem, 3vw, 2.65rem);
-    font-weight: 500;
 }
 
 @media (max-width: 1199.98px) {
@@ -749,7 +739,6 @@
     display: inline-flex;
     font-size: .9rem;
     gap: .55rem;
-    font-weight: 500;
     min-height: 40px;
     padding: .45rem 1rem;
     text-decoration: none;
@@ -765,7 +754,6 @@
 .brickly-category-hero__content h1 {
     color: #111111;
     font-size: clamp(2.4rem, 5vw, 4.8rem);
-    font-weight: 500;
     line-height: 1;
     margin: 0 0 1rem;
 }
@@ -799,7 +787,6 @@
     color: #777777;
     font-size: .95rem;
     margin-bottom: 1.25rem;
-    font-weight: 500;
 }
 
 .brickly-category-empty {
@@ -873,7 +860,6 @@
     .brickly-mobile-search-card h3 {
         color: #111111;
         font-size: 1.25rem;
-        font-weight: 500;
         margin: 0 0 .85rem;
     }
 

@@ -13,14 +13,13 @@ class AppAssetTemplateNew extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'js/sweetalert-master/dist_f/sweetalert.css',
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
         'css/cpanel-modern.css'
     ];
     public $js = [
         'js/sweetalert-master/dist_f/sweetalert.min.js',
         'js_util/alerts.js',
         'https://code.jquery.com/ui/1.14.1/jquery-ui.js',
-        'js/AdminFunctions.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

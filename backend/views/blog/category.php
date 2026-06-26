@@ -157,7 +157,7 @@
 if (Yii::$app->session->hasFlash('success')):
     $this->registerJS('
         $(document).ready(function(){
-            _Message("success","Exito","'.Yii::$app->session->getFlash('success').'");
+            showMassAlert("success","'.Yii::$app->session->getFlash('success').'");
         });
     ');
 endif;
@@ -165,7 +165,7 @@ endif;
 if (Yii::$app->session->hasFlash('error')):
     $this->registerJS('
         $(document).ready(function(){
-            _Message("error","Error","'.Yii::$app->session->getFlash('error').'");
+            showMassAlert("danger","'.Yii::$app->session->getFlash('error').'");
         });
     ');
 endif;

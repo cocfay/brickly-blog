@@ -57,7 +57,7 @@ $avatars = [
                         <span class="cpanel-field-action-icon"><i class="fa-regular fa-eye"></i></span>
                     </div>
                 </div>
-                <?php if ($UserData->TypeUser == 1): ?>
+                <?php if ($UserData->TypeUser == 1 && !(!$isNewRecord && $ModelUserAccount->TypeUser == 1)): ?>
                     <div class="col-md-4">
                         <?= $form->field($ModelUserAccount, 'TypeUser')->dropDownList($aTypeUsers, ['class' => 'typemenu form-control']) ?>
                     </div>
@@ -87,7 +87,7 @@ $avatars = [
                         <?= $form->field($ModelUserAccount, 'Email')->textInput(['type' => 'email', 'maxlength' => true]); ?>
                     </div>
                 </div>
-                <?php if ($UserData->TypeUser !== 2): ?>
+                <?php if ($UserData->TypeUser !== 2 && !(!$isNewRecord && $ModelUserAccount->TypeUser == 1)): ?>
                     <div class="col-md-4">
                         <?= $form->field($ModelByRole, 'RoleID')->widget(Chosen::classname(), [
                             'items' => $ItemsRole,
@@ -103,7 +103,7 @@ $avatars = [
                             ],
                         ])->label('Rol'); ?>
                     </div>
-                <?php else: ?>
+                <?php elseif ($UserData->TypeUser == 2): ?>
                     <?= $form->field($ModelByRole, 'RoleID')->hiddenInput(['value' => 19])->label(false) ?>
                 <?php endif ?>
             </div>
@@ -149,7 +149,7 @@ $avatars = [
 if (Yii::$app->session->hasFlash('success')):
     $this->registerJS('
         $(document).ready(function(){
-            _Message("success","Exito","'.Yii::$app->session->getFlash('success').'");
+            showMassAlert("success","'.Yii::$app->session->getFlash('success').'");
         });
     ');
 endif;
@@ -157,7 +157,7 @@ endif;
 if (Yii::$app->session->hasFlash('error')):
     $this->registerJS('
         $(document).ready(function(){
-            _Message("error","Error","'.Yii::$app->session->getFlash('error').'");
+            showMassAlert("danger","'.Yii::$app->session->getFlash('error').'");
         });
     ');
 endif;

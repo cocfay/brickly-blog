@@ -45,9 +45,20 @@
 			$this->layout = "/lead"; //archivo para el header y footer, dentro de la carpeta layouts tiene que tener el mismo nombre
 
 			$data['lang'] = 'es';
+
+			// Obtener el artículo destacado (Featured = 1) como hero
+			$data['featuredPost'] = PostBlog::find()
+			->where(['Verified' => 1, 'Featured' => 1])
+			->one();
+
+			$excludeIds = [];
+			if ($data['featuredPost']) {
+				$excludeIds[] = $data['featuredPost']->PostBlogID;
+			}
 			
 			$data['result'] = PostBlog::find()
 			->where(['Verified' => 1, 'Featured' => 0])
+			->andFilterWhere(['not in', 'PostBlogID', $excludeIds])
 			->orderBy(['CreateAT' => SORT_DESC]);
 
 			$data['pagination'] = new Pagination([
@@ -57,12 +68,14 @@
 
 			$data['result'] = PostBlog::find()
 			->where(['Verified' => 1, 'Featured' => 0])
+			->andFilterWhere(['not in', 'PostBlogID', $excludeIds])
 			->orderBy(['CreateAT' => SORT_DESC])
 			->offset($data['pagination']->offset)
 			->limit($data['pagination']->limit)->all();
 
 			$data['tendencia'] = PostBlog::find()
 			->where(['Verified' => 1, 'Featured' => 1])
+			->andFilterWhere(['not in', 'PostBlogID', $excludeIds])
 			->orderBy(new Expression('RAND('.rand().')'))
 			->limit(3)->all();
 

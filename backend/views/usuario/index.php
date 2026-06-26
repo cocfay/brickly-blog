@@ -67,7 +67,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'text-align: center;'],
                             'template' => '<div class="btn-group">{update} {delete}</div>',
                             'buttons' => [
-                                'delete' => function($url, $model) use ($redirect) {
+                                'delete' => function($url, $model) use ($redirect, $totalAdmins) {
+                                    // Ocultar botón eliminar si es admin y es el único que queda
+                                    if ($model->TypeUser == 1 && $totalAdmins <= 1) {
+                                        return '';
+                                    }
                                     $uri = !empty($redirect) ? ['delete', 'id' => $model->AccountID, 'url' => $redirect] : ['delete', 'id' => $model->AccountID];
                                     return Html::a('<span class="fa-regular fa-trash-can" title="Eliminar"></span>', $uri, [
                                         'class' => 'cpanel-table-action click-confirm',
@@ -136,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
 if (Yii::$app->session->hasFlash('success')):
     $this->registerJS('
         $(document).ready(function(){
-            _Message("success","Exito","'.Yii::$app->session->getFlash('success').'");
+            showMassAlert("success","'.Yii::$app->session->getFlash('success').'");
         });
     ');
 endif;
@@ -144,7 +148,7 @@ endif;
 if (Yii::$app->session->hasFlash('error')):
     $this->registerJS('
         $(document).ready(function(){
-            _Message("error","Error","'.Yii::$app->session->getFlash('error').'");
+            showMassAlert("danger","'.Yii::$app->session->getFlash('error').'");
         });
     ');
 endif;

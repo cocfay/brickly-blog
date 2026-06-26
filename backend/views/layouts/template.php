@@ -67,6 +67,18 @@ $profileEditUrl = Url::to(['/usuario/update', 'id' => $UserData->AccountID]);
     .tooltip-menu:hover .tooltip-menu-text {
       visibility: visible;
     }
+
+    /* Chevron arrow for submenu items */
+    .cpanel-menu-arrow {
+      transition: transform 0.3s ease;
+      font-size: 0.7rem;
+      margin-left: auto;
+    }
+    .cpanel-has-submenu.show .cpanel-menu-arrow,
+    .cpanel-has-submenu > a[aria-expanded="true"] .cpanel-menu-arrow,
+    .cpanel-mobile-link[aria-expanded="true"] .cpanel-menu-arrow {
+      transform: rotate(90deg);
+    }
     .themeActive{
       border: 2.5px solid #af46af;
       border-radius: 8px;
@@ -74,7 +86,41 @@ $profileEditUrl = Url::to(['/usuario/update', 'id' => $UserData->AccountID]);
     .custom-modal-size.modal-dialog {
       max-width: 650px; /* o el tamaño que prefieras */
     }
-  </style>
+    /* --- Alert flotante global (showMassAlert) --- */
+  .mass-delete-alert {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 280px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+</style>
+<script>
+  // Función global showMassAlert para todas las vistas del cpanel
+  window.showMassAlert = function(type, message) {
+      const existing = document.querySelector('.mass-delete-alert');
+      if (existing) existing.remove();
+
+      const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+      const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'mass-delete-alert alert alert-dismissible fade show ' + bgClass + ' text-white';
+      alertDiv.innerHTML = `
+          <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid ${icon}"></i>
+              <span>${message}</span>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+          </div>
+      `;
+      document.body.appendChild(alertDiv);
+
+      setTimeout(function() {
+          if (alertDiv.parentNode) alertDiv.remove();
+      }, 5000);
+  };
+</script>
 </head>
 <?php $this->beginBody() ?>
 <body class="cpanel-modern" style="min-height: 100vh;">
@@ -103,6 +149,7 @@ $profileEditUrl = Url::to(['/usuario/update', 'id' => $UserData->AccountID]);
               <i class="<?= $menu->ClassIcon ?>"></i>
               <!-- <span class="tooltip-menu-text" style="font-size:15px; padding: 6px 0; line-height: 1.1;"><?= $menu->MenuName; ?></span> -->
               <div class="label-menu"><?= $menu->MenuName; ?></div>
+              <i class="fa-solid fa-chevron-right cpanel-menu-arrow"></i>
             </a>
             <div id="cpanel-mobile-submenu-<?= $menuIndex ?>" tabindex="-1" role="menu" class="collapse cpanel-mobile-submenu">
               <?php foreach ($menu->page as $key => $page): ?>
@@ -169,10 +216,11 @@ $profileEditUrl = Url::to(['/usuario/update', 'id' => $UserData->AccountID]);
                 </li>
                 <?php else: ?>
                   <li class="profile-user-dropdown dropdown nav-item cpanel-has-submenu">
-                    <a aria-haspopup="true" href="javascript:void(0);" class="tooltip-menu d-flex align-items-baseline nav-link <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" aria-expanded="false" data-bs-toggle="dropdown" data-toggle="dropdown">
+                    <a aria-haspopup="true" href="javascript:void(0);" class="tooltip-menu d-flex align-items-center nav-link <?= ($controllerM == $menu->ControllerUse)? 'active':''; ?>" aria-expanded="false" data-bs-toggle="dropdown" data-toggle="dropdown">
                       <i class="<?= $menu->ClassIcon ?>"></i>
                       <!-- <span class="tooltip-menu-text" style="font-size:15px; padding: 6px 0; line-height: 1.1;"><?= $menu->MenuName; ?></span> -->
                       <div class="label-menu text-nowrap"><?= $menu->MenuName; ?></div>
+                      <i class="fa-solid fa-chevron-right cpanel-menu-arrow"></i>
                     </a>
                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu cpanel-sidebar-submenu">
                       <?php foreach ($menu->page as $key => $page): ?>

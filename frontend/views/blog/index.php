@@ -38,10 +38,12 @@ $formatDate = static function ($post) use ($meses) {
     return $meses[date('n', strtotime($post->CreateAT))] . ', ' . date('Y', strtotime($post->CreateAT));
 };
 
-$heroPost = $result[0] ?? null;
-$featuredPost = $heroPost;
-$sidePosts = array_slice($result, 1, 3);
-$gridPosts = array_slice($result, 4);
+// Si no hay artículo destacado definido en el controlador, usar el primero del listado
+if (!isset($featuredPost) || !$featuredPost) {
+    $featuredPost = $result[0] ?? null;
+}
+$sidePosts = array_slice($result, 0, 3);
+$gridPosts = array_slice($result, 3);
 
 $gridPosts = array_slice($gridPosts, 0, 6);
 $loadedPosts = isset($pagination) ? $pagination->offset + count($result) : count($result);

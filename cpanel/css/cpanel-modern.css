@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('../../css/fonts/RedHatDisplay-VariableFont_wght.woff2') format('woff2'),
+         url('../../css/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: 500 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('../../css/fonts/RedHatDisplay-Italic.woff2') format('woff2'),
+         url('../../css/fonts/RedHatDisplay-Italic.ttf') format('truetype');
+    font-weight: 500 900;
+    font-style: italic;
+    font-display: swap;
+}
+
 .cpanel-modern {
     --cpanel-header-height: 60px;
     --cpanel-sidebar-width: 238px;
@@ -8,7 +26,7 @@
     --cpanel-row: #f7f7f7;
     background-color: #fff !important;
     color: var(--cpanel-text);
-    font-family: "Poppins", "Montserrat", "Segoe UI", Arial, sans-serif;
+    font-family: 'Red Hat Display', sans-serif;
     scrollbar-color: #111827 #f3f6fa;
     scrollbar-width: thin;
 }
@@ -100,7 +118,7 @@
     width: 100%;
 }
 
-.cpanel-modern .side-menu-nav .nav-link i {
+/* .cpanel-modern .side-menu-nav .nav-link i {
     align-items: center;
     display: inline-flex;
     justify-content: center;
@@ -110,7 +128,7 @@
     color: var(--cpanel-text) !important;
     font-size: 18px;
     line-height: 1;
-}
+} */
 
 .cpanel-modern .side-menu-nav .nav-link:hover,
 .cpanel-modern .side-menu-nav .nav-link.active {
@@ -127,7 +145,7 @@
     color: var(--cpanel-text) !important;
 }
 
-.cpanel-modern .side-menu-nav .profile-user-dropdown > .nav-link.active::after {
+/* .cpanel-modern .side-menu-nav .profile-user-dropdown > .nav-link.active::after {
     color: var(--cpanel-text);
     content: "\f0d9";
     font-family: "Font Awesome 6 Free";
@@ -135,7 +153,7 @@
     font-weight: 900;
     line-height: 1;
     margin-left: auto;
-}
+} */
 
 .cpanel-modern .dropdown-menu:not(.cpanel-sidebar-submenu) {
     border: 1px solid rgba(17, 24, 39, .08);
@@ -751,8 +769,8 @@
 }
 
 .cpanel-modern table.cpanel-posts-table .cpanel-col-number {
-    width: 82px !important;
-    min-width: 82px;
+    /* width: 82px !important;
+    min-width: 82px; */
     text-align: left;
 }
 
@@ -1894,14 +1912,15 @@ body.cpanel-modern .modal-backdrop,
 }
 
 .cpanel-modern .cpanel-menu-form-page .cpanel-role-list input[type="checkbox"]:checked::after {
-    color: #fff;
-    content: "\f00c";
-    font-family: "Font Awesome 6 Free";
-    font-size: 11px;
-    font-weight: 900;
+    border: solid #fff;
+    border-width: 0 0 2px 2px;
+    content: "";
+    height: 5px;
     left: 4px;
     position: absolute;
-    top: 1px;
+    top: 4px;
+    transform: rotate(-45deg);
+    width: 10px;
 }
 
 .cpanel-modern .cpanel-menu-form-page .cpanel-repeater-item {

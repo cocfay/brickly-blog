@@ -29,11 +29,11 @@ $whatsappUrl = 'https://wa.me/50237649719?text=' . urlencode('¡Hola! Deseo cont
 $subscribeUrl = Url::to(['/blog/subscribe']);
 
 $navItems = [
-    ['label' => 'PROPIEDADES', 'url' =>'https://www.bricklyhomes.com//propiedades'],
-    ['label' => 'BUSCAR AGENTE', 'url' => 'https://www.bricklyhomes.com//agentes'],
-    ['label' => 'ASOCIADOS', 'url' => 'https://www.bricklyhomes.com//asociados'],
-    ['label' => 'PRECIOS', 'url' => 'https://www.bricklyhomes.com//precios'],
-    ['label' => 'BLOG', 'url' => 'https://www.bricklyhomes.com//blog', 'active' => $isBlogSection],
+    ['label' => 'PROPIEDADES', 'url' =>'https://www.bricklyhomes.com/propiedades'],
+    ['label' => 'BUSCAR AGENTE', 'url' => 'https://www.bricklyhomes.com/agentes'],
+    ['label' => 'ASOCIADOS', 'url' => 'https://www.bricklyhomes.com/asociados'],
+    ['label' => 'PRECIOS', 'url' => 'https://www.bricklyhomes.com/precios'],
+    ['label' => 'BLOG', 'url' => 'https://www.bricklyhomes.com/blog', 'active' => $isBlogSection],
 ];
 
 $this->registerCss(<<<CSS
@@ -231,8 +231,7 @@ CSS);
 
         <nav class="brickly-mobile-offcanvas__nav" aria-label="Menu movil">
         <?php foreach ($navItems as $item): ?>
-            <?php if ($item['label'] === 'BLOG') continue; ?>
-            <a href="<?= $item['url'] ?>" class="brickly-mobile-link<?= !empty($item['active']) ? ' active' : '' ?>"><?= Html::encode($item['label']) ?></a>
+            <a href="<?= $item['url'] ?>" class="brickly-mobile-link"><?= Html::encode($item['label']) ?></a>
         <?php endforeach; ?>
         </nav>
 
@@ -264,10 +263,11 @@ CSS);
 
             <div class="brickly-footer__center gap-1 gap-xl-5">
                 <nav class="brickly-footer__nav d-flex justify-content-between flex-column flex-lg-row mt-xl-3" aria-label="Footer">
-                    <a href="<?= Yii::getAlias('@web') ?>/propiedades" style="font-size: 14px">PROPIEDADES</a>
-                    <a href="<?= Yii::getAlias('@web') ?>/agentes" style="font-size: 14px">BUSCAR AGENTE</a>
-                    <a href="<?= Yii::getAlias('@web') ?>/asociados" style="font-size: 14px">ASOCIADOS</a>
-                    <a href="<?= Yii::getAlias('@web') ?>/precios" style="font-size: 14px">PRECIOS</a>
+                    <a href="https://www.bricklyhomes.com/propiedades" style="font-size: 14px">PROPIEDADES</a>
+                    <a href="https://www.bricklyhomes.com/agentes" style="font-size: 14px">BUSCAR AGENTE</a>
+                    <a href="https://www.bricklyhomes.com/asociados" style="font-size: 14px">ASOCIADOS</a>
+                    <a href="https://www.bricklyhomes.com/precios" style="font-size: 14px">PRECIOS</a>
+                    <a href="<?= Yii::getAlias('@web') ?>/blog" style="font-size: 14px">BLOG</a>
                 </nav>
 
                 <div class="brickly-footer__subscribe mt-4 mt-lg-0">

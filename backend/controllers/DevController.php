@@ -102,6 +102,14 @@
 			$ModelsMenuByRole = new MenuByRole;
 			$items = ArrayHelper::map(Role::find()->all(), 'RoleID', 'RoleName');
 
+			// Pre-marcar el rol Admin por defecto al crear menú
+			if ($MenuModel->isNewRecord) {
+				$adminRole = Role::find()->where(['RoleName' => 'Admin'])->one();
+				if ($adminRole) {
+					$ModelsMenuByRole->RoleID = [$adminRole->RoleID];
+				}
+			}
+
 			if($MenuModel->load(Yii::$app->request->post())){
 
 						if($MenuModel->Type == 0){
