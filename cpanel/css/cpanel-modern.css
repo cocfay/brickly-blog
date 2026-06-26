@@ -2365,18 +2365,18 @@ body.cpanel-modern .modal-backdrop,
     margin-top: 0;
     position: absolute;
     right: 9px;
-    top: 58%;
+    top: 53%;
     text-decoration: none;
     transform: translateY(-50%);
     width: 16px;
 }
 
 .cpanel-modern .cpanel-post-form-page .chosen-container-multi .chosen-choices li.search-choice .search-choice-close::before {
-    content: "\f00d";
-    font-family: "Font Awesome 6 Free";
-    font-size: 13px;
-    font-weight: 900;
-    line-height: 1;
+    content: "";
+    background: #8b95a3;
+    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+    height: 10px;
+    width: 10px;
 }
 
 .cpanel-modern .cpanel-post-form-page .cpanel-file-input {

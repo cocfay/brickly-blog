@@ -102,9 +102,12 @@
 			// Verificar si el usuario a eliminar es administrador
 			$ModelUserAccount = UserAccount::findOne(['AccountID' => $id]);
 			if ($ModelUserAccount && $ModelUserAccount->TypeUser == 1) {
-				Yii::$app->session->setFlash('error', "No se puede eliminar un usuario administrador.");
-				$this->redirect([$url]);
-				return;
+				$totalAdmins = UserAccount::find()->where(['TypeUser' => 1])->count();
+				if ($totalAdmins <= 1) {
+					Yii::$app->session->setFlash('error', "No se puede eliminar el único usuario administrador.");
+					$this->redirect([$url]);
+					return;
+				}
 			}
 
 			$ModelAccount = Account::findOne($id);

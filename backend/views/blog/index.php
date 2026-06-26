@@ -366,3 +366,19 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 </script>
+<?php 
+if (Yii::$app->session->hasFlash('success')):
+	$this->registerJS('
+		$(document).ready(function(){
+			showMassAlert("success","'.Yii::$app->session->getFlash('success').'");
+		});
+	');
+endif;
+
+if (Yii::$app->session->hasFlash('error')):
+	$this->registerJS('
+		$(document).ready(function(){
+			showMassAlert("danger","'.Yii::$app->session->getFlash('error').'");
+		});
+	');
+endif;

@@ -33,7 +33,7 @@ $navItems = [
     ['label' => 'BUSCAR AGENTE', 'url' => 'https://www.bricklyhomes.com/agentes'],
     ['label' => 'ASOCIADOS', 'url' => 'https://www.bricklyhomes.com/asociados'],
     ['label' => 'PRECIOS', 'url' => 'https://www.bricklyhomes.com/precios'],
-    ['label' => 'BLOG', 'url' => 'https://www.bricklyhomes.com/blog', 'active' => $isBlogSection],
+    ['label' => 'BLOG', 'url' => Yii::getAlias('@web') . '/blog', 'active' => $isBlogSection],
 ];
 
 $this->registerCss(<<<CSS

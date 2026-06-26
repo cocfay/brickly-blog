@@ -232,9 +232,6 @@
                 <p class="cpanel-page-subtitle">Organiza la informaci&oacute;n principal, portada y componentes del art&iacute;culo.</p>
             </div>
             <div class="cpanel-post-heading-actions">
-                <?php if(!$ModelBlog->isNewRecord): ?>
-                    <span class="cpanel-post-id-badge">ID#<?= $ModelBlog->PostBlogID; ?></span>
-                <?php endif; ?>
                 <a href="<?= Url::to(['/blog']) ?>" class="cpanel-post-back-link">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>Atr&aacute;s</span>
@@ -360,8 +357,8 @@
                                         <input type="hidden" name="Components[<?= $k; ?>][Type]" value="1">
                                     </div>
                                     <div class="cpanel-post-editor-wrap">
-                                        <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= $Component->Description; ?></textarea>
-                                        <input type="hidden" name="Components[<?= $k; ?>][MovilTextBox]" id="image-movil-description-<?= $k; ?>" value="<?= $Component->DescriptionMovil ?: ''; ?>">
+                                         <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= Html::encode($Component->Description); ?></textarea>
+                                        <input type="hidden" name="Components[<?= $k; ?>][MovilTextBox]" id="image-movil-description-<?= $k; ?>" value="<?= Html::encode($Component->DescriptionMovil ?: ''); ?>">
                                     </div>
                                 </div>
 
@@ -423,8 +420,8 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <label><?= $imageText[$lang] ?></label>
-                                                    <textarea name="Components[<?= $k; ?>][Description]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= $Component->Description; ?></textarea>
-                                                    <input type="hidden" name="Components[<?= $k; ?>][MovilDescription]" id="image-movil-description-<?= $k; ?>" value="<?= $Component->DescriptionMovil ?: ''; ?>">
+                                                    <textarea name="Components[<?= $k; ?>][Description]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= Html::encode($Component->Description); ?></textarea>
+                                                    <input type="hidden" name="Components[<?= $k; ?>][MovilDescription]" id="image-movil-description-<?= $k; ?>" value="<?= Html::encode($Component->DescriptionMovil ?: ''); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -992,6 +989,28 @@
             $('.formComponents').append(AddHtml);
 
         }); */
+
+        // Spinner en botón de guardar al enviar el formulario
+        jQuery('form').on('submit', function() {
+            var btn = jQuery(this).find('button[type=\"submit\"]');
+            if (btn.length) {
+                btn.prop('disabled', true);
+                btn.html('<span class=\"spinner-border spinner-border-sm me-2\" role=\"status\" aria-hidden=\"true\"></span> Guardando...');
+            }
+        });
+
+        // Limpiar HTML al pegar en CKEditor (paste a nivel DOM)
+        document.addEventListener('paste', function(e) {
+            var target = e.target;
+            if (!target.closest) return;
+            var editable = target.closest('.ck-editor__editable');
+            if (!editable) return;
+            e.preventDefault();
+            var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+            if (text) {
+                document.execCommand('insertText', false, text);
+            }
+        }, true);
 
         ");
 ?>
