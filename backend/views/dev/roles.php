@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return Html::a('<span class="fa-regular fa-trash-can" title="Eliminar"></span>', ['deleterole', 'id' => $model->RoleID], [
                                         'class' => 'cpanel-table-action click-confirm',
                                         'tittle-alert' => 'Eliminar informacion',
-                                        'text-alert' => 'Estas seguro? Cuando elimines el rol, no podras recuperarlo mas tarde.',
+                                        'text-alert' => '¿Estás seguro de eliminar esta rol? Cuando elimines el rol, no podras recuperarlo mas tarde.',
                                     ]);
                                 },
                                 'update' => function($url, $model) {
@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="modal-footer">
-                <?= Html::submitButton('<i class="fa-solid fa-plus"></i> Crear', ['class' => 'btn btn-primary click-confirm']) ?>
+                <?= Html::submitButton('<i class="fa-solid fa-plus"></i> Crear', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
         <?php ActiveForm::end(); ?>

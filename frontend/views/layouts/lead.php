@@ -62,10 +62,6 @@ body.brickly-lead-layout {
     justify-content: flex-end;
     gap: 18px 28px;
 }
-.brickly-header-link.active,
-.brickly-mobile-link.active {
-    opacity: .72;
-}
 /* .brickly-mobile-bar {
     background: {$headerBackground};
     color: {$headerTextColor};
@@ -195,13 +191,13 @@ CSS);
     <link rel="shortcut icon" href="<?= Yii::getAlias('@web') . '/images/favicon.png' ?>"/>
     <?php $this->head() ?>
     <?php if (!str_contains($_SERVER['SERVER_NAME'], 'dev.mydesk.digital')): ?>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GWVFV7Q21"></script>
+        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GWVFV7Q21"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-7GWVFV7Q21');
-        </script>
+        </script> -->
     <?php endif ?>
 </head>
 <body class="brickly-lead-layout<?= $isDarkSection ? ' brickly-lead-layout--dark' : '' ?>">

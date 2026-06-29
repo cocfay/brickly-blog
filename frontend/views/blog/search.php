@@ -16,13 +16,13 @@ $totalPosts = isset($pagination) ? (int) $pagination->totalCount : count($posts)
 <main class="brickly-blog-page brickly-category-page brickly-search-page">
     <section class="container brickly-category-hero">
         <div class="brickly-category-hero__content">
-            <span class="brickly-section-kicker">BUSQUEDA</span>
-            <div style="font-size:clamp(24px, 3vw, 40px); font-weight: 500;">Resultados de busqueda</div>
+            <span class="brickly-section-kicker">BÚSQUEDA</span>
+            <div style="font-size:clamp(24px, 3vw, 40px); font-weight: 500;">Resultados de búsqueda</div>
             <p class="fw-normal">
                 <?php if ($search !== ''): ?>
                     Coincidencias para &quot;<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>&quot;.
                 <?php else: ?>
-                    Escribe una palabra clave para encontrar articulos del blog.
+                    Escribe una palabra clave para encontrar artículos del blog.
                 <?php endif; ?>
             </p>
         </div>

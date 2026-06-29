@@ -87,7 +87,7 @@
 				'post_count' => new Expression('COUNT(DISTINCT p.PostBlogID)'),
 			])
 			->innerJoin('{{%CollectionByPost}} cbp', 'cbp.CollectionID = c.CollectionID')
-			->innerJoin('{{%PostBlog}} p', 'p.PostBlogID = cbp.PostBlogID AND p.Verified = 1 AND p.Featured = 0')
+			->innerJoin('{{%PostBlog}} p', 'p.PostBlogID = cbp.PostBlogID AND p.Verified = 1')
 			->where(['c.Display' => 1])
 			->groupBy(['c.CollectionID', 'c.NameEs'])
 			->orderBy(['post_count' => SORT_DESC, 'c.NameEs' => SORT_ASC])
@@ -409,7 +409,6 @@
 			->where([
 				'cbp.CollectionID' => (int) $categoryId,
 				'p.Verified' => 1,
-				'p.Featured' => 0,
 			])
 			->select('p.*')
 			->with(['blogBy', 'centerComponents'])

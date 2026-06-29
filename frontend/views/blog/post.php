@@ -31,6 +31,15 @@
         return !empty($post->blogBy[0]) ? $post->blogBy[0]->$names : 'Blog';
     };
 
+    $categoryLink = static function ($post) use ($names) {
+        $cat = $post->blogBy[0] ?? null;
+        if (!$cat) {
+            return '<span class="brickly-chip">Blog</span>';
+        }
+        $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
+        return '<a href="' . Url::to(['categories', 'id' => $cat->CollectionID]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+    };
+
     $formatDate = static function ($post) use ($meses) {
         return $meses[date('n', strtotime($post->CreateAT))] . ', ' . date('Y', strtotime($post->CreateAT));
     };
@@ -61,10 +70,10 @@
             </a>
         </div>
 
-        <div class="row g-5 align-items-start">
+        <div class="row g-4 g-xl-5 align-items-start">
             <article class="col-xl-8 brickly-article-main">
                 <div class="mb-4">
-                    <span class="brickly-chip"><?= $primaryTag($model) ?></span>
+                    <?= $categoryLink($model) ?>
                     <h1 class="brickly-article-title mt-4 mb-3"><?= $model->VTitle ?></h1>
                     <p class="brickly-article-date mb-3"><?= $formatDate($model) ?></p>
                     <?php if (!empty($articleImage)): ?>
@@ -129,17 +138,15 @@
                 <?php if (!empty($relatedPosts)): ?>
                     <section class="brickly-sidebar-card">
                         <h3>Artículos relacionados</h3>
-                        <div class="d-grid gap-4">
+                        <div class="d-flex flex-column gap-4">
                             <?php foreach($relatedPosts as $datos): ?>
                                 <article class="brickly-detail-related-post">
                                     <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
-                                        <div class="row g-3 align-items-center">
-                                            <div class="col-5">
-                                                <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="w-100">
-                                            </div>
-                                            <div class="col-7">
-                                                <span class="brickly-chip"><?= $primaryTag($datos) ?></span>
-                                                <h4><?= $datos->title ?></h4>
+                                        <div class="brickly-detail-related-post__inner">
+                                            <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-detail-related-post__img">
+                                            <div class="brickly-detail-related-post__content">
+                                                <?= $categoryLink($datos) ?>
+                                                <h4 class="brickly-detail-related-post__title"><?= $datos->title ?></h4>
                                                 <p class="fw-normal"><?= $formatDate($datos) ?></p>
                                             </div>
                                         </div>

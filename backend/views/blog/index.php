@@ -148,6 +148,21 @@
                                     'contentOptions'=>['class' => 'cpanel-post-title-cell'],
                                 ],
                                 [
+                                    'attribute' => 'Categoría',
+                                    'class' => 'yii\grid\DataColumn',
+                                    'value' => function ($data) {
+                                        $categories = $data->blogBy;
+                                        if (!$categories) return '-';
+                                        $names = [];
+                                        foreach ($categories as $cat) {
+                                            $names[] = $cat->NameEs;
+                                        }
+                                        return implode(', ', $names);
+                                    },
+                                    'format' => 'raw',
+                                    'contentOptions' => ['style' => 'white-space: normal;'],
+                                ],
+                                [
                                     'class' => 'yii\grid\ActionColumn',
                                     'header' => 'Acciones',
                                     'headerOptions' => ['style' => 'text-align: center;'],

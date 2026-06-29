@@ -34,6 +34,15 @@ $primaryTag = static function ($post) use ($names) {
     return !empty($post->blogBy[0]) ? $post->blogBy[0]->$names : 'Blog';
 };
 
+$categoryLink = static function ($post) use ($names) {
+    $cat = $post->blogBy[0] ?? null;
+    if (!$cat) {
+        return '<span class="brickly-chip">Blog</span>';
+    }
+    $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
+    return '<a href="' . Url::to(['categories', 'id' => $cat->CollectionID]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+};
+
 $formatDate = static function ($post) use ($meses) {
     return $meses[date('n', strtotime($post->CreateAT))] . ', ' . date('Y', strtotime($post->CreateAT));
 };
@@ -67,7 +76,7 @@ $categoryIcons = [
 
 <div class="brickly-blog-page">
     <section class="container brickly-blog-hero">
-        <div class="row align-items-center g-4 g-xl-5">
+        <div class="row align-items-center g-1 mb-5">
             <div class="col-lg-5 px-xl-0">
                 <span class="brickly-section-kicker">BLOG</span>
                 <h1 class="brickly-blog-hero__title">Ideas, tendencias y oportunidades inmobiliarias</h1>
@@ -100,7 +109,7 @@ $categoryIcons = [
                             <img src="<?= $featuredPost->ImagePost ?>" alt="<?= htmlspecialchars($featuredPost->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-featured-card__image">
                         </a>
                         <div class="brickly-featured-card__content">
-                            <span class="brickly-chip"><?= $primaryTag($featuredPost) ?></span>
+                            <?= $categoryLink($featuredPost) ?>
                             <h2 class="brickly-featured-card__title">
                                 <a href="<?= Url::to(['post', 'id' => $featuredPost->PostBlogID]) ?>"><?= $featuredPost->title ?></a>
                             </h2>
@@ -122,7 +131,7 @@ $categoryIcons = [
                                 <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-list-post__thumb">
                             </a>
                             <div class="brickly-list-post__body">
-                                <span class="brickly-chip"><?= $primaryTag($datos) ?></span>
+                                <?= $categoryLink($datos) ?>
                                 <h3 class="brickly-list-post__title">
                                     <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>"><?= $datos->title ?></a>
                                 </h3>

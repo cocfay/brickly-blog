@@ -137,7 +137,7 @@ $avatars = [
             <?= Html::submitButton($isNewRecord ? '<i class="fa-solid fa-user-plus"></i> Crear nuevo usuario' : '<i class="fa-solid fa-floppy-disk"></i> Actualizar usuario', [
                 'class' => 'btn btn-primary click-confirm',
                 'tittle-alert' => $isNewRecord ? 'Crear usuario' : 'Actualizar usuario',
-                'text-alert' => $isNewRecord ? 'Crear un nuevo usuario. Desea continuar?' : 'Actualizar usuario ['.$ModelUserAccount->UserName.']. Deseas continuar?',
+                'text-alert' => $isNewRecord ? 'Crear un nuevo usuario. Desea continuar?' : '¿Deseas continuar?',
             ]) ?>
         </div>
 

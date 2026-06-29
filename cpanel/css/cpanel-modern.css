@@ -3237,3 +3237,16 @@ body.cpanel-modern .modal-backdrop,
         width: 100%;
     }
 }
+
+/* SweetAlert modals: Red Hat Display font. */
+.sweet-alert {
+    font-family: 'Red Hat Display', sans-serif !important;
+}
+
+.swal-title {
+    font-weight: 600;
+}
+
+.swal-text {
+    font-weight: 400;
+}

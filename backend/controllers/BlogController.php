@@ -302,7 +302,9 @@
 				}
 
 				$postBlogModel->CreateAT = $postBlogModel->CreateAT . ' ' . date("H:i:s");
-				$postBlogModel->Featured = 0;
+				if (!$edit) {
+					$postBlogModel->Featured = 0;
+				}
 				/* if(!isset(Yii::$app->request->post()['PostBlog']['CollectionID'])){
 					$postBlogModel->CollectionID = new \yii\db\Expression('NULL');
 				} */
