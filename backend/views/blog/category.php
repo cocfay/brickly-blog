@@ -59,7 +59,7 @@
                                 'delete' => function($url, $model) {
                                     return Html::a('<i class="fa-regular fa-trash-can" title="Eliminar"></i>', ['dcategory', 'id' => $model->CollectionID], [
                                         'class' => 'cpanel-table-action click-confirm',
-                                        'tittle-alert' => 'Eliminar informacion',
+                                        'tittle-alert' => 'Eliminar información',
                                         'text-alert' => ' ¿Estás seguro de eliminar esta categoría? Una vez que la borres, no podrás recuperarla.',
                                     ]);
                                 },

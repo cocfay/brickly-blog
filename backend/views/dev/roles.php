@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'delete' => function($url, $model) {
                                     return Html::a('<span class="fa-regular fa-trash-can" title="Eliminar"></span>', ['deleterole', 'id' => $model->RoleID], [
                                         'class' => 'cpanel-table-action click-confirm',
-                                        'tittle-alert' => 'Eliminar informacion',
+                                        'tittle-alert' => 'Eliminar información',
                                         'text-alert' => '¿Estás seguro de eliminar esta rol? Cuando elimines el rol, no podras recuperarlo mas tarde.',
                                     ]);
                                 },

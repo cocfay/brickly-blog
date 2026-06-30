@@ -202,7 +202,12 @@ $categoryIcons = [
                             <?php foreach ($featuredProperties as $property): ?>
                                 <article class="brickly-property-mockup">
                                     <a href="<?= htmlspecialchars($property['url'], ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer" class="brickly-property-mockup__link text-decoration-none text-reset">
-                                        <img src="<?= htmlspecialchars(!empty($property['image']) ? $property['image'] : Yii::getAlias('@web') . '/images/logos/logo_negro.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?>">
+                                        <div class="position-relative">
+                                            <img src="<?= htmlspecialchars(!empty($property['image']) ? $property['image'] : Yii::getAlias('@web') . '/images/logos/logo_negro.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?>">
+                                            <div class="position-absolute top-0 px-1 py-1">
+                                                <img src="<?= Yii::getAlias('@web') . '/images/blogItems/diamond.png' ?>" style="width: 24px; height: 24px;" alt="Destacada">
+                                            </div>
+                                        </div>
                                         <div class="brickly-property-mockup__content">
                                             <h4 class="brickly-property-mockup__title"><?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?></h4>
                                             <p><?= htmlspecialchars($property['location'], ENT_QUOTES, 'UTF-8') ?></p>
