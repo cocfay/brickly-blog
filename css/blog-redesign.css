@@ -16,7 +16,7 @@
 }
 
 .brickly-blog-hero {
-    padding-bottom: 3.25rem;
+    padding-bottom: 1.25rem;
 }
 
 .brickly-blog-hero__title {
@@ -470,7 +470,7 @@
    Inicio estilos del post interior
    ========================== */
 .brickly-blog-detail {
-    padding-top: 8.25rem;
+    padding-top: 2.25rem;
     padding-bottom: 5rem;
     background: #ffffff;
     color: #111111;
