@@ -121,6 +121,7 @@ return [
             // Disable r= routes
             'enablePrettyUrl' => true,
             'rules' => [
+                        'blog/post/<slug>' => 'blog/post',
                         '<controller:\w+>/<id:\d+>' => '<controller>/view',
                         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

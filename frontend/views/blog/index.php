@@ -105,18 +105,18 @@ $categoryIcons = [
             <div class="col-xl-7">
                 <?php if ($featuredPost): ?>
                     <article class="brickly-featured-card">
-                        <a href="<?= Url::to(['post', 'id' => $featuredPost->PostBlogID]) ?>" class="brickly-post-card__image-link">
+                        <a href="<?= Url::to(['post', 'slug' => $featuredPost->Slug]) ?>" class="brickly-post-card__image-link">
                             <img src="<?= $featuredPost->ImagePost ?>" alt="<?= htmlspecialchars($featuredPost->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-featured-card__image">
                         </a>
                         <div class="brickly-featured-card__content">
                             <?= $categoryLink($featuredPost) ?>
                             <h2 class="brickly-featured-card__title">
-                                <a href="<?= Url::to(['post', 'id' => $featuredPost->PostBlogID]) ?>"><?= $featuredPost->title ?></a>
+                                <a href="<?= Url::to(['post', 'slug' => $featuredPost->Slug]) ?>"><?= $featuredPost->title ?></a>
                             </h2>
                             <p class="brickly-featured-card__excerpt"><?= $extractDescription($featuredPost) ?></p>
                             <div class="brickly-featured-card__footer">
                                 <span><?= $formatDate($featuredPost) ?></span>
-                                <a href="<?= Url::to(['post', 'id' => $featuredPost->PostBlogID]) ?>" class="brickly-read-more">Leer artículo <i class="fa-solid fa-arrow-right-long"></i></a>
+                                <a href="<?= Url::to(['post', 'slug' => $featuredPost->Slug]) ?>" class="brickly-read-more">Leer artículo <i class="fa-solid fa-arrow-right-long"></i></a>
                             </div>
                         </div>
                     </article>
@@ -127,13 +127,13 @@ $categoryIcons = [
                 <div class="brickly-post-list">
                     <?php foreach ($sidePosts as $datos): ?>
                         <article class="brickly-list-post">
-                            <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="brickly-list-post__thumb-link">
+                            <a href="<?= Url::to(['post', 'slug' => $datos->Slug]) ?>" class="brickly-list-post__thumb-link">
                                 <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-list-post__thumb">
                             </a>
                             <div class="brickly-list-post__body">
                                 <?= $categoryLink($datos) ?>
                                 <h3 class="brickly-list-post__title">
-                                    <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>"><?= $datos->title ?></a>
+                                    <a href="<?= Url::to(['post', 'slug' => $datos->Slug]) ?>"><?= $datos->title ?></a>
                                 </h3>
                                 <span class="brickly-list-post__date"><?= $formatDate($datos) ?></span>
                             </div>
@@ -222,10 +222,12 @@ $categoryIcons = [
                     <section class="brickly-sidebar-card brickly-sidebar-card--subscribe">
                         <h3>Suscríbete al blog</h3>
                         <p style="font-size: 16px" class="fw-normal">Recibe contenido exclusivo sobre el mercado inmobiliario directo en tu correo.</p>
-                        <form action="#" method="post" onsubmit="return false;" class="brickly-subscribe-form">
-                            <input type="email" placeholder="Tu correo electrónico" style="font-size: 16px" aria-label="Tu correo electrónico">
-                            <button type="submit" class="btn">Suscribirme</button>
+                        <form action="<?= Url::to(['/blog/blog-subscribe']) ?>" method="post" onsubmit="return false;" class="brickly-subscribe-form" data-sidebar-subscribe-form>
+                            <input type="email" name="email" placeholder="Tu correo electrónico" style="font-size: 16px" aria-label="Tu correo electrónico" data-sidebar-email>
+                            <div id="sidebar-turnstile" data-size="invisible"></div>
+                            <button type="submit" class="btn" data-sidebar-button>Suscribirme</button>
                         </form>
+                        <div data-sidebar-error aria-live="polite" style="color: #dc3545; font-size: 14px; margin-top: 4px; display: none;"></div>
                     </section>
                 </aside>
             </div>
@@ -293,6 +295,82 @@ $this->registerJS(<<<JS
             button.innerHTML = '<span>INTENTAR DE NUEVO</span><i class="fa-solid fa-rotate-right"></i>';
             button.disabled = false;
             button.classList.remove('is-loading');
+        }
+    });
+})();
+
+(function () {
+    const form = document.querySelector('[data-sidebar-subscribe-form]');
+    if (!form) return;
+    const emailInput = form.querySelector('[data-sidebar-email]');
+    const button = form.querySelector('[data-sidebar-button]');
+    const errorEl = document.querySelector('[data-sidebar-error]');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const email = emailInput ? emailInput.value.trim() : '';
+        if (!email) return;
+
+        if (errorEl) {
+            errorEl.textContent = '';
+            errorEl.style.display = 'none';
+        }
+
+        if (button) {
+            button.disabled = true;
+            button.dataset.originalText = button.dataset.originalText || button.innerHTML;
+            button.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+        }
+
+        const body = new URLSearchParams();
+        body.append('email', email);
+        body.append('_csrf', csrfToken);
+
+        if (typeof turnstile !== 'undefined') {
+            const token = await new Promise(function (resolve) {
+                window.sidebarTurnstileResolve = resolve;
+                turnstile.execute('#sidebar-turnstile');
+            });
+            body.append('cf-turnstile-response', token);
+        }
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: body.toString()
+            });
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                if (emailInput) emailInput.value = '';
+                if (errorEl) {
+                    errorEl.textContent = result.message || 'Gracias por suscribirte.';
+                    errorEl.style.color = '#198754';
+                    errorEl.style.display = 'block';
+                }
+            } else {
+                if (errorEl) {
+                    errorEl.textContent = result.message || 'No pudimos procesar tu suscripción en este momento';
+                    errorEl.style.color = '#dc3545';
+                    errorEl.style.display = 'block';
+                }
+            }
+        } catch (error) {
+            if (errorEl) {
+                errorEl.textContent = 'No pudimos procesar tu suscripción en este momento';
+                errorEl.style.color = '#dc3545';
+                errorEl.style.display = 'block';
+            }
+        } finally {
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = button.dataset.originalText || 'Suscribirme';
+            }
         }
     });
 })();

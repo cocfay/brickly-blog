@@ -17,6 +17,7 @@ $meses = [
     12 => 'Diciembre',
 ];
 
+$postUrl = $datos->Slug ? Url::to(['post', 'slug' => $datos->Slug]) : Url::to(['post', 'id' => $datos->PostBlogID]);
 $primaryCategory = $datos->blogBy[0] ?? null;
 $primaryTag = $primaryCategory ? $primaryCategory->$names : 'Blog';
 $primaryTagId = $primaryCategory ? $primaryCategory->CollectionID : null;
@@ -25,7 +26,7 @@ $dateText = $meses[date('n', strtotime($datos->CreateAT))] . ', ' . date('Y', st
 
 <div class="col-md-6 col-xl-4 brickly-post-card-item">
     <article class="brickly-post-card">
-        <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="brickly-post-card__image-link">
+        <a href="<?= $postUrl ?>" class="brickly-post-card__image-link">
             <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-post-card__image">
         </a>
         <div class="brickly-post-card__content">
@@ -35,7 +36,7 @@ $dateText = $meses[date('n', strtotime($datos->CreateAT))] . ', ' . date('Y', st
                 <span class="brickly-chip"><?= htmlspecialchars($primaryTag, ENT_QUOTES, 'UTF-8') ?></span>
             <?php endif; ?>
             <h3 class="brickly-post-card__title">
-                <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>"><?= $datos->title ?></a>
+                <a href="<?= $postUrl ?>"><?= $datos->title ?></a>
             </h3>
             <span class="brickly-post-card__date"><?= $dateText ?></span>
         </div>

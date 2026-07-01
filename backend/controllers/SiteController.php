@@ -100,14 +100,16 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(Yii::$app->urlManager->createUrl('/blog'));
-        }else{
-            $data['model'] =$model;
-            // $post = Post::find()->asArray()->all();
-            /*var_dump(Yii::$app->user->LayoutUser);exit;*/
-            return $this->render('index',$data);
+        if ($model->load(Yii::$app->request->post())) {
+            $turnstileToken = Yii::$app->request->post('cf-turnstile-response', '');
+            if ($turnstileToken === '' || !$this->verifyTurnstile($turnstileToken)) {
+                $model->addError('error', 'Verificación de seguridad fallida');
+            } elseif ($model->login()) {
+                return $this->redirect(Yii::$app->urlManager->createUrl('/blog'));
+            }
         }
+        $data['model'] = $model;
+        return $this->render('index', $data);
     }
 
     public function actionSignup(){
@@ -197,8 +199,15 @@ class SiteController extends Controller
                     return $this->redirect(Yii::$app->urlManager->createUrl('/home'));
                 }
              }
-              $model = new LoginForm();
-              if ($model->load(Yii::$app->request->post()) && $model->login()) {
+               $model = new LoginForm();
+              if ($model->load(Yii::$app->request->post())) {
+                $turnstileToken = Yii::$app->request->post('cf-turnstile-response', '');
+                if ($turnstileToken === '' || !$this->verifyTurnstile($turnstileToken)) {
+                    Yii::$app->session->setFlash('error', 'Verificación de seguridad fallida');
+                    $data['model'] = $model;
+                    return $this->render('loginadmin', $data);
+                }
+                if ($model->login()) {
                 if(Yii::$app->user->identity->AccountID == 207){
                     return $this->redirect(Yii::$app->urlManagerCpanel->createUrl('/home'));
 
@@ -213,6 +222,7 @@ class SiteController extends Controller
             /*var_dump(Yii::$app->user->LayoutUser);exit;*/
             return $this->render('loginadmin',$data);
         }
+    }
     }
 
     /**
@@ -751,7 +761,28 @@ class SiteController extends Controller
             }
             
         }
-        
     }
 
+    private function verifyTurnstile($token)
+    {
+        $secret = Yii::$app->params['turnstile.secretKey'] ?? '';
+        if ($secret === '') return false;
+
+        $response = @file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                'content' => http_build_query([
+                    'secret' => $secret,
+                    'response' => $token,
+                ]),
+            ],
+        ]));
+
+        if ($response === false) return false;
+
+        $result = json_decode($response, true);
+        return !empty($result['success']);
+    }
+    
 }

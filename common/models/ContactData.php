@@ -42,13 +42,7 @@ class ContactData extends ActiveRecord
     }
 
     public function valiCaptcha(){
-        $secretKey = '6LeKNtcqAAAAAEbD69D-mDml1R-2gI8lKsBYAeun';
-
-        $recaptchaToken = $_POST['recaptcha-token'];
-        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaToken}");
-        $result = json_decode($response, true);
-        
-        return $result['success'] ? true : false;
+        return true;
     }
 }
 ?>

@@ -189,6 +189,37 @@ CSS);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <link rel="shortcut icon" href="<?= Yii::getAlias('@web') . '/images/favicon.png' ?>"/>
+    <script>
+window.onloadTurnstileCallback = function () {
+    var footerEl = document.getElementById('footer-turnstile');
+    if (footerEl) {
+        turnstile.render('#footer-turnstile', {
+            sitekey: '<?= Yii::$app->params['turnstile.siteKey'] ?>',
+            size: 'invisible',
+            callback: function (token) {
+                if (window.footerTurnstileResolve) {
+                    window.footerTurnstileResolve(token);
+                    window.footerTurnstileResolve = null;
+                }
+            }
+        });
+    }
+    var sidebarEl = document.getElementById('sidebar-turnstile');
+    if (sidebarEl) {
+        turnstile.render('#sidebar-turnstile', {
+            sitekey: '<?= Yii::$app->params['turnstile.siteKey'] ?>',
+            size: 'invisible',
+            callback: function (token) {
+                if (window.sidebarTurnstileResolve) {
+                    window.sidebarTurnstileResolve(token);
+                    window.sidebarTurnstileResolve = null;
+                }
+            }
+        });
+    }
+};
+</script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" defer></script>
     <?php $this->head() ?>
     <?php if (!str_contains($_SERVER['SERVER_NAME'], 'dev.mydesk.digital')): ?>
         <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GWVFV7Q21"></script>
@@ -271,6 +302,7 @@ CSS);
                     <form class="brickly-footer__subscribe-form" action="<?= $subscribeUrl ?>" method="post" data-subscribe-form>
                         <label for="footer-subscription-email" class="visually-hidden">Correo electrónico para suscribirse</label>
                         <input id="footer-subscription-email" name="email" type="email" class="form-control" placeholder="E-mail" aria-label="E-mail" aria-describedby="footer-subscription-error" required>
+                        <div id="footer-turnstile" data-size="invisible"></div>
                         <button type="submit" class="btn" data-subscribe-button>ENVIAR</button>
                     </form>
                     <div id="footer-subscription-error" class="brickly-footer__subscribe-error" data-subscribe-error aria-live="polite"></div>
@@ -371,11 +403,19 @@ CSS);
                 subscribeButton.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
             }
 
-            try {
-                const body = new URLSearchParams();
-                body.append('email', email);
-                body.append('_csrf', csrfToken);
+            const body = new URLSearchParams();
+            body.append('email', email);
+            body.append('_csrf', csrfToken);
 
+            if (typeof turnstile !== 'undefined') {
+                const token = await new Promise(function (resolve) {
+                    window.footerTurnstileResolve = resolve;
+                    turnstile.execute('#footer-turnstile');
+                });
+                body.append('cf-turnstile-response', token);
+            }
+
+            try {
                 const response = await fetch(subscribeForm.action, {
                     method: 'POST',
                     headers: {

@@ -263,6 +263,8 @@ $logo = Yii::getAlias('@raizweb') . '/images/logos/logo_negro.png';
                         'placeholder' => 'Tu contraseña',
                     ])->label('Contraseña'); ?>
 
+                    <div class="cf-turnstile mb-3 d-flex justify-content-center" data-sitekey="<?= Yii::$app->params['turnstile.siteKey'] ?>"></div>
+
                     <?= Html::submitButton('Ingresar', [
                         'class' => 'btn cpanel-login-submit mt-2',
                         'name' => 'login-button',
@@ -274,6 +276,7 @@ $logo = Yii::getAlias('@raizweb') . '/images/logos/logo_negro.png';
                         <small>© Copyright</small>
                     </div>
 
+                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
                 <?php ActiveForm::end(); ?>
             </div>
         </section>

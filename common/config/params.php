@@ -7,6 +7,6 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'InfoLocation' => '',
-    'reCAPTCHA.siteKey' => '6LeKNtcqAAAAAKoOTJiylGVGWAq-jRLrj5lGnmrW',
-    'reCAPTCHA.secretKey' => '6LeKNtcqAAAAAEbD69D-mDml1R-2gI8lKsBYAeun',
+    'turnstile.siteKey' => '0x4AAAAAADUiF-kmCoQzfovZ',
+    'turnstile.secretKey' => '0x4AAAAAADUiF94T_2ksZFISczn0YlfzVaA',
 ];

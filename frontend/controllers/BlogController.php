@@ -283,21 +283,22 @@
 			return array_slice($properties, 0, $limit);
 		}
 
-		public function actionPost($id)
+		public function actionPost($slug)
 		{
 			$data = [];
-			$this->layout = "/lead"; //archivo para el header y footer, dentro de la carpeta layouts tiene que tener el mismo nombre
+			$this->layout = "/lead";
 
 			$data['lang'] = 'es';
 
-			$data['model'] = PostBlog::find()->where(['PostBlogID' => $id])->orderBy(['PostBlogID' => SORT_DESC])->one();
+			$condition = is_numeric($slug) ? ['PostBlogID' => $slug] : ['Slug' => $slug];
+			$data['model'] = PostBlog::find()->where($condition)->orderBy(['PostBlogID' => SORT_DESC])->one();
 			$data['model']->VTitle = $data['model']->Title;
 			$data['Components'] = $data['model']->centerComponents ?: [];
 			$data['featuredProperties'] = $this->getFeaturedProperties();
 
 			/* ######################################################################################################################### */
 
-			$moreTopicsQuery = $this->postMoreTopicsQuery($id);
+			$moreTopicsQuery = $this->postMoreTopicsQuery($data['model']->PostBlogID);
 			$data['moreTopicsTotal'] = (clone $moreTopicsQuery)->count();
 			$initialMoreTopics = $moreTopicsQuery
 			->limit(6)
@@ -486,6 +487,15 @@
 				];
 			}
 
+			$turnstileToken = Yii::$app->request->post('cf-turnstile-response', '');
+			if ($turnstileToken !== '' && !$this->verifyTurnstile($turnstileToken)) {
+				Yii::$app->response->statusCode = 403;
+				return [
+					'success' => false,
+					'message' => 'Verificación de seguridad fallida',
+				];
+			}
+
 			$endpoint = 'https://ws-identity.bricklyhomes.com/contact/subscribe';
 			$payload = Json::encode([
 				'email' => $email,
@@ -546,5 +556,64 @@
 				'success' => false,
 				'message' => $message ?: 'No pudimos procesar tu suscripción en este momento',
 			];
+		}
+
+		public function actionBlogSubscribe()
+		{
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			if (!Yii::$app->request->isPost) {
+				Yii::$app->response->statusCode = 405;
+				return [
+					'success' => false,
+					'message' => 'Método no permitido',
+				];
+			}
+
+			$email = trim((string) Yii::$app->request->post('email', ''));
+
+			if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				Yii::$app->response->statusCode = 422;
+				return [
+					'success' => false,
+					'message' => 'Ingresa un correo válido',
+				];
+			}
+
+			$turnstileToken = Yii::$app->request->post('cf-turnstile-response', '');
+			if ($turnstileToken !== '' && !$this->verifyTurnstile($turnstileToken)) {
+				Yii::$app->response->statusCode = 403;
+				return [
+					'success' => false,
+					'message' => 'Verificación de seguridad fallida',
+				];
+			}
+
+			return [
+				'success' => true,
+				'message' => 'Gracias por suscribirte al blog.',
+			];
+		}
+
+		private function verifyTurnstile($token)
+		{
+			$secret = Yii::$app->params['turnstile.secretKey'] ?? '';
+			if ($secret === '') return false;
+
+			$response = @file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create([
+				'http' => [
+					'method' => 'POST',
+					'header' => 'Content-Type: application/x-www-form-urlencoded',
+					'content' => http_build_query([
+						'secret' => $secret,
+						'response' => $token,
+					]),
+				],
+			]));
+
+			if ($response === false) return false;
+
+			$result = json_decode($response, true);
+			return !empty($result['success']);
 		}
     }

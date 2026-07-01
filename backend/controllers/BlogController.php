@@ -400,6 +400,16 @@
 
 
 
+					if (!$postBlogModel->Slug) {
+						$baseSlug = \yii\helpers\Inflector::slug($postBlogModel->VTitle);
+						$slug = $baseSlug;
+						$counter = 1;
+						while (PostBlog::find()->where(['Slug' => $slug])->andFilterWhere(['!=', 'PostBlogID', $postBlogModel->PostBlogID])->exists()) {
+							$slug = $baseSlug . '-' . ++$counter;
+						}
+						$postBlogModel->Slug = $slug;
+					}
+
 					if(!$postBlogModel->save()){
 
 						var_dump($postBlogModel->getErrors());

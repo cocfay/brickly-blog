@@ -39,7 +39,7 @@ class PostBlog extends ActiveRecord
 
             [['Featured'], 'default', 'value' => 0],
             [['AccountID', 'PostBlogID', 'Featured', 'Home'], 'number'],
-            //[['Labels'], 'safe']
+            [['Slug'], 'safe'],
         ];
     }
 

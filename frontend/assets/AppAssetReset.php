@@ -16,7 +16,6 @@ class AppAssetReset extends AssetBundle
         'https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css',
     ];
     public $js = [
-        'https://www.google.com/recaptcha/api.js?render=6LeKNtcqAAAAAKoOTJiylGVGWAq-jRLrj5lGnmrW',
         'https://kit.fontawesome.com/5d79548a92.js',
         'https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js',
         'js/credits.js',

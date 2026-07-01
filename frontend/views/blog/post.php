@@ -52,7 +52,7 @@
         return '';
     };
 
-    $articleUrl = Url::to(['post', 'id' => $model->PostBlogID], true);
+    $articleUrl = $model->Slug ? Url::to(['post', 'slug' => $model->Slug], true) : Url::to(['post', 'id' => $model->PostBlogID], true);
     $articleExcerpt = $extractDescription($model);
     $articleImage = method_exists($model, 'PatchIMG') ? $model->PatchIMG() : $model->ImagePost;
 ?>
@@ -141,7 +141,7 @@
                         <div class="d-flex flex-column gap-4">
                             <?php foreach($relatedPosts as $datos): ?>
                                 <article class="brickly-detail-related-post">
-                                    <a href="<?= Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
+                                    <a href="<?= $datos->Slug ? Url::to(['post', 'slug' => $datos->Slug]) : Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
                                         <div class="brickly-detail-related-post__inner">
                                             <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-detail-related-post__img">
                                             <div class="brickly-detail-related-post__content">

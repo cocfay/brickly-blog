@@ -25,7 +25,6 @@ class AppAsset extends AssetBundle
         'css/blog-redesign.css',
     ];
     public $js = [
-        'https://www.google.com/recaptcha/api.js?render=6LeKNtcqAAAAAKoOTJiylGVGWAq-jRLrj5lGnmrW',
         'https://kit.fontawesome.com/5d79548a92.js',
         'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js',

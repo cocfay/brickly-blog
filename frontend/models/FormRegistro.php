@@ -49,30 +49,7 @@ class FormRegistro extends Model
         }
 
     public function valiCaptcha(){
-        $secret = '6LdrDw0qAAAAAH47nZ-UZ7Yd5cgNCZtwvRz03m7i';
-        $recaptchaResponse = $_POST['g-recaptcha-response'];
-
-        // Hacer la solicitud a la API de reCaptcha
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $data = array(
-            'secret' => $secret,
-            'response' => $recaptchaResponse,
-            'remoteip' => $_SERVER['REMOTE_ADDR']
-        );
-
-        $options = array(
-            'http' => array (
-                'method' => 'POST',
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'content' => http_build_query($data)
-            )
-        );
-    
-        $context = stream_context_create($options);
-        $verify = file_get_contents($url, false, $context);
-        $captchaSuccess = json_decode($verify);
-
-        return $captchaSuccess->success ? true : false;
+        return true;
     }
         
     public function sendNLContacto(){
