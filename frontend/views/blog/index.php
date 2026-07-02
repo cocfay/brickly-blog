@@ -222,12 +222,12 @@ $categoryIcons = [
                     <section class="brickly-sidebar-card brickly-sidebar-card--subscribe">
                         <h3>Suscríbete al blog</h3>
                         <p style="font-size: 16px" class="fw-normal">Recibe contenido exclusivo sobre el mercado inmobiliario directo en tu correo.</p>
-                        <form action="<?= Url::to(['/blog/blog-subscribe']) ?>" method="post" onsubmit="return false;" class="brickly-subscribe-form" data-sidebar-subscribe-form>
+                        <form action="<?= Url::to(['/newsletter/subscribe']) ?>" method="post" onsubmit="return false;" class="brickly-subscribe-form" data-sidebar-subscribe-form>
                             <input type="email" name="email" placeholder="Tu correo electrónico" style="font-size: 16px" aria-label="Tu correo electrónico" data-sidebar-email>
-                            <div id="sidebar-turnstile" data-size="invisible"></div>
+                            <div data-sidebar-error aria-live="polite" style="font-size: 14px; margin-top: 4px; display: none;"></div>
+                            <div id="sidebar-turnstile" style="max-height:0;overflow:hidden;"></div>
                             <button type="submit" class="btn" data-sidebar-button>Suscribirme</button>
                         </form>
-                        <div data-sidebar-error aria-live="polite" style="color: #dc3545; font-size: 14px; margin-top: 4px; display: none;"></div>
                     </section>
                 </aside>
             </div>
@@ -304,7 +304,7 @@ $this->registerJS(<<<JS
     if (!form) return;
     const emailInput = form.querySelector('[data-sidebar-email]');
     const button = form.querySelector('[data-sidebar-button]');
-    const errorEl = document.querySelector('[data-sidebar-error]');
+    const errorEl = form.querySelector('[data-sidebar-error]');
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
     form.addEventListener('submit', async function (event) {
@@ -328,11 +328,30 @@ $this->registerJS(<<<JS
         body.append('_csrf', csrfToken);
 
         if (typeof turnstile !== 'undefined') {
-            const token = await new Promise(function (resolve) {
-                window.sidebarTurnstileResolve = resolve;
-                turnstile.execute('#sidebar-turnstile');
-            });
-            body.append('cf-turnstile-response', token);
+            const token = await new Promise(function (resolve, reject) {
+                var timeoutId = setTimeout(function () {
+                    window.sidebarTurnstileResolve = null;
+                    reject(new Error('Turnstile timeout'));
+                }, 3000);
+
+                window.sidebarTurnstileResolve = function (t) {
+                    clearTimeout(timeoutId);
+                    resolve(t);
+                };
+
+                try {
+                    turnstile.reset('#sidebar-turnstile');
+                    turnstile.execute('#sidebar-turnstile');
+                } catch (e) {
+                    clearTimeout(timeoutId);
+                    window.sidebarTurnstileResolve = null;
+                    reject(e);
+                }
+            }).catch(function () { return null; });
+
+            if (token) {
+                body.append('cf-turnstile-response', token);
+            }
         }
 
         try {

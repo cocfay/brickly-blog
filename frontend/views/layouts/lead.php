@@ -26,7 +26,7 @@ $bodyBackground = $isDarkSection ? '#111111' : '#ffffff';
 $bodyColor = $isDarkSection ? '#ffffff' : '#111111';
 
 $whatsappUrl = 'https://wa.me/50237649719?text=' . urlencode('¡Hola! Deseo contactar a un asesor.');
-$subscribeUrl = Url::to(['/blog/subscribe']);
+$subscribeUrl = Url::to(['/newsletter/subscribe']);
 
 $navItems = [
     ['label' => 'PROPIEDADES', 'url' =>'https://www.bricklyhomes.com/propiedades'],
@@ -195,7 +195,8 @@ window.onloadTurnstileCallback = function () {
     if (footerEl) {
         turnstile.render('#footer-turnstile', {
             sitekey: '<?= Yii::$app->params['turnstile.siteKey'] ?>',
-            size: 'invisible',
+            execution: 'execute',
+            appearance: 'interaction-only',
             callback: function (token) {
                 if (window.footerTurnstileResolve) {
                     window.footerTurnstileResolve(token);
@@ -208,7 +209,8 @@ window.onloadTurnstileCallback = function () {
     if (sidebarEl) {
         turnstile.render('#sidebar-turnstile', {
             sitekey: '<?= Yii::$app->params['turnstile.siteKey'] ?>',
-            size: 'invisible',
+            execution: 'execute',
+            appearance: 'interaction-only',
             callback: function (token) {
                 if (window.sidebarTurnstileResolve) {
                     window.sidebarTurnstileResolve(token);
@@ -302,7 +304,7 @@ window.onloadTurnstileCallback = function () {
                     <form class="brickly-footer__subscribe-form" action="<?= $subscribeUrl ?>" method="post" data-subscribe-form>
                         <label for="footer-subscription-email" class="visually-hidden">Correo electrónico para suscribirse</label>
                         <input id="footer-subscription-email" name="email" type="email" class="form-control" placeholder="E-mail" aria-label="E-mail" aria-describedby="footer-subscription-error" required>
-                        <div id="footer-turnstile" data-size="invisible"></div>
+                        <div id="footer-turnstile" style="max-height:0;overflow:hidden;"></div>
                         <button type="submit" class="btn" data-subscribe-button>ENVIAR</button>
                     </form>
                     <div id="footer-subscription-error" class="brickly-footer__subscribe-error" data-subscribe-error aria-live="polite"></div>
@@ -408,11 +410,30 @@ window.onloadTurnstileCallback = function () {
             body.append('_csrf', csrfToken);
 
             if (typeof turnstile !== 'undefined') {
-                const token = await new Promise(function (resolve) {
-                    window.footerTurnstileResolve = resolve;
-                    turnstile.execute('#footer-turnstile');
-                });
-                body.append('cf-turnstile-response', token);
+                const token = await new Promise(function (resolve, reject) {
+                    var timeoutId = setTimeout(function () {
+                        window.footerTurnstileResolve = null;
+                        reject(new Error('Turnstile timeout'));
+                    }, 3000);
+
+                    window.footerTurnstileResolve = function (t) {
+                        clearTimeout(timeoutId);
+                        resolve(t);
+                    };
+
+                    try {
+                        turnstile.reset('#footer-turnstile');
+                        turnstile.execute('#footer-turnstile');
+                    } catch (e) {
+                        clearTimeout(timeoutId);
+                        window.footerTurnstileResolve = null;
+                        reject(e);
+                    }
+                }).catch(function () { return null; });
+
+                if (token) {
+                    body.append('cf-turnstile-response', token);
+                }
             }
 
             try {

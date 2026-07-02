@@ -589,9 +589,65 @@
 				];
 			}
 
+			$endpoint = 'https://ws-identity.bricklyhomes.com/contact/subscribe';
+			$payload = Json::encode([
+				'email' => $email,
+			]);
+
+			$context = stream_context_create([
+				'http' => [
+					'method' => 'POST',
+					'timeout' => 15,
+					'ignore_errors' => true,
+					'header' => implode("\r\n", [
+						'Content-Type: application/json',
+						'Accept: application/json',
+						'Content-Length: ' . strlen($payload),
+					]),
+					'content' => $payload,
+				],
+			]);
+
+			$response = @file_get_contents($endpoint, false, $context);
+			$statusCode = 500;
+
+			if (!empty($http_response_header[0]) && preg_match('/\s(\d{3})\s/', $http_response_header[0], $matches)) {
+				$statusCode = (int) $matches[1];
+			}
+
+			$decoded = [];
+			if ($response !== false && $response !== '') {
+				try {
+					$decoded = Json::decode($response);
+				} catch (\Throwable $e) {
+					$decoded = [];
+				}
+			}
+
+			$message = isset($decoded['message']) && is_string($decoded['message'])
+				? trim($decoded['message'])
+				: '';
+
+			if ($statusCode >= 200 && $statusCode < 300) {
+				return [
+					'success' => true,
+					'message' => 'Gracias por suscribirte al blog.',
+				];
+			}
+
+			if ($message === 'Este correo ya está suscrito') {
+				Yii::$app->response->statusCode = 409;
+				return [
+					'success' => false,
+					'message' => 'Este correo ya está suscrito',
+				];
+			}
+
+			Yii::$app->response->statusCode = $statusCode >= 400 ? $statusCode : 500;
+
 			return [
-				'success' => true,
-				'message' => 'Gracias por suscribirte al blog.',
+				'success' => false,
+				'message' => $message ?: 'No pudimos procesar tu suscripción en este momento',
 			];
 		}
 

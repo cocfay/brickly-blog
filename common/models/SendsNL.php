@@ -1,29 +1,32 @@
-<?php 
+<?php
     namespace common\models;
 
     use yii;
-    use yii\base\Model;
-    use yii\base\NotSupportedException;
     use yii\db\ActiveRecord;
-    use yii\web\UploadedFile;
 
     class SendsNL extends ActiveRecord
     {
-        // public $PhotoProducts;
         public static function tableName()
         {
-            return '{{%sendsnl}}';
+            return '{{%suscribe}}';
         }
-        /**
-         * @inheritdoc
-         */
+
         public function rules()
         {
             return [
-                [['Email','KeyNL'],'string']
+                [['Email'], 'required'],
+                [['Email'], 'email'],
+                [['Email'], 'unique'],
+                [['Email'], 'string', 'max' => 255],
+                [['CreatedAt'], 'safe'],
             ];
         }
 
+        public function attributeLabels()
+        {
+            return [
+                'Email' => 'Correo electrónico',
+                'CreatedAt' => 'Fecha de suscripción',
+            ];
+        }
     }
-
-?>

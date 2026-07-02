@@ -338,7 +338,6 @@
 
 .brickly-subscribe-form {
     display: grid;
-    gap: 0.85rem;
 }
 
 .brickly-subscribe-form input {
@@ -347,6 +346,7 @@
 }
 
 .brickly-subscribe-form .btn {
+    margin-top: 30px;
     min-height: 50px;
     border-radius: 0.65rem;
     background: #000000;

@@ -9,4 +9,6 @@ return [
     'InfoLocation' => '',
     'turnstile.siteKey' => '0x4AAAAAADUiF-kmCoQzfovZ',
     'turnstile.secretKey' => '0x4AAAAAADUiF94T_2ksZFISczn0YlfzVaA',
+    'brevo.apiKey' => getenv('BREVO_API_KEY') ?: '',
+    'app.baseUrl' => 'https://blog.bricklyhomes.com',
 ];
