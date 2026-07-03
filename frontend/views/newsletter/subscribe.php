@@ -2,12 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-function imgUrl($path, $forEmail = false) {
-    $path = ltrim($path, '/');
-    if ($forEmail) {
-        return Url::to([$path], true);
-    }
-    return Yii::getAlias('@web') . '/' . $path;
+function imgUrl($path) {
+    return 'https://blog.bricklyhomes.com/' . ltrim($path, '/');
 }
 ?>
 <!DOCTYPE html>
@@ -34,19 +30,6 @@ function imgUrl($path, $forEmail = false) {
     </style>
 </head>
 <body style="margin:0; padding:0; background-color:#ffffff; font-family:'Plus Jakarta Sans', 'system-ui', Helvetica, Arial, sans-serif; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
-
-    <!-- FORMULARIO DE SUSCRIPCIÓN -->
-    <div style="max-width: 600px; margin: 0 auto; padding: 30px 20px 0 20px; text-align: center;">
-        <form id="subscribe-form" style="display: flex; gap: 10px; max-width: 450px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
-            <input type="email" name="email" id="subscribe-email" placeholder="Tu correo electrónico" required
-                style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; font-family: inherit;">
-            <button type="submit"
-                style="padding: 12px 24px; background: #111; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;">
-                Suscribirme
-            </button>
-        </form>
-        <div id="subscribe-message" style="margin-top: 10px; font-size: 14px; min-height: 20px;"></div>
-    </div>
 
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" class="wrapper" style="margin:0 auto; background-color:#ffffff; width:600px; max-width:600px;">
         
@@ -229,14 +212,17 @@ function imgUrl($path, $forEmail = false) {
         const msgEl = document.getElementById('subscribe-message');
         const btn = this.querySelector('button');
 
+        const showMsg = (text, color) => {
+            msgEl.style.color = color;
+            msgEl.textContent = text;
+            setTimeout(() => { msgEl.textContent = ''; }, 2000);
+        };
+
         if (!email) return;
 
         msgEl.textContent = '';
         btn.disabled = true;
         btn.textContent = 'Enviando...';
-
-        console.log('2 - email:', email);
-        console.log('3 - url:', '<?= Url::to(['/newsletter/subscribe']) ?>');
 
         const formData = new FormData();
         formData.append('email', email);
@@ -246,26 +232,19 @@ function imgUrl($path, $forEmail = false) {
                 method: 'POST',
                 body: formData
             });
-            console.log('4 - status:', response.status);
 
             const result = await response.json();
-            console.log('5 - result:', result);
 
             if (response.ok && result.success) {
-                msgEl.style.color = '#198754';
-                msgEl.textContent = 'Gracias por suscribirte a nuestro blog.';
+                showMsg('Gracias por suscribirte a nuestro blog.', '#198754');
                 document.getElementById('subscribe-email').value = '';
             } else if (response.status === 409) {
-                msgEl.style.color = '#dc3545';
-                msgEl.textContent = 'El correo ya existe.';
+                showMsg('El correo ya existe.', '#dc3545');
             } else {
-                msgEl.style.color = '#dc3545';
-                msgEl.textContent = result.message || 'Error al procesar.';
+                showMsg(result.message || 'Error al procesar.', '#dc3545');
             }
         } catch (error) {
-            console.log('6 - error:', error);
-            msgEl.style.color = '#dc3545';
-            msgEl.textContent = 'Error de conexión.';
+            showMsg('Error de conexión.', '#dc3545');
         } finally {
             btn.disabled = false;
             btn.textContent = 'Suscribirme';

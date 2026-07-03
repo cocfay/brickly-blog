@@ -23,7 +23,7 @@ $search = $search ?? '';
         </div>
 
         <div class="brickly-category-hero__aside">
-            <a href="<?= Url::to(['/blog']) ?>" class="brickly-category-back">
+            <a href="<?= Url::to(['/']) ?>" class="brickly-category-back">
                 <i class="fa-solid fa-arrow-left"></i>
                 <span>Atrás</span>
             </a>

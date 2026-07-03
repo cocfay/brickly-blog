@@ -64,7 +64,7 @@
 <main class="brickly-blog-detail">
     <section class="container brickly-blog-detail__wrap">
         <div class="brickly-blog-detail__actions">
-            <a href="<?= Url::to(['/blog']) ?>" class="brickly-category-back">
+            <a href="<?= Url::to(['/']) ?>" class="brickly-category-back">
                 <i class="fa-solid fa-arrow-left"></i>
                 <span>Atr&aacute;s</span>
             </a>

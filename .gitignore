@@ -1,2 +1,4 @@
 /common/config/db.php
+/common/config/params-local.php
+/.env
 /post/

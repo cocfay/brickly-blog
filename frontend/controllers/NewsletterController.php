@@ -80,18 +80,12 @@
                 ];
             }
 
-            // Capturar el HTML del correo antes de cerrar el request
-            $htmlContent = $this->renderPartial('_email_welcome');
+            // Enviar correo de bienvenida por Brevo API
             $apiKey = Yii::$app->params['brevo.apiKey'] ?? '';
-
-            // Enviar la respuesta al cliente inmediatamente y mandar el correo después
-            register_shutdown_function(function () use ($email, $htmlContent, $apiKey) {
-                if (function_exists('fastcgi_finish_request')) {
-                    fastcgi_finish_request();
-                }
-                if ($apiKey === '') return;
-                $payload = \yii\helpers\Json::encode([
-                    'sender' => ['email' => 'no-reply@bricklyhomes.com', 'name' => 'Brickly Homes'],
+            if ($apiKey !== '') {
+                $htmlContent = $this->renderPartial('subscribe');
+                $payload = Json::encode([
+                    'sender' => ['email' => 'noreply@weclickdigital.com', 'name' => 'Brickly Homes'],
                     'to' => [['email' => $email]],
                     'subject' => 'Suscripción al blog confirmada',
                     'htmlContent' => $htmlContent,
@@ -109,8 +103,20 @@
                         'content' => $payload,
                     ],
                 ]);
-                @file_get_contents('https://api.brevo.com/v3/smtp/email', false, $context);
-            });
+                $result = file_get_contents('https://api.brevo.com/v3/smtp/email', false, $context);
+                if ($result === false) {
+                    $err = error_get_last();
+                    Yii::error("Brevo API: error al enviar correo a $email - " . ($err['message'] ?? 'desconocido'), __METHOD__);
+                } elseif (!empty($http_response_header)) {
+                    $statusCode = 0;
+                    if (preg_match('/\s(\d{3})\s/', $http_response_header[0] ?? '', $m)) {
+                        $statusCode = (int) $m[1];
+                    }
+                    if ($statusCode < 200 || $statusCode >= 300) {
+                        Yii::error("Brevo API: respuesta HTTP $statusCode al enviar correo a $email - $result", __METHOD__);
+                    }
+                }
+            }
 
             return [
                 'success' => true,

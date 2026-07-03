@@ -121,7 +121,15 @@ return [
             // Disable r= routes
             'enablePrettyUrl' => true,
             'rules' => [
-                        'blog/post/<slug>' => 'blog/post',
+                        'post/<slug>' => 'blog/post',
+                        'search' => 'blog/search',
+                        'search-load-more' => 'blog/search-load-more',
+                        'categories/<id:\d+>' => 'blog/categories',
+                        'category-load-more/<id:\d+>' => 'blog/category-load-more',
+                        'load-more' => 'blog/load-more',
+                        'post-more-topics/<id:\d+>' => 'blog/post-more-topics',
+                        'subscribe' => 'blog/subscribe',
+                        'blog-subscribe' => 'blog/blog-subscribe',
                         '<controller:\w+>/<id:\d+>' => '<controller>/view',
                         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

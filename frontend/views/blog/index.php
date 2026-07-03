@@ -371,12 +371,14 @@ $this->registerJS(<<<JS
                     errorEl.textContent = result.message || 'Gracias por suscribirte.';
                     errorEl.style.color = '#198754';
                     errorEl.style.display = 'block';
+                    setTimeout(() => { errorEl.textContent = ''; errorEl.style.display = 'none'; }, 2000);
                 }
             } else {
                 if (errorEl) {
                     errorEl.textContent = result.message || 'No pudimos procesar tu suscripción en este momento';
                     errorEl.style.color = '#dc3545';
                     errorEl.style.display = 'block';
+                    setTimeout(() => { errorEl.textContent = ''; errorEl.style.display = 'none'; }, 2000);
                 }
             }
         } catch (error) {
