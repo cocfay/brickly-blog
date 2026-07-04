@@ -85,7 +85,7 @@
             if ($apiKey !== '') {
                 $htmlContent = $this->renderPartial('subscribe');
                 $payload = Json::encode([
-                    'sender' => ['email' => 'noreply@weclickdigital.com', 'name' => 'Brickly Homes'],
+                    'sender' => ['email' => 'no-reply@bricklyhomes.com', 'name' => 'Brickly Homes'],
                     'to' => [['email' => $email]],
                     'subject' => 'Suscripción al blog confirmada',
                     'htmlContent' => $htmlContent,
