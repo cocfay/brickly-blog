@@ -19,18 +19,20 @@ class Collections extends ActiveRecord
     public function rules()
     {
         return [
-            [['Name'], 'required'],
+            [['Name', 'Icons'], 'required'],
             [['Name', 'NameEs', 'NameEn', 'NameIt', 'NameFr', 'NamePt', 'NameDe'], 'string'],
             [['Display'], 'number'],
+            [['Icons'], 'string'],
+            [['Slug'], 'safe'],
             //[['FileImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, webp'],
         ];
     }
 
     public function attributeLabels(){
         return [
-            [
-                'Name' => 'Nombre'
-            ]
+            'Name' => 'Nombre',
+            'Icons' => 'Icono',
+            'Slug' => 'Slug',
         ];
     }
 

@@ -37,7 +37,8 @@
             return '<span class="brickly-chip">Blog</span>';
         }
         $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
-        return '<a href="' . Url::to(['categories', 'id' => $cat->CollectionID]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+        $catSlug = $cat->Slug ?: $cat->CollectionID;
+        return '<a href="' . Url::to(['categories', 'slug' => $catSlug]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
     };
 
     $formatDate = static function ($post) use ($meses) {
@@ -75,7 +76,7 @@
                 <div class="mb-4">
                     <?= $categoryLink($model) ?>
                     <h1 class="brickly-article-title mt-4 mb-3"><?= $model->VTitle ?></h1>
-                    <p class="brickly-article-date mb-3"><?= $formatDate($model) ?></p>
+                    <p class="brickly-article-date mb-3"><?= !empty($model->Author) ? ucfirst($model->Author) . ' — ' : '' ?><?= $formatDate($model) ?></p>
                     <?php if (!empty($articleImage)): ?>
                         <img src="<?= htmlspecialchars($articleImage, ENT_QUOTES, 'UTF-8') ?>" class="w-100 brickly-article-hero-image" alt="<?= htmlspecialchars($model->VTitle, ENT_QUOTES, 'UTF-8') ?>">
                     <?php endif; ?>
@@ -166,7 +167,7 @@
                                     <div class="position-relative">
                                         <img src="<?= htmlspecialchars(!empty($property['image']) ? $property['image'] : Yii::getAlias('@web') . '/images/logos/logo_negro.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?>">
                                         <div class="position-absolute top-0 px-1 py-2">
-                                            <img src="<?= Yii::getAlias('@web') . '/images/blogItems/diamond.png' ?>" style="width: 24px; height: 24px;" alt="Destacada">
+                                            <img src="<?= Yii::getAlias('@web') . '/images/blogItems/diamond.png' ?>" style="width: 16px; height: 16px;" alt="Destacada">
                                         </div>
                                     </div>
                                     <div class="brickly-property-mockup__content">

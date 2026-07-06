@@ -63,7 +63,9 @@ Editor.defaultConfig = {
 			'outdent',
 			'indent',
 			'|',
-			'fontColor'
+			'fontColor',
+			'|',
+			'link'
 		]
 	},
 	language: 'es',

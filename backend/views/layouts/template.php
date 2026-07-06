@@ -321,7 +321,7 @@ $profileEditUrl = Url::to(['/usuario/update', 'id' => $UserData->AccountID]);
               </div>
               <div class="flex-grow-1 ">
                 <h5 class="font-size-16 mb-0 text-truncate">
-                  <a class="text-reset user-profile-show" href="<?= $profileEditUrl; ?>"><?= (!empty($UserData->Name)) ? $UserData->Name : $UserData->UserName; ?> </a>
+                  <a class="text-reset user-profile-show" href="<?= $profileEditUrl; ?>"><?= ucfirst($UserData->UserName); ?> </a>
                 </h5>
               </div>
             </div>

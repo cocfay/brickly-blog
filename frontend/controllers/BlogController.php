@@ -84,6 +84,8 @@
 			->select([
 				'c.CollectionID',
 				'c.NameEs',
+				'c.Icons',
+				'c.Slug',
 				'post_count' => new Expression('COUNT(DISTINCT p.PostBlogID)'),
 			])
 			->innerJoin('{{%CollectionByPost}} cbp', 'cbp.CollectionID = c.CollectionID')
@@ -342,20 +344,21 @@
 			];
 		}
 
-		public function actionCategories($id){
+		public function actionCategories($slug){
 
 			$data = [];
-			$this->layout = "/lead"; //archivo para el header y footer, dentro de la carpeta layouts tiene que tener el mismo nombre
+			$this->layout = "/lead";
 
 			$data['lang'] = 'es';
 
-			$data['model'] = Collections::find()->where(['CollectionID' => $id])->one();
+			$condition = is_numeric($slug) ? ['CollectionID' => $slug] : ['Slug' => $slug];
+			$data['model'] = Collections::find()->where($condition)->one();
 			if (!$data['model']) {
 				throw new \yii\web\NotFoundHttpException('La categoría solicitada no existe.');
 			}
 
 			$search = trim((string) Yii::$app->request->get('q', ''));
-			$postsQuery = $this->categoryPostsQuery($id, $search);
+			$postsQuery = $this->categoryPostsQuery($data['model']->CollectionID, $search);
 
 			$data['pagination'] = new Pagination([
 				'defaultPageSize' => 6,
@@ -370,7 +373,7 @@
 			return $this->render('categoria', $data);
 		}
 
-		public function actionCategoryLoadMore($id, $offset = 0, $limit = 6, $q = '')
+		public function actionCategoryLoadMore($slug, $offset = 0, $limit = 6, $q = '')
 		{
 			Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -378,7 +381,14 @@
 			$limit = max(1, min(12, (int) $limit));
 			$search = trim((string) $q);
 
-			$query = $this->categoryPostsQuery($id, $search);
+			$condition = is_numeric($slug) ? ['CollectionID' => $slug] : ['Slug' => $slug];
+			$category = Collections::find()->where($condition)->one();
+			if (!$category) {
+				Yii::$app->response->statusCode = 404;
+				return ['success' => false, 'html' => '', 'nextOffset' => 0, 'hasMore' => false, 'total' => 0];
+			}
+
+			$query = $this->categoryPostsQuery($category->CollectionID, $search);
 			$total = (clone $query)->count();
 			$posts = $query
 			->offset($offset)

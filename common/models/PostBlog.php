@@ -29,7 +29,8 @@ class PostBlog extends ActiveRecord
 	public function rules()
     {
         return [
-            [['AccountID', 'VTitle', 'CreateAT'], 'required'],
+            [['AccountID', 'VTitle', 'CreateAT', 'Author'], 'required'],
+            [['Author'], 'trim'],
             [['ImagePost'], 'validateCoverImage', 'skipOnEmpty' => false],
             // [['discard'], 'safe'],
             [['CreateAT'],  'string'],
@@ -88,7 +89,8 @@ class PostBlog extends ActiveRecord
             'CollectionID' => 'Colecciones',
             'CreateAT' => 'Fecha de publicación',
             'RequestFile' => $postCoverImage[$lang],
-            'Featured' => 'En tendencia'
+            'Featured' => 'En tendencia',
+            'Author' => 'Autor'
         ];
     }
 

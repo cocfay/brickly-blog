@@ -50,7 +50,7 @@ $search = $search ?? '';
         </div>
 
         <div class="brickly-blog-more text-center<?= $hasMorePosts ? '' : ' d-none' ?>" data-category-more>
-            <button type="button" class="brickly-outline-button brickly-load-more-button" data-url="<?= Url::to(['category-load-more', 'id' => $model->CollectionID]) ?>" data-offset="<?= $loadedPosts ?>" data-limit="6" data-search="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>">
+            <button type="button" class="brickly-outline-button brickly-load-more-button" data-url="<?= Url::to(['category-load-more', 'slug' => $model->Slug ?: $model->CollectionID]) ?>" data-offset="<?= $loadedPosts ?>" data-limit="6" data-search="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>">
                 <span>VER M&Aacute;S</span>
                 <i class="fa-solid fa-angle-right"></i>
             </button>

@@ -258,6 +258,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6">
+                                <div class="backGround mb-3 d-block">
+                                    <?= $form->field($ModelBlog, 'Author')->textInput(['class' => 'form-control'])->label('Autor', ['class' => 'form-label fw-bold']); ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
                                 <div class="backGround mb-3 collecionstoy d-block">
                                     <?php $labels = ($ModelBlog->isNewRecord) ? 'CollectionID' : 'Labels' ?>
                                     <?=

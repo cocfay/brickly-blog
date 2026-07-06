@@ -284,6 +284,9 @@
 			$data['projectsList'] = ArrayHelper::map($projects, 'PorfolioID', 'Title');
 			$data['collectionList'] = ArrayHelper::map($colecciones, 'CollectionID', 'Name');
 
+			$authors = UserAccount::find()->all();
+			$data['authorList'] = ArrayHelper::map($authors, 'AccountID', 'Name');
+
 			if($postBlogModel->load(Yii::$app->request->post())){
 
 				$postBlogModel->RequestFile  = UploadedFile::getInstance($postBlogModel, 'RequestFile');
@@ -763,6 +766,16 @@
 					$model->$Name = $nameText;
 				}
 
+				if (!$model->Slug) {
+					$baseSlug = \yii\helpers\Inflector::slug($model->Name);
+					$slug = $baseSlug;
+					$counter = 1;
+					while (Collections::find()->where(['Slug' => $slug])->andFilterWhere(['!=', 'CollectionID', $model->CollectionID])->exists()) {
+						$slug = $baseSlug . '-' . ++$counter;
+					}
+					$model->Slug = $slug;
+				}
+
                 if ($model->save()){
                     Yii::$app->session->setFlash('success', "Categoría guardado correctamente..");
                     return $this->redirect(['category']);
@@ -785,6 +798,8 @@
 			$dataRole = Collections::find()->select(["*", "Name" . ucfirst($data['lang']) . " AS Name"])->where(['CollectionID' => $id])->one();
 			$data['CollectionID'] = $dataRole->CollectionID;
 			$data['Name'] = $dataRole->Name;
+			$data['Icons'] = $dataRole->Icons;
+			$data['Slug'] = $dataRole->Slug;
 			echo json_encode($data);
 		}
 

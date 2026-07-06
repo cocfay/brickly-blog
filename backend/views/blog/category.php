@@ -51,6 +51,16 @@
                             'contentOptions' => ['style' => 'vertical-align:middle;'],
                         ],
                         [
+                            'attribute' => 'Icono',
+                            'class' => 'yii\grid\DataColumn',
+                            'value' => function ($data) {
+                                return '<i class="' . $data->Icons . '" style="font-size:18px;"></i>';
+                            },
+                            'format' => 'raw',
+                            'headerOptions' => ['style' => 'text-align: center;'],
+                        'contentOptions' => ['style' => 'vertical-align:middle; text-align:center;'],
+                        ],
+                        [
                             'class' => 'yii\grid\ActionColumn',
                             'header' => 'Acciones',
                             'headerOptions' => ['style' => 'text-align: center;'],
@@ -117,9 +127,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
-                <div class="cpanel-modal-field">
-                    <?= $form->field($model, 'Name')->textInput(['maxlength' => true, 'class' => 'form-control cpanel-modal-input', 'placeholder' => 'Ej. Tecnologia'])->label('Nombre'); ?>
-                    <span class="cpanel-modal-field-icon"><i class="fa-regular fa-folder"></i></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="cpanel-modal-field">
+                            <?= $form->field($model, 'Name')->textInput(['maxlength' => true, 'class' => 'form-control cpanel-modal-input', 'placeholder' => 'Ej. Tecnologia'])->label('Nombre'); ?>
+                            <span class="cpanel-modal-field-icon"><i class="fa-regular fa-folder"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="cpanel-modal-field">
+                            <?= $form->field($model, 'Icons')->textInput(['maxlength' => true, 'class' => 'form-control cpanel-modal-input', 'placeholder' => 'Ej. fa-solid fa-house', 'required' => true])->label('Icono'); ?>
+                            <span class="cpanel-modal-field-icon"><i class="fa-solid fa-icons"></i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -139,9 +159,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
-                <div class="cpanel-modal-field">
-                    <?= $form->field($model, 'Name')->textInput(['id' => 'UpdateName', 'maxlength' => true, 'class' => 'form-control cpanel-modal-input', 'placeholder' => 'Ej. Tecnologia'])->label('Nombre'); ?>
-                    <span class="cpanel-modal-field-icon"><i class="fa-regular fa-folder"></i></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="cpanel-modal-field">
+                            <?= $form->field($model, 'Name')->textInput(['id' => 'UpdateName', 'maxlength' => true, 'class' => 'form-control cpanel-modal-input', 'placeholder' => 'Ej. Tecnologia'])->label('Nombre'); ?>
+                            <span class="cpanel-modal-field-icon"><i class="fa-regular fa-folder"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="cpanel-modal-field">
+                            <?= $form->field($model, 'Icons')->textInput(['id' => 'UpdateIcons', 'maxlength' => true, 'class' => 'form-control cpanel-modal-input', 'placeholder' => 'Ej. fa-solid fa-house', 'required' => true])->label('Icono'); ?>
+                            <span class="cpanel-modal-field-icon"><i class="fa-solid fa-icons"></i></span>
+                        </div>
+                    </div>
                 </div>
                 <?= $form->field($model, 'CollectionID')->hiddenInput(['id' => 'UpdateID'])->label(false); ?>
             </div>
@@ -179,6 +209,8 @@ edit.forEach(i => {
             obj = JSON.parse(dt);
             $('#UpdateID').val(obj.CollectionID);
             $('#UpdateName').val(obj.Name);
+            $('#UpdateIcons').val(obj.Icons);
+            $('#UpdateSlug').val(obj.Slug);
         });
     });
 });

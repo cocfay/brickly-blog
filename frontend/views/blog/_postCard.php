@@ -31,7 +31,7 @@ $dateText = $meses[date('n', strtotime($datos->CreateAT))] . ', ' . date('Y', st
         </a>
         <div class="brickly-post-card__content">
             <?php if ($primaryTagId): ?>
-                <a href="<?= Url::to(['categories', 'id' => $primaryTagId]) ?>" class="brickly-chip text-decoration-none"><?= htmlspecialchars($primaryTag, ENT_QUOTES, 'UTF-8') ?></a>
+                <a href="<?= Url::to(['categories', 'slug' => $primaryCategory->Slug ?: $primaryTagId]) ?>" class="brickly-chip text-decoration-none"><?= htmlspecialchars($primaryTag, ENT_QUOTES, 'UTF-8') ?></a>
             <?php else: ?>
                 <span class="brickly-chip"><?= htmlspecialchars($primaryTag, ENT_QUOTES, 'UTF-8') ?></span>
             <?php endif; ?>

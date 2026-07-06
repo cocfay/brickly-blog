@@ -1592,34 +1592,9 @@ body.cpanel-modern .modal-backdrop,
     padding-right: 58px !important;
 }
 
-.cpanel-modern .cpanel-modal .cpanel-modal-field:has(.has-error)::after,
-.cpanel-modern .cpanel-modal .cpanel-modal-field:has(.is-invalid)::after {
-    align-items: center;
-    border: 2px solid #ff2f46;
-    border-radius: 50%;
-    color: #ff2f46;
-    content: "!";
-    display: inline-flex;
-    font-size: 12px;
-    font-weight: 700;
-    height: 22px;
-    justify-content: center;
-    line-height: 1;
-    pointer-events: none;
-    position: absolute;
-    right: 18px;
-    top: 46px;
-    width: 22px;
-    z-index: 3;
-}
-
-.cpanel-modern .cpanel-modal .help-block,
-.cpanel-modern .cpanel-modal .invalid-feedback {
-    color: #ff2f46;
-    display: block;
-    font-size: 16px;
-    line-height: 1.25;
-    margin: 10px 0 0;
+.cpanel-modern .cpanel-modal .cpanel-modal-field:has(.has-error)::before,
+.cpanel-modern .cpanel-modal .cpanel-modal-field:has(.is-invalid)::before {
+    content: none !important;
 }
 
 .cpanel-modern .cpanel-modal .modal-footer {

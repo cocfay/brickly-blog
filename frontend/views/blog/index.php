@@ -40,7 +40,8 @@ $categoryLink = static function ($post) use ($names) {
         return '<span class="brickly-chip">Blog</span>';
     }
     $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
-    return '<a href="' . Url::to(['categories', 'id' => $cat->CollectionID]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+    $catSlug = $cat->Slug ?: $cat->CollectionID;
+    return '<a href="' . Url::to(['categories', 'slug' => $catSlug]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
 };
 
 $formatDate = static function ($post) use ($meses) {
@@ -58,16 +59,6 @@ $gridPosts = array_slice($gridPosts, 0, 6);
 $loadedPosts = isset($pagination) ? $pagination->offset + count($result) : count($result);
 $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
 
-$categoryIcons = [
-    'inversión' => 'fa-solid fa-seedling',
-    'remodelación' => 'fa-solid fa-hammer',
-    'diseño inteligente' => 'fa-solid fa-gear',
-    'diseño de interiores' => 'fa-solid fa-couch',
-    'alta inversión' => 'fa-regular fa-gem',
-    'bienes raíces' => 'fa-solid fa-house',
-    'arquitectura' => 'fa-solid fa-compass-drafting',
-    'tendencias' => 'fa-solid fa-arrow-trend-up',
-];
 ?>
 
 <div class="container">
@@ -183,11 +174,10 @@ $categoryIcons = [
                             <?php foreach (($categories ?? []) as $category): ?>
                                 <?php
                                     $categoryName = htmlspecialchars($category['NameEs'], ENT_QUOTES, 'UTF-8');
-                                    $categoryKey = mb_strtolower(trim($category['NameEs']), 'UTF-8');
-                                    $categoryIcon = $categoryIcons[$categoryKey] ?? 'fa-solid fa-tag';
+                                    $categoryIcon = !empty($category['Icons']) ? $category['Icons'] : 'fa-solid fa-tag';
                                 ?>
                                 <li>
-                                    <a href="<?= Url::to(['categories', 'id' => $category['CollectionID']]) ?>" class="brickly-sidebar-list__link text-decoration-none">
+                                    <a href="<?= Url::to(['categories', 'slug' => $category['Slug'] ?: $category['CollectionID']]) ?>" class="brickly-sidebar-list__link text-decoration-none">
                                         <span class="brickly-sidebar-list__label"><i class="<?= $categoryIcon ?> brickly-sidebar-list__icon" aria-hidden="true"></i> <?= $categoryName ?></span>
                                         <strong><?= (int) $category['post_count'] ?></strong>
                                     </a>
@@ -205,7 +195,7 @@ $categoryIcons = [
                                         <div class="position-relative">
                                             <img src="<?= htmlspecialchars(!empty($property['image']) ? $property['image'] : Yii::getAlias('@web') . '/images/logos/logo_negro.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($property['title'], ENT_QUOTES, 'UTF-8') ?>">
                                             <div class="position-absolute top-0 px-1 py-1">
-                                                <img src="<?= Yii::getAlias('@web') . '/images/blogItems/diamond.png' ?>" style="width: 24px; height: 24px;" alt="Destacada">
+                                                <img src="<?= Yii::getAlias('@web') . '/images/blogItems/diamond.png' ?>" style="width: 16px; height: 16px;" alt="Destacada">
                                             </div>
                                         </div>
                                         <div class="brickly-property-mockup__content">
