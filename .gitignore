@@ -2,3 +2,8 @@
 /common/config/params-local.php
 /.env
 /post/
+/vendor/
+/runtime/
+/frontend/runtime/
+/backend/runtime/
+/console/runtime/
