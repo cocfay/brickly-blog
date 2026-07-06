@@ -30,18 +30,22 @@ $extractDescription = static function ($post) {
     return '';
 };
 
-$primaryTag = static function ($post) use ($names) {
-    return !empty($post->blogBy[0]) ? $post->blogBy[0]->$names : 'Blog';
+$postUrl = static function ($post) {
+    return Url::to(['post', 'slug' => $post->Slug ?: $post->PostBlogID]);
 };
 
 $categoryLink = static function ($post) use ($names) {
-    $cat = $post->blogBy[0] ?? null;
-    if (!$cat) {
+    $cats = $post->blogBy ?? [];
+    if (empty($cats)) {
         return '<span class="brickly-chip">Blog</span>';
     }
-    $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
-    $catSlug = $cat->Slug ?: $cat->CollectionID;
-    return '<a href="' . Url::to(['categories', 'slug' => $catSlug]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+    $chips = [];
+    foreach ($cats as $cat) {
+        $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
+        $catSlug = $cat->Slug ?: $cat->CollectionID;
+        $chips[] = '<a href="' . Url::to(['categories', 'slug' => $catSlug]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+    }
+    return implode(' ', $chips);
 };
 
 $formatDate = static function ($post) use ($meses) {
@@ -96,18 +100,18 @@ $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
             <div class="col-xl-7">
                 <?php if ($featuredPost): ?>
                     <article class="brickly-featured-card">
-                        <a href="<?= Url::to(['post', 'slug' => $featuredPost->Slug]) ?>" class="brickly-post-card__image-link">
+                        <a href="<?= $postUrl($featuredPost) ?>" class="brickly-post-card__image-link">
                             <img src="<?= $featuredPost->ImagePost ?>" alt="<?= htmlspecialchars($featuredPost->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-featured-card__image">
                         </a>
                         <div class="brickly-featured-card__content">
                             <?= $categoryLink($featuredPost) ?>
                             <h2 class="brickly-featured-card__title">
-                                <a href="<?= Url::to(['post', 'slug' => $featuredPost->Slug]) ?>"><?= $featuredPost->title ?></a>
+                                <a href="<?= $postUrl($featuredPost) ?>"><?= $featuredPost->title ?></a>
                             </h2>
                             <p class="brickly-featured-card__excerpt"><?= $extractDescription($featuredPost) ?></p>
                             <div class="brickly-featured-card__footer">
                                 <span><?= $formatDate($featuredPost) ?></span>
-                                <a href="<?= Url::to(['post', 'slug' => $featuredPost->Slug]) ?>" class="brickly-read-more">Leer artículo <i class="fa-solid fa-arrow-right-long"></i></a>
+                                <a href="<?= $postUrl($featuredPost) ?>" class="brickly-read-more">Leer artículo <i class="fa-solid fa-arrow-right-long"></i></a>
                             </div>
                         </div>
                     </article>
@@ -118,13 +122,13 @@ $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
                 <div class="brickly-post-list">
                     <?php foreach ($sidePosts as $datos): ?>
                         <article class="brickly-list-post">
-                            <a href="<?= Url::to(['post', 'slug' => $datos->Slug]) ?>" class="brickly-list-post__thumb-link">
+                            <a href="<?= $postUrl($datos) ?>" class="brickly-list-post__thumb-link">
                                 <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-list-post__thumb">
                             </a>
                             <div class="brickly-list-post__body">
                                 <?= $categoryLink($datos) ?>
                                 <h3 class="brickly-list-post__title">
-                                    <a href="<?= Url::to(['post', 'slug' => $datos->Slug]) ?>"><?= $datos->title ?></a>
+                                    <a href="<?= $postUrl($datos) ?>"><?= $datos->title ?></a>
                                 </h3>
                                 <span class="brickly-list-post__date"><?= $formatDate($datos) ?></span>
                             </div>

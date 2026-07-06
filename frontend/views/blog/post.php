@@ -27,18 +27,18 @@
     $moreTopicsTotal = $moreTopicsTotal ?? $moreTopicsLoaded;
     $hasMoreTopics = $moreTopicsLoaded < $moreTopicsTotal;
 
-    $primaryTag = static function ($post) use ($names) {
-        return !empty($post->blogBy[0]) ? $post->blogBy[0]->$names : 'Blog';
-    };
-
     $categoryLink = static function ($post) use ($names) {
-        $cat = $post->blogBy[0] ?? null;
-        if (!$cat) {
+        $cats = $post->blogBy ?? [];
+        if (empty($cats)) {
             return '<span class="brickly-chip">Blog</span>';
         }
-        $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
-        $catSlug = $cat->Slug ?: $cat->CollectionID;
-        return '<a href="' . Url::to(['categories', 'slug' => $catSlug]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+        $chips = [];
+        foreach ($cats as $cat) {
+            $name = htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8');
+            $catSlug = $cat->Slug ?: $cat->CollectionID;
+            $chips[] = '<a href="' . Url::to(['categories', 'slug' => $catSlug]) . '" class="brickly-chip text-decoration-none">' . $name . '</a>';
+        }
+        return implode(' ', $chips);
     };
 
     $formatDate = static function ($post) use ($meses) {
@@ -53,7 +53,7 @@
         return '';
     };
 
-    $articleUrl = $model->Slug ? Url::to(['post', 'slug' => $model->Slug], true) : Url::to(['post', 'id' => $model->PostBlogID], true);
+    $articleUrl = Url::to(['post', 'slug' => $model->Slug ?: $model->PostBlogID], true);
     $articleExcerpt = $extractDescription($model);
     $articleImage = method_exists($model, 'PatchIMG') ? $model->PatchIMG() : $model->ImagePost;
 ?>
@@ -142,7 +142,7 @@
                         <div class="d-flex flex-column gap-4">
                             <?php foreach($relatedPosts as $datos): ?>
                                 <article class="brickly-detail-related-post">
-                                    <a href="<?= $datos->Slug ? Url::to(['post', 'slug' => $datos->Slug]) : Url::to(['post', 'id' => $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
+                                    <a href="<?= Url::to(['post', 'slug' => $datos->Slug ?: $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
                                         <div class="brickly-detail-related-post__inner">
                                             <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-detail-related-post__img">
                                             <div class="brickly-detail-related-post__content">

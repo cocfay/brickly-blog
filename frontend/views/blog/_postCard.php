@@ -17,10 +17,8 @@ $meses = [
     12 => 'Diciembre',
 ];
 
-$postUrl = $datos->Slug ? Url::to(['post', 'slug' => $datos->Slug]) : Url::to(['post', 'id' => $datos->PostBlogID]);
-$primaryCategory = $datos->blogBy[0] ?? null;
-$primaryTag = $primaryCategory ? $primaryCategory->$names : 'Blog';
-$primaryTagId = $primaryCategory ? $primaryCategory->CollectionID : null;
+$postUrl = Url::to(['post', 'slug' => $datos->Slug ?: $datos->PostBlogID]);
+$categories = $datos->blogBy ?? [];
 $dateText = $meses[date('n', strtotime($datos->CreateAT))] . ', ' . date('Y', strtotime($datos->CreateAT));
 ?>
 
@@ -30,10 +28,12 @@ $dateText = $meses[date('n', strtotime($datos->CreateAT))] . ', ' . date('Y', st
             <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-post-card__image">
         </a>
         <div class="brickly-post-card__content">
-            <?php if ($primaryTagId): ?>
-                <a href="<?= Url::to(['categories', 'slug' => $primaryCategory->Slug ?: $primaryTagId]) ?>" class="brickly-chip text-decoration-none"><?= htmlspecialchars($primaryTag, ENT_QUOTES, 'UTF-8') ?></a>
+            <?php if (!empty($categories)): ?>
+                <?php foreach ($categories as $cat): ?>
+                    <a href="<?= Url::to(['categories', 'slug' => $cat->Slug ?: $cat->CollectionID]) ?>" class="brickly-chip text-decoration-none"><?= htmlspecialchars($cat->$names, ENT_QUOTES, 'UTF-8') ?></a>
+                <?php endforeach; ?>
             <?php else: ?>
-                <span class="brickly-chip"><?= htmlspecialchars($primaryTag, ENT_QUOTES, 'UTF-8') ?></span>
+                <span class="brickly-chip">Blog</span>
             <?php endif; ?>
             <h3 class="brickly-post-card__title">
                 <a href="<?= $postUrl ?>"><?= $datos->title ?></a>
