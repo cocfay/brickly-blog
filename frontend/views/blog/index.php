@@ -101,7 +101,7 @@ $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
                 <?php if ($featuredPost): ?>
                     <article class="brickly-featured-card">
                         <a href="<?= $postUrl($featuredPost) ?>" class="brickly-post-card__image-link">
-                            <img src="<?= $featuredPost->ImagePost ?>" alt="<?= htmlspecialchars($featuredPost->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-featured-card__image">
+                            <img src="<?= $featuredPost->PatchIMG() ?>" alt="<?= htmlspecialchars($featuredPost->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-featured-card__image">
                         </a>
                         <div class="brickly-featured-card__content">
                             <?= $categoryLink($featuredPost) ?>
@@ -123,7 +123,7 @@ $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
                     <?php foreach ($sidePosts as $datos): ?>
                         <article class="brickly-list-post">
                             <a href="<?= $postUrl($datos) ?>" class="brickly-list-post__thumb-link">
-                                <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-list-post__thumb">
+                                <img src="<?= $datos->PatchIMG() ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-list-post__thumb">
                             </a>
                             <div class="brickly-list-post__body">
                                 <?= $categoryLink($datos) ?>

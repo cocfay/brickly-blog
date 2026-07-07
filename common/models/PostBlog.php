@@ -121,39 +121,31 @@ class PostBlog extends ActiveRecord
     }
 
     public function PatchIMG(){
-
-        $returnImg = $this->ImagePost;
+        $parts = explode('/post/', $this->ImagePost);
+        $filename = end($parts);
+        $returnImg = Url::to('@raizweb/post/') . $filename;
         $user_agent = $_SERVER['HTTP_USER_AGENT']; 
 
-        if(stripos( $user_agent, 'Safari') !== false && !(stripos( $user_agent, 'Chrome') !== false)){
-
-            $GetNameImage = explode('/post/',$this->ImagePost);
-            $GetNameImage = $GetNameImage[1];
-
-            $fPath = \Yii::getAlias('@proyectroot');
-            $dirImage = $fPath.'/post/';
+        if(stripos($user_agent, 'Safari') !== false && !(stripos($user_agent, 'Chrome') !== false)){
             $SafaryIMG = str_replace(
                                     ['.webp','.WEBP'],
                                     ['.jpg','.jpg'],
-                                    $GetNameImage
+                                    $filename
                                 );
+            $fPath = \Yii::getAlias('@proyectroot');
+            $dirImage = $fPath.'/post/';
             if(!file_exists($dirImage.$SafaryIMG)){
-                 $FileWeb = Yii::getAlias($dirImage.$GetNameImage);
+                 $FileWeb = Yii::getAlias($dirImage.$filename);
                 $convert = new ConvertToWebP();
                 $UpFiileConv = $convert->convert($FileWeb,80,false,'jpg');
-
                 if($UpFiileConv->status == 1){
-                    // $returnImg = $SafaryIMG;
                     $returnImg = Url::to('@raizweb/post/',true).$SafaryIMG;
                 }
-
             }else{
                 $returnImg = Url::to('@raizweb/post/',true).$SafaryIMG;
             }
         }
-
         return $returnImg;
-
     }
 
     public function getAccount(){

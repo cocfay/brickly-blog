@@ -25,7 +25,7 @@ $dateText = $meses[date('n', strtotime($datos->CreateAT))] . ', ' . date('Y', st
 <div class="col-md-6 col-xl-4 brickly-post-card-item">
     <article class="brickly-post-card">
         <a href="<?= $postUrl ?>" class="brickly-post-card__image-link">
-            <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-post-card__image">
+            <img src="<?= $datos->PatchIMG() ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-post-card__image">
         </a>
         <div class="brickly-post-card__content">
             <?php if (!empty($categories)): ?>

@@ -147,7 +147,7 @@
                                 <article class="brickly-detail-related-post">
                                     <a href="<?= Url::to(['post', 'slug' => $datos->Slug ?: $datos->PostBlogID]) ?>" class="text-decoration-none text-reset">
                                         <div class="brickly-detail-related-post__inner">
-                                            <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-detail-related-post__img">
+                                            <img src="<?= $datos->PatchIMG() ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-detail-related-post__img">
                                             <div class="brickly-detail-related-post__content">
                                                 <?= $categoryLink($datos, 1) ?>
                                                 <h4 class="brickly-detail-related-post__title"><?= $datos->title ?></h4>
