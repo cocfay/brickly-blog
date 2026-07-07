@@ -359,7 +359,7 @@ function tiempoTranscurrido($fechaPasada) {
         <?php foreach($BlogPosts as $index => $post): ?>
           <div class="col-12 mt-2 article px-3 <?= $index > 0 ? 'py-4' : '' ?>" style="">
               <a href="<?= Url::to('@raizweb').'/blog/post/'.$post->PostBlogID; ?>" target="_blank" class="text-decoration-none ">
-                  <div class="position-relative"><img src="<?= $post->ImagePost ?>" class="w-100 rounded" alt="image" style="aspect-ratio: 16/ 9; object-fit: cover;"></div>
+                  <div class="position-relative"><img src="<?= $post->PatchIMG() ?>" class="w-100 rounded" alt="image" style="aspect-ratio: 16/ 9; object-fit: cover;"></div>
                   <div class="my-3 lh-sm text-limit-2" style="font-size: clamp(22px, 1.55vw, 24px); color: var(--bs-dark)"><?= $post->title ?></div>
                   <div class="text-limit-3 d-block" style="font-size: clamp(16px, 1.55vw, 18px); color: var(--color-text-descrip);">
                     <?php $c = $post->centerComponents[0] ?>

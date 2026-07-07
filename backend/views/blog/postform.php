@@ -313,7 +313,7 @@
                             <?php $coverHasImage = !empty($ModelBlog->ImagePost); ?>
                             <div class="cpanel-post-cover-field">
                                 <label id="postCoverDropzone" for="postImage" class="cpanel-post-upload cpanel-post-cover-upload <?= $coverHasImage ? 'has-preview' : '' ?>">
-                                    <img src="<?= $coverHasImage ? $ModelBlog->ImagePost : '' ?>" alt="Imagen principal" id="ViewpostImage" class="cpanel-upload-preview">
+                                    <img src="<?= $coverHasImage ? $ModelBlog->PatchIMG() : '' ?>" alt="Imagen principal" id="ViewpostImage" class="cpanel-upload-preview">
                                     <span class="cpanel-upload-empty">
                                         <span class="cpanel-upload-icon"><i class="fa-regular fa-image"></i></span>
                                         <span class="cpanel-upload-title">Agregar foto de portada</span>
@@ -413,7 +413,7 @@
                                     <div class="cpanel-post-image-layout">
                                         <div class="cpanel-post-component-media">
                                             <label for="imagecomponent-<?= $k; ?>" class="cpanel-post-upload cpanel-post-component-upload <?= $Component->ImagePatch ? 'has-preview' : '' ?>">
-                                                <img class="cpanel-upload-preview" id="preview-image-up-<?= $k; ?>" src="<?= $Component->ImagePatch?: ''; ?>" alt="imagen de componente">
+                                                <img class="cpanel-upload-preview" id="preview-image-up-<?= $k; ?>" src="<?= $Component->PatchIMG() ?: ''; ?>" alt="imagen de componente">
                                                 <span class="cpanel-upload-empty">
                                                     <span class="cpanel-upload-icon"><i class="fa-regular fa-image"></i></span>
                                                     <span class="cpanel-upload-title">Subir imagen</span>
