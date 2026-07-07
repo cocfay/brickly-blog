@@ -24,7 +24,7 @@ class PostBlogCenterComponents extends ActiveRecord
     {
         return [
             [[ 'Type', 'PostBlogID'], 'required'],
-            [['PostBlogCenterComponentID','PostBlogID', 'Type'], 'number'],
+            [['PostBlogCenterComponentID','PostBlogID', 'Type', 'SortOrder'], 'number'],
         ];
     }
 

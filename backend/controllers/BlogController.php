@@ -443,7 +443,9 @@
 					}
 
 					foreach ($Components as $Componenet) {
+						$sortOrder = isset($Componenet['SortOrder']) ? (int)$Componenet['SortOrder'] : 0;
 						$Center = new PostBlogCenterComponents(['PostBlogID'=>$postBlogModel->PostBlogID]);
+						$Center->SortOrder = $sortOrder;
 						switch ($Componenet['Type']) {
 							case '1':
 								if( !empty($Componenet['TextBox'])){

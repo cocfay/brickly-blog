@@ -199,6 +199,64 @@
 
 /* ########################################################## */
 
+.component-position-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 8px;
+}
+
+.component-position-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border-radius: 6px;
+    background: #eef2f6;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.component-move-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.component-move-up,
+.component-move-down {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid #cfd7e4;
+    border-radius: 3px;
+    background: #fff;
+    color: #647084;
+    font-size: 10px;
+    cursor: pointer;
+    line-height: 1;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.component-move-up:hover,
+.component-move-down:hover {
+    border-color: #111827;
+    color: #111827;
+}
+
+.cpanel-post-component-header .cpanel-post-component-remove {
+    margin-left: auto;
+}
+
+
+
 @media (width < 720px){
     .preview-right{
         display: none;

@@ -206,6 +206,9 @@
             border-radius: 6px; 
             background: #fff;
         }
+        .ck.ck-title {
+            display: none !important;
+        }
     </style>
     <?php if (Yii::$app->session->hasFlash('success')): ?>
         <center>
@@ -352,17 +355,25 @@
                                     */
 
                                  ?>
-                                <div class="cpanel-post-component cpanel-post-component-text">
+                                <div class="cpanel-post-component cpanel-post-component-text" data-component-index="<?= $k; ?>">
                                     <div class="cpanel-post-component-header">
+                                        <div class="component-position-controls">
+                                            <span class="component-position-badge"><?= $k + 1 ?></span>
+                                            <div class="component-move-buttons">
+                                                <button type="button" class="component-move-up" title="Mover arriba"><i class="fa-solid fa-chevron-up"></i></button>
+                                                <button type="button" class="component-move-down" title="Mover abajo"><i class="fa-solid fa-chevron-down"></i></button>
+                                            </div>
+                                        </div>
                                         <div>
                                             <span class="cpanel-post-component-kicker">Bloque editorial</span>
                                             <h3 data-section="form-post" data-value="textco">Componente de Texto</h3>
                                         </div>
                                         <button type="button" onclick="$(this).closest('.cpanel-post-component').remove();" class="cpanel-post-component-remove" aria-label="Eliminar componente"><i class="fa-regular fa-trash-can"></i></button>
                                         <input type="hidden" name="Components[<?= $k; ?>][Type]" value="1">
+                                        <input type="hidden" name="Components[<?= $k; ?>][SortOrder]" value="<?= $k; ?>" class="component-sort-order">
                                     </div>
                                     <div class="cpanel-post-editor-wrap">
-                                         <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= Html::encode($Component->Description); ?></textarea>
+                                         <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= str_replace('</textarea>', '&lt;/textarea&gt;', $Component->Description); ?></textarea>
                                         <input type="hidden" name="Components[<?= $k; ?>][MovilTextBox]" id="image-movil-description-<?= $k; ?>" value="<?= Html::encode($Component->DescriptionMovil ?: ''); ?>">
                                     </div>
                                 </div>
@@ -381,14 +392,22 @@
                                     */
 
                                  ?>
-                                <div class="cpanel-post-component cpanel-post-component-image">
+                                <div class="cpanel-post-component cpanel-post-component-image" data-component-index="<?= $k; ?>">
                                     <div class="cpanel-post-component-header">
+                                        <div class="component-position-controls">
+                                            <span class="component-position-badge"><?= $k + 1 ?></span>
+                                            <div class="component-move-buttons">
+                                                <button type="button" class="component-move-up" title="Mover arriba"><i class="fa-solid fa-chevron-up"></i></button>
+                                                <button type="button" class="component-move-down" title="Mover abajo"><i class="fa-solid fa-chevron-down"></i></button>
+                                            </div>
+                                        </div>
                                         <div>
                                             <span class="cpanel-post-component-kicker">Media 4:3</span>
                                             <h3><?= $imageComponent[$lang] ?></h3>
                                         </div>
                                         <button type="button" onclick="$(this).closest('.cpanel-post-component').remove();" class="cpanel-post-component-remove" aria-label="Eliminar componente"><i class="fa-regular fa-trash-can"></i></button>
                                         <input type="hidden" name="Components[<?= $k; ?>][Type]" value="2">
+                                        <input type="hidden" name="Components[<?= $k; ?>][SortOrder]" value="<?= $k; ?>" class="component-sort-order">
                                     </div>
 
                                     <div class="cpanel-post-image-layout">
@@ -448,14 +467,22 @@
 
 
                                  ?>
-                                <div class="cpanel-post-component cpanel-post-component-video">
+                                <div class="cpanel-post-component cpanel-post-component-video" data-component-index="<?= $k; ?>">
                                     <div class="cpanel-post-component-header">
+                                        <div class="component-position-controls">
+                                            <span class="component-position-badge"><?= $k + 1 ?></span>
+                                            <div class="component-move-buttons">
+                                                <button type="button" class="component-move-up" title="Mover arriba"><i class="fa-solid fa-chevron-up"></i></button>
+                                                <button type="button" class="component-move-down" title="Mover abajo"><i class="fa-solid fa-chevron-down"></i></button>
+                                            </div>
+                                        </div>
                                         <div>
                                             <span class="cpanel-post-component-kicker">YouTube</span>
                                             <h3 data-section="form-post" data-value="ytco">Componente de Video YT</h3>
                                         </div>
                                         <button type="button" onclick="$(this).closest('.cpanel-post-component').remove();" class="cpanel-post-component-remove" aria-label="Eliminar componente"><i class="fa-regular fa-trash-can"></i></button>
                                         <input type="hidden" name="Components[<?= $k; ?>][Type]" value="3">
+                                        <input type="hidden" name="Components[<?= $k; ?>][SortOrder]" value="<?= $k; ?>" class="component-sort-order">
                                     </div>
                                     <div class="cpanel-post-video-preview previewvideo-<?= $k; ?>">
                                         <?php if(!$Component->UrlVideo): ?>
@@ -638,6 +665,7 @@
         '@web/js/ckeditor5/build/ckeditor.js',
         ['depends' => [\yii\web\JqueryAsset::class]]
     );
+
     // $this->registerJsFile(
     //     '@web/js/ckeditor5/build/translations/es.js',
     //     ['depends' => [\yii\web\JqueryAsset::class]]
@@ -829,139 +857,181 @@
              InpCh.val(null);
 
         });
-        $(document).ready(function(){
-            
-             $('.ckeditorText').each(function () {
-
-                let codeid = $(this).data('item');
-
-                ClassicEditor.create( document.querySelector( '#image-editor-'+codeid ), {
-                    language: 'es',
-                  }).then( editor => {
-                    editor.model.document.on( 'change:data', () => {
-                        let contentck = editor.getData();
-                        editores['item'+codeid] = editor;
-
-                        if(contentck != ''){
-                            
-                            $('#image-movil-description-'+codeid).val(contentck);
-                          }
-                        else{
-                            $('#image-movil-description-'+codeid).val('');
+        function initCkeditor(codeid) {
+            if (editores['item' + codeid]) {
+                editores['item' + codeid].destroy().catch(function() {});
+                delete editores['item' + codeid];
+            }
+            ClassicEditor.create(document.querySelector('#image-editor-' + codeid), {
+                language: 'es',
+            }).then(function(editor) {
+                setTimeout(function() {
+                    var editable = editor.editing.view.document.getRoot();
+                    if (editable) {
+                        var domEditable = editor.editing.view.domConverter.mapViewToDom(editable);
+                        if (domEditable) {
+                            domEditable.removeAttribute('aria-label');
                         }
-                    });
-                }).catch( error => {
-                    console.error( error );
+                    }
+                }, 50);
+                editores['item' + codeid] = editor;
+                editor.model.document.on('change:data', function() {
+                    var contentck = editor.getData();
+                    if (contentck != '') {
+                        $('#image-movil-description-' + codeid).val(contentck);
+                    } else {
+                        $('#image-movil-description-' + codeid).val('');
+                    }
                 });
+            }).catch(function(error) {
+                console.error(error);
+            });
+        }
 
-
-
+        function destroyAllCkeditors(callback) {
+            var promises = [];
+            for (var key in editores) {
+                if (editores.hasOwnProperty(key) && editores[key]) {
+                    try {
+                        editores[key].updateSourceElement();
+                    } catch(e) {}
+                    promises.push(editores[key].destroy().catch(function() {}));
+                }
+            }
+            editores = {};
+            if (callback) {
+                Promise.all(promises).then(function() {
+                    callback();
                 });
+            }
+        }
+
+        function renumberComponents() {
+            $('.formComponents > .cpanel-post-component').each(function(index) {
+                $(this).attr('data-component-index', index);
+                $(this).find('.component-sort-order').val(index);
+                $(this).find('input, textarea').each(function() {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        $(this).attr('name', name.replace(/Components\[\d+\]/, 'Components[' + index + ']'));
+                    }
+                    var id = $(this).attr('id');
+                    if (id) {
+                        $(this).attr('id', id.replace(/-\d+$/, '-' + index));
+                    }
+                    var inf = $(this).attr('data-inf');
+                    if (inf) {
+                        $(this).attr('data-inf', index);
+                    }
+                });
+                $(this).find('label[for]').each(function() {
+                    var forVal = $(this).attr('for');
+                    if (forVal) {
+                        $(this).attr('for', forVal.replace(/-\d+$/, '-' + index));
+                    }
+                });
+                $(this).find('.ckeditorText').attr('data-item', index);
+                $(this).find('.component-position-badge').text(index + 1);
+            });
+        }
+
+        $(document).ready(function() {
+            $('.ckeditorText').each(function() {
+                var codeid = $(this).data('item');
+                initCkeditor(codeid);
+            });
+        });
+
+        $(document).on('click', '.component-move-up', function() {
+            var current = $(this).closest('.cpanel-post-component');
+            var prev = current.prev('.cpanel-post-component');
+            if (prev.length) {
+                current.insertBefore(prev);
+                renumberComponents();
+            }
+        });
+
+        $(document).on('click', '.component-move-down', function() {
+            var current = $(this).closest('.cpanel-post-component');
+            var next = current.next('.cpanel-post-component');
+            if (next.length) {
+                current.insertAfter(next);
+                renumberComponents();
+            }
         });
         
         $(document).on('click','.addTextBoxComponent', function(e){
             AmountComponents++;
-            let HtmlCompText =     '<div class=\"cpanel-post-component cpanel-post-component-text\">';
+            var code = AmountComponents;
+            var HtmlCompText =     '<div class=\"cpanel-post-component cpanel-post-component-text\" data-component-index=\"' + code + '\">';
             HtmlCompText +=            '<div class=\"cpanel-post-component-header\">';
+            HtmlCompText +=                '<div class=\"component-position-controls\"><span class=\"component-position-badge\">' + code + '</span><div class=\"component-move-buttons\"><button type=\"button\" class=\"component-move-up\" title=\"Mover arriba\"><i class=\"fa-solid fa-chevron-up\"></i></button><button type=\"button\" class=\"component-move-down\" title=\"Mover abajo\"><i class=\"fa-solid fa-chevron-down\"></i></button></div></div>';
             HtmlCompText +=                '<div><span class=\"cpanel-post-component-kicker\">Bloque editorial</span><h3>$textComponent[$lang]</h3></div>';
             HtmlCompText +=                '<button type=\"button\" onclick=\"$(this).closest(\\'.cpanel-post-component\\').remove();\" class=\"cpanel-post-component-remove\" aria-label=\"Eliminar componente\"><i class=\"fa-regular fa-trash-can\"></i></button>';
-            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"1\">';
+            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[' + code + '][Type]\" value=\"1\">';
+            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[' + code + '][SortOrder]\" value=\"' + code + '\" class=\"component-sort-order\">';
             HtmlCompText +=            '</div>';
             HtmlCompText +=            '<div class=\"cpanel-post-editor-wrap\">';
-            HtmlCompText +=                '<textarea name=\"Components[{{{CODE}}}][TextBox]\" class=\"form-control ckeditorText\" id=\"image-editor-{{{CODE}}}\" data-item=\"{{{CODE}}}\"></textarea>';
-            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][MovilTextBox]\" id=\"image-movil-description-{{{CODE}}}\" value=\"\">';
+            HtmlCompText +=                '<textarea name=\"Components[' + code + '][TextBox]\" class=\"form-control ckeditorText\" id=\"image-editor-' + code + '\" data-item=\"' + code + '\"></textarea>';
+            HtmlCompText +=                '<input type=\"hidden\" name=\"Components[' + code + '][MovilTextBox]\" id=\"image-movil-description-' + code + '\" value=\"\">';
             HtmlCompText +=            '</div>';
             HtmlCompText +=        '</div>';
 
-            let AddHtml = HtmlCompText.replace(/\{{{CODE}}}/g, AmountComponents);
-            $('.formComponents').append(AddHtml);
-
-            ClassicEditor.create( document.querySelector( '#image-editor-'+AmountComponents ), {
-                    language: 'es',
-                  }).then( editor => {
-                    editor.model.document.on( 'change:data', () => {
-                        let contentck = editor.getData();
-                        editores['item'+AmountComponents] = editor;
-                        if(contentck != ''){
-                            
-                            $('#image-movil-description-'+AmountComponents).val(contentck);
-                          }
-                        else{
-                            $('#image-movil-description-'+AmountComponents).val('');
-                        }
-                    });
-                }).catch( error => {
-                    console.error( error );
-                });
-
-
+            $('.formComponents').append(HtmlCompText);
+            initCkeditor(code);
         });
 
         $(document).on('click','.addImageComponent', function(e){
             AmountComponents++;
+            var code = AmountComponents;
 
-            let HtmlCompImage =    '<div class=\"cpanel-post-component cpanel-post-component-image\">';
+            var HtmlCompImage =    '<div class=\"cpanel-post-component cpanel-post-component-image\" data-component-index=\"' + code + '\">';
             HtmlCompImage +=            '<div class=\"cpanel-post-component-header\">';
+            HtmlCompImage +=                '<div class=\"component-position-controls\"><span class=\"component-position-badge\">' + code + '</span><div class=\"component-move-buttons\"><button type=\"button\" class=\"component-move-up\" title=\"Mover arriba\"><i class=\"fa-solid fa-chevron-up\"></i></button><button type=\"button\" class=\"component-move-down\" title=\"Mover abajo\"><i class=\"fa-solid fa-chevron-down\"></i></button></div></div>';
             HtmlCompImage +=                '<div><span class=\"cpanel-post-component-kicker\">Media 4:3</span><h3>$imageComponent[$lang]</h3></div>';
             HtmlCompImage +=                '<button type=\"button\" onclick=\"$(this).closest(\\'.cpanel-post-component\\').remove();\" class=\"cpanel-post-component-remove\" aria-label=\"Eliminar componente\"><i class=\"fa-regular fa-trash-can\"></i></button>';
-            HtmlCompImage +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"2\">';
+            HtmlCompImage +=                '<input type=\"hidden\" name=\"Components[' + code + '][Type]\" value=\"2\">';
+            HtmlCompImage +=                '<input type=\"hidden\" name=\"Components[' + code + '][SortOrder]\" value=\"' + code + '\" class=\"component-sort-order\">';
             HtmlCompImage +=            '</div>';
             HtmlCompImage +=            '<div class=\"cpanel-post-image-layout\">';
             HtmlCompImage +=                '<div class=\"cpanel-post-component-media\">';
-            HtmlCompImage +=                    '<label for=\"imagecomponent-{{{CODE}}}\" class=\"cpanel-post-upload cpanel-post-component-upload\">';
-            HtmlCompImage +=                        '<img class=\"cpanel-upload-preview\" id=\"preview-image-up-{{{CODE}}}\" src=\"\" alt=\"imagen de componente\">';
+            HtmlCompImage +=                    '<label for=\"imagecomponent-' + code + '\" class=\"cpanel-post-upload cpanel-post-component-upload\">';
+            HtmlCompImage +=                        '<img class=\"cpanel-upload-preview\" id=\"preview-image-up-' + code + '\" src=\"\" alt=\"imagen de componente\">';
             HtmlCompImage +=                        '<span class=\"cpanel-upload-empty\"><span class=\"cpanel-upload-icon\"><i class=\"fa-regular fa-image\"></i></span><span class=\"cpanel-upload-title\">Subir imagen</span><span class=\"cpanel-upload-help\">Haz click o arrastra una imagen</span></span>';
             HtmlCompImage +=                        '<span class=\"cpanel-upload-overlay\"><span class=\"cpanel-upload-file\">Imagen del componente</span><span class=\"cpanel-upload-action\"><i class=\"fa-solid fa-rotate\"></i> Cambiar</span></span>';
             HtmlCompImage +=                    '</label>';
-            HtmlCompImage +=                    '<input class=\"cpanel-file-input upimage-component-img\" id=\"imagecomponent-{{{CODE}}}\" type=\"file\" data-inf=\"{{{CODE}}}\" data-comp=\"2\" accept=\"image/*\"/>';
-            HtmlCompImage +=                    '<input type=\"hidden\" id=\"name-image-component-up-{{{CODE}}}\" name=\"Components[{{{CODE}}}][ImageName]\">';
+            HtmlCompImage +=                    '<input class=\"cpanel-file-input upimage-component-img\" id=\"imagecomponent-' + code + '\" type=\"file\" data-inf=\"' + code + '\" data-comp=\"2\" accept=\"image/*\"/>';
+            HtmlCompImage +=                    '<input type=\"hidden\" id=\"name-image-component-up-' + code + '\" name=\"Components[' + code + '][ImageName]\">';
             HtmlCompImage +=                '</div>';
             HtmlCompImage +=                '<div class=\"cpanel-post-component-fields\"><div class=\"row g-3\">';
-            HtmlCompImage +=                    '<div class=\"col-md-6\"><label>$imageBy[$lang]</label><input type=\"text\" class=\"form-control\" id=\"image-by-{{{CODE}}}\" name=\"Components[{{{CODE}}}][ImageBy]\"></div>';
-            HtmlCompImage +=                    '<div class=\"col-md-6\"><label>$imageTextPosition[$lang]</label><div class=\"cpanel-post-position-group\"><label><input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" value=\"0\"><span>$left[$lang]</span></label><label><input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" checked value=\"1\"><span>$center[$lang]</span></label><label><input type=\"radio\" name=\"Components[{{{CODE}}}][Position]\" value=\"2\"><span>$right[$lang]</span></label></div></div>';
-            HtmlCompImage +=                    '<div class=\"col-12\"><label>$imageText[$lang]</label><textarea name=\"Components[{{{CODE}}}][Description]\" class=\"form-control ckeditorText\" id=\"image-editor-{{{CODE}}}\" data-item=\"{{{CODE}}}\"></textarea><input type=\"hidden\" name=\"Components[{{{CODE}}}][MovilDescription]\" id=\"image-movil-description-{{{CODE}}}\" value=\"\"></div>';
+            HtmlCompImage +=                    '<div class=\"col-md-6\"><label>$imageBy[$lang]</label><input type=\"text\" class=\"form-control\" id=\"image-by-' + code + '\" name=\"Components[' + code + '][ImageBy]\"></div>';
+            HtmlCompImage +=                    '<div class=\"col-md-6\"><label>$imageTextPosition[$lang]</label><div class=\"cpanel-post-position-group\"><label><input type=\"radio\" name=\"Components[' + code + '][Position]\" value=\"0\"><span>$left[$lang]</span></label><label><input type=\"radio\" name=\"Components[' + code + '][Position]\" checked value=\"1\"><span>$center[$lang]</span></label><label><input type=\"radio\" name=\"Components[' + code + '][Position]\" value=\"2\"><span>$right[$lang]</span></label></div></div>';
+            HtmlCompImage +=                    '<div class=\"col-12\"><label>$imageText[$lang]</label><textarea name=\"Components[' + code + '][Description]\" class=\"form-control ckeditorText\" id=\"image-editor-' + code + '\" data-item=\"' + code + '\"></textarea><input type=\"hidden\" name=\"Components[' + code + '][MovilDescription]\" id=\"image-movil-description-' + code + '\" value=\"\"></div>';
             HtmlCompImage +=                '</div></div>';
             HtmlCompImage +=            '</div>';
             HtmlCompImage +=        '</div>';
 
-            let AddHtml = HtmlCompImage.replace(/\{{{CODE}}}/g, AmountComponents);
-            $('.formComponents').append(AddHtml);
-
-            ClassicEditor.create( document.querySelector( '#image-editor-'+AmountComponents ), {
-                    language: 'es',
-                  }).then( editor => {
-                    editor.model.document.on( 'change:data', () => {
-                        let contentck = editor.getData();
-                        editores['item'+AmountComponents] = editor;
-                        if(contentck != ''){
-                            
-                            $('#image-movil-description-'+AmountComponents).val(contentck);
-                          }
-                        else{
-                            $('#image-movil-description-'+AmountComponents).val('');
-                        }
-                    });
-                }).catch( error => {
-                    console.error( error );
-                });
-        
+            $('.formComponents').append(HtmlCompImage);
+            initCkeditor(code);
         });
 
         $(document).on('click','.addVideoComponent', function(e){
             AmountComponents++;
+            var code = AmountComponents;
 
-            let HtmlCompVideo =    '<div class=\"cpanel-post-component cpanel-post-component-video\">';
+            var HtmlCompVideo =    '<div class=\"cpanel-post-component cpanel-post-component-video\" data-component-index=\"' + code + '\">';
             HtmlCompVideo +=            '<div class=\"cpanel-post-component-header\">';
+            HtmlCompVideo +=                '<div class=\"component-position-controls\"><span class=\"component-position-badge\">' + code + '</span><div class=\"component-move-buttons\"><button type=\"button\" class=\"component-move-up\" title=\"Mover arriba\"><i class=\"fa-solid fa-chevron-up\"></i></button><button type=\"button\" class=\"component-move-down\" title=\"Mover abajo\"><i class=\"fa-solid fa-chevron-down\"></i></button></div></div>';
             HtmlCompVideo +=                '<div><span class=\"cpanel-post-component-kicker\">YouTube</span><h3>$videoComponent[$lang]</h3></div>';
             HtmlCompVideo +=                '<button type=\"button\" onclick=\"$(this).closest(\\'.cpanel-post-component\\').remove();\" class=\"cpanel-post-component-remove\" aria-label=\"Eliminar componente\"><i class=\"fa-regular fa-trash-can\"></i></button>';
-            HtmlCompVideo +=                '<input type=\"hidden\" name=\"Components[{{{CODE}}}][Type]\" value=\"3\">';
+            HtmlCompVideo +=                '<input type=\"hidden\" name=\"Components[' + code + '][Type]\" value=\"3\">';
+            HtmlCompVideo +=                '<input type=\"hidden\" name=\"Components[' + code + '][SortOrder]\" value=\"' + code + '\" class=\"component-sort-order\">';
             HtmlCompVideo +=            '</div>';
-            HtmlCompVideo +=            '<div class=\"cpanel-post-video-preview previewvideo-{{{CODE}}}\"><div class=\"cpanel-post-video-empty\"><i class=\"fa-brands fa-youtube\"></i><span>Pega un enlace de YouTube para ver la vista previa</span></div></div>';
-            HtmlCompVideo +=            '<div class=\"cpanel-post-video-field\"><label data-section=\"form-post\" data-value=\"videolink\">$videoLink[$lang]</label><input type=\"text\" name=\"Components[{{{CODE}}}][UrlVideo]\" data-inf=\"{{{CODE}}}\" class=\"form-control urlvideocamp\" placeholder=\"https://youtube.com/watch?v=...\"></div>';
+            HtmlCompVideo +=            '<div class=\"cpanel-post-video-preview previewvideo-' + code + '\"><div class=\"cpanel-post-video-empty\"><i class=\"fa-brands fa-youtube\"></i><span>Pega un enlace de YouTube para ver la vista previa</span></div></div>';
+            HtmlCompVideo +=            '<div class=\"cpanel-post-video-field\"><label data-section=\"form-post\" data-value=\"videolink\">$videoLink[$lang]</label><input type=\"text\" name=\"Components[' + code + '][UrlVideo]\" data-inf=\"' + code + '\" class=\"form-control urlvideocamp\" placeholder=\"https://youtube.com/watch?v=...\"></div>';
             HtmlCompVideo +=        '</div>';
 
-            let AddHtml = HtmlCompVideo.replace(/\{{{CODE}}}/g, AmountComponents);
-            $('.formComponents').append(AddHtml);
+            $('.formComponents').append(HtmlCompVideo);
         });
 
         /* $(document).on('click','.addCarouselComponent', function(e){
