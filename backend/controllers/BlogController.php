@@ -66,7 +66,61 @@
 		    if ($action->id === 'featured' || $action->id === 'ajaxhome' || $action->id === 'massive-delete') {
 		        $this->enableCsrfValidation = false;
 		    }
+
+		    // Diagnostico y protección para el form de post
+		    if ($action->id === 'form-post' && Yii::$app->request->isPost) {
+		        $contentLength  = isset($_SERVER['CONTENT_LENGTH']) ? (int)$_SERVER['CONTENT_LENGTH'] : 0;
+		        $postMaxBytes   = $this->_parseIniBytes(ini_get('post_max_size'));
+		        $inputVarsCount = count(Yii::$app->request->post(), COUNT_RECURSIVE);
+		        $maxInputVars   = (int)ini_get('max_input_vars');
+		        $postEmpty      = empty($_POST);
+
+		        // Log detallado para diagnosticar la causa exacta del 400
+		        Yii::warning(
+		            '[BlogForm POST] '
+		            . 'content_length=' . $contentLength . 'B'
+		            . ' post_max_size=' . ini_get('post_max_size')
+		            . ' post_empty=' . ($postEmpty ? 'YES' : 'NO')
+		            . ' input_vars=' . $inputVarsCount
+		            . ' max_input_vars=' . $maxInputVars
+		            . ' csrf_token_present=' . (isset($_POST[Yii::$app->request->csrfParam]) ? 'YES' : 'NO')
+		            . ' csrf_cookie_present=' . (isset($_COOKIE[Yii::$app->request->csrfParam]) ? 'YES' : 'NO'),
+		            'application'
+		        );
+
+		        $postTruncated = ($contentLength > 0 && $postMaxBytes > 0 && $contentLength > $postMaxBytes);
+		        $varsTruncated = ($maxInputVars > 0 && $inputVarsCount >= (int)($maxInputVars * 0.95));
+
+		        if ($postTruncated || $varsTruncated || $postEmpty) {
+		            Yii::$app->session->setFlash('error',
+		                'El artículo no pudo guardarse. '
+		                . ($postEmpty && $contentLength > 0
+		                    ? 'El contenido enviado superó el límite del servidor (post_max_size: ' . ini_get('post_max_size') . ').'
+		                    : 'El artículo es demasiado grande para la configuración actual del servidor.')
+		                . ($varsTruncated ? ' [Variables: ' . $inputVarsCount . '/' . $maxInputVars . ']' : '')
+		                . ($postTruncated ? ' [Tamaño: ' . round($contentLength / 1048576, 1) . 'MB/' . ini_get('post_max_size') . ']' : '')
+		            );
+		            $this->enableCsrfValidation = false;
+		        }
+		    }
+
 		    return parent::beforeAction($action);
+		}
+
+		/**
+		 * Convierte valores de php.ini como "8M", "256K", "1G" a bytes.
+		 */
+		private function _parseIniBytes(string $val): int
+		{
+		    $val  = trim($val);
+		    $last = strtolower($val[strlen($val) - 1]);
+		    $num  = (int)$val;
+		    switch ($last) {
+		        case 'g': $num *= 1024;
+		        case 'm': $num *= 1024;
+		        case 'k': $num *= 1024;
+		    }
+		    return $num;
 		}
 
 		public function actionIndex(){	
@@ -252,7 +306,38 @@
 			if(!in_array(4, $ArrayRoleID) && !in_array(1, $ArrayRoleID)){
 				return Yii::$app->response->redirect(['blog']);
 			}
-			
+
+			// Si llegó una petición POST pero $_POST está vacío, significa que PHP truncó
+			// el body por post_max_size excedido. El flash ya fue puesto en beforeAction,
+			// pero si por alguna razón no se detectó allí, lo capturamos aquí también.
+			if (Yii::$app->request->isPost && empty($_POST)) {
+			    $contentLength = isset($_SERVER['CONTENT_LENGTH']) ? (int)$_SERVER['CONTENT_LENGTH'] : 0;
+			    if (!Yii::$app->session->hasFlash('error')) {
+			        Yii::$app->session->setFlash('error',
+			            'El artículo no pudo guardarse porque supera el tamaño máximo permitido por el servidor '
+			            . '(post_max_size: ' . ini_get('post_max_size') . '). '
+			            . 'Tamaño recibido: ' . round($contentLength / 1048576, 1) . 'MB.'
+			        );
+			    }
+			    $data['lang'] = 'es';
+			    $data['CbyB'] = new CollectionByPost;
+			    $data['Project'] = new BlogByProject;
+			    if ($edit) {
+			        $data['ModelBlog'] = PostBlog::findOne($edit) ?: new PostBlog;
+			    } else {
+			        $data['ModelBlog'] = new PostBlog;
+			    }
+			    $data['ModelBlog']->VTitle = $data['ModelBlog']->Title;
+			    $data['Components'] = $data['ModelBlog']->centerComponents ?: [];
+			    $colecciones = Collections::find()->select(["*", "NameEs AS Name"])->where(['Display' => '1'])->orderBy(['CollectionID' => SORT_ASC])->all();
+			    $projects = Porfolio::find()->all();
+			    $authors = UserAccount::find()->all();
+			    $data['projectsList'] = ArrayHelper::map($projects, 'PorfolioID', 'Title');
+			    $data['collectionList'] = ArrayHelper::map($colecciones, 'CollectionID', 'Name');
+			    $data['authorList'] = ArrayHelper::map($authors, 'AccountID', 'Name');
+			    return $this->render('postform', $data);
+			}
+
 			$langs = ['es'];
 			//$idiomas = ['Es', 'En', 'Pt', 'It', 'Fr', 'De'];
 			$langInUse = $data['lang'] = 'es';
@@ -404,7 +489,7 @@
 
 
 					if (!$postBlogModel->Slug) {
-						$baseSlug = \yii\helpers\Inflector::slug($postBlogModel->VTitle);
+						$baseSlug = substr(\yii\helpers\Inflector::slug($postBlogModel->VTitle), 0, 200);
 						$slug = $baseSlug;
 						$counter = 1;
 						while (PostBlog::find()->where(['Slug' => $slug])->andFilterWhere(['!=', 'PostBlogID', $postBlogModel->PostBlogID])->exists()) {

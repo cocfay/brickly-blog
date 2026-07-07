@@ -1087,5 +1087,17 @@
             }
         }, true);
 
+        // Keep-alive: hace ping cada 10 minutos para que la sesión no expire
+        // mientras el usuario redacta un artículo largo (evita el 400 por CSRF expirado)
+        (function() {
+            setInterval(function() {
+                fetch(window.location.href, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    cache: 'no-store'
+                }).catch(function() {});
+            }, 600000); // 10 minutos
+        })();
+
         ");
 ?>

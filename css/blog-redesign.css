@@ -587,7 +587,7 @@
 .brickly-detail-sidebar {
     padding-left: 3rem;
     position: sticky;
-    top: 8rem;
+    top: 3rem;
     align-self: start;
 }
 
@@ -609,7 +609,7 @@
 .brickly-detail-related-post__inner {
     display: flex;
     gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .brickly-detail-related-post__content {

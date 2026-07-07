@@ -34,7 +34,7 @@ class PostBlog extends ActiveRecord
             [['ImagePost'], 'validateCoverImage', 'skipOnEmpty' => false],
             // [['discard'], 'safe'],
             [['CreateAT'],  'string'],
-            [['VTitle'], 'string','max' => 600],
+            [['VTitle'], 'string','max' => 137],
 
             [['RequestFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, webp'],
 

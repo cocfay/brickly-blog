@@ -27,10 +27,13 @@
     $moreTopicsTotal = $moreTopicsTotal ?? $moreTopicsLoaded;
     $hasMoreTopics = $moreTopicsLoaded < $moreTopicsTotal;
 
-    $categoryLink = static function ($post) use ($names) {
+    $categoryLink = static function ($post, $limit = 0) use ($names) {
         $cats = $post->blogBy ?? [];
         if (empty($cats)) {
             return '<span class="brickly-chip">Blog</span>';
+        }
+        if ($limit > 0) {
+            $cats = array_slice((array)$cats, 0, $limit);
         }
         $chips = [];
         foreach ($cats as $cat) {
@@ -146,7 +149,7 @@
                                         <div class="brickly-detail-related-post__inner">
                                             <img src="<?= $datos->ImagePost ?>" alt="<?= htmlspecialchars($datos->title, ENT_QUOTES, 'UTF-8') ?>" class="brickly-detail-related-post__img">
                                             <div class="brickly-detail-related-post__content">
-                                                <?= $categoryLink($datos) ?>
+                                                <?= $categoryLink($datos, 1) ?>
                                                 <h4 class="brickly-detail-related-post__title"><?= $datos->title ?></h4>
                                                 <p class="fw-normal"><?= $formatDate($datos) ?></p>
                                             </div>

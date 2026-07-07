@@ -23,6 +23,10 @@ return [
         'session' => [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-session',
+            // Mantener sesión activa por 8 horas para evitar el 400 por CSRF expirado
+            // mientras se redactan artículos largos
+            'timeout' => 28800,
+            'cookieParams' => ['lifetime' => 28800, 'httpOnly' => true],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
