@@ -74,7 +74,11 @@ class ImagesComponents extends ActiveRecord
     public function PatchIMG(){
         $parts = explode('/post/', $this->ImagePatch);
         $filename = end($parts);
-        $returnImg = Url::to('@raizweb/post/') . $filename;
+        if (preg_match('#/images/BlogPostImages/(\d+)/post/#', $this->ImagePatch, $matches)) {
+            $returnImg = Url::to('@raizweb/images/BlogPostImages/') . $matches[1] . '/post/' . $filename;
+        } else {
+            $returnImg = Url::to('@raizweb/post/') . $filename;
+        }
         $user_agent = $_SERVER['HTTP_USER_AGENT']; 
 
         if(stripos($user_agent, 'Safari') !== false && !(stripos($user_agent, 'Chrome') !== false)){
