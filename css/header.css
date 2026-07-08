@@ -26,7 +26,6 @@ body.brickly-blog-layout .menu-fixed.blur {
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    min-height: 84px;
     border-bottom: 1px solid #bdbdbd;
 }
 

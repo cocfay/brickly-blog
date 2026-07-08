@@ -50,11 +50,11 @@ body.brickly-lead-layout {
     border-bottom-color: rgba(255,255,255,.12);
 }
 .brickly-header-inner {
-    min-height: 101px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+    min-height: 75px;
 }
 .brickly-header-nav {
     display: flex;
@@ -350,13 +350,13 @@ window.onloadTurnstileCallback = function () {
     if (menu) {
         const desktopHeader = `
             <div class="brickly-header-shell <?= $isDarkSection ? 'brickly-header-shell--dark' : '' ?> d-none d-lg-block">
-                <div class="container brickly-header-inner py-lg-2 py-xl-4">
+                <div class="container brickly-header-inner px-0 pb-lg-2 pb-xl-4">
                     <a href="<?= $brandHomeUrl ?>" class="brickly-header-brand" aria-label="Brickly">
                         <img src="<?= $logoPath ?>" alt="Brickly">
                     </a>
                     <nav class="brickly-header-nav" aria-label="Principal">
                         <?php foreach ($navItems as $item): ?>
-                            <a href="<?= $item['url'] ?>" class="brickly-header-link<?= !empty($item['active']) ? ' active' : '' ?>"><?= Html::encode($item['label']) ?></a>
+                            <a href="<?= $item['url'] ?>" class="fw-lighter brickly-header-link<?= !empty($item['active']) ? ' active' : '' ?>"><?= Html::encode($item['label']) ?></a>
                         <?php endforeach; ?>
                     </nav>
                 </div>
