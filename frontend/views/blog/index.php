@@ -71,7 +71,7 @@ $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
 
 <div class="brickly-blog-page">
     <section class="container brickly-blog-hero">
-        <div class="row align-items-center g-1 mb-5">
+        <div class="row align-items-center g-1 mb-3 mb-lg-5">
             <div class="col-lg-5 px-xl-0">
                 <span class="brickly-section-kicker">BLOG</span>
                 <h1 class="brickly-blog-hero__title">Ideas, tendencias y oportunidades inmobiliarias</h1>

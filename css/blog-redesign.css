@@ -416,7 +416,7 @@
     .brickly-blog-hero,
     .brickly-blog-featured,
     .brickly-blog-content {
-        padding-bottom: 3rem;
+        padding-bottom: 0;
     }
 
     .brickly-featured-card__footer {

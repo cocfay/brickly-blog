@@ -864,6 +864,20 @@
             }
             ClassicEditor.create(document.querySelector('#image-editor-' + codeid), {
                 language: 'es',
+                link: {
+                    defaultProtocol: 'https://',
+                    decorators: {
+                        openInNewTab: {
+                            mode: 'manual',
+                            label: 'Abrir en nueva pestaña',
+                            defaultValue: false,
+                            attributes: {
+                                target: '_blank',
+                                rel: 'noopener noreferrer'
+                            }
+                        }
+                    }
+                }
             }).then(function(editor) {
                 setTimeout(function() {
                     var editable = editor.editing.view.document.getRoot();
@@ -1065,8 +1079,8 @@
 
         }); */
 
-        // Spinner en botón de guardar al enviar el formulario
-        jQuery('form').on('submit', function() {
+        // Spinner en botón de guardar solo cuando la validación pase
+        jQuery('form').on('beforeSubmit', function() {
             var btn = jQuery(this).find('button[type=\"submit\"]');
             if (btn.length) {
                 btn.prop('disabled', true);

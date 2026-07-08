@@ -69,6 +69,20 @@ Editor.defaultConfig = {
 		]
 	},
 	language: 'es',
+	link: {
+		defaultProtocol: 'https://',
+		decorators: {
+			openInNewTab: {
+				mode: 'manual',
+				label: 'Abrir en nueva pestaña',
+				defaultValue: false,
+				attributes: {
+					target: '_blank',
+					rel: 'noopener noreferrer'
+				}
+			}
+		}
+	},
 	table: {
 		contentToolbar: [
 			'tableColumn',
