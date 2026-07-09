@@ -54,7 +54,7 @@ body.brickly-lead-layout {
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    min-height: 75px;
+    min-height: 100px;
 }
 .brickly-header-nav {
     display: flex;
@@ -350,7 +350,7 @@ window.onloadTurnstileCallback = function () {
     if (menu) {
         const desktopHeader = `
             <div class="brickly-header-shell <?= $isDarkSection ? 'brickly-header-shell--dark' : '' ?> d-none d-lg-block">
-                <div class="container brickly-header-inner px-0 pb-lg-2 pb-xl-4">
+                <div class="container brickly-header-inner px-0 py-lg-2 py-xl-4">
                     <a href="<?= $brandHomeUrl ?>" class="brickly-header-brand" aria-label="Brickly">
                         <img src="<?= $logoPath ?>" alt="Brickly">
                     </a>

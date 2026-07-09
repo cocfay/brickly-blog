@@ -445,6 +445,14 @@
     height: auto;
 }
 
+.brickly-image-float-left ul {
+    overflow: hidden;
+    list-style-position: inside;
+    padding-left: 1rem;
+    /* margin-top: 1rem;
+    margin-bottom: 1rem; */
+}
+
 .brickly-image-float-right .brickly-float-img {
     float: right;
     width: 50%;
