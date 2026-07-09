@@ -2,3 +2,7 @@
 /common/config/params-local.php
 /.env
 /post/
+/images/
+/cpanel/assets/
+/uploads/
+/assets/
