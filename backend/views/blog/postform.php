@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 <?php 
     use frontend\assets\AppAsset;
 

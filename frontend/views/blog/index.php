@@ -66,7 +66,7 @@ $hasMorePosts = isset($pagination) && $loadedPosts < $pagination->totalCount;
 ?>
 
 <div class="container">
-    <div class="menu-fixed"></div>
+    <div class="menu-fixed d-none d-md-block"></div>
 </div>
 
 <div class="brickly-blog-page">

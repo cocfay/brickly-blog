@@ -4,7 +4,6 @@ body.brickly-blog-layout .menu-fixed {
     left: 0;
     width: 100%;
     z-index: 1030;
-    margin-top: 1.35rem;
     transition: all 0.3s ease;
 }
 

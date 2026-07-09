@@ -233,7 +233,7 @@ window.onloadTurnstileCallback = function () {
         </script> -->
     <?php endif ?>
 </head>
-<body class="brickly-lead-layout<?= $isDarkSection ? ' brickly-lead-layout--dark' : '' ?>">
+<body class="brickly-lead-layout<?= $isBlogSection ? ' brickly-blog-layout' : '' ?><?= $isVlogSection ? ' brickly-vlog-layout' : '' ?><?= $isDarkSection ? ' brickly-lead-layout--dark' : '' ?>">
 <?php $this->beginBody() ?>
 
 <header class="brickly-mobile-bar <?= $isDarkSection ? 'brickly-mobile-bar--dark' : '' ?> d-block d-lg-none">
@@ -350,7 +350,7 @@ window.onloadTurnstileCallback = function () {
     if (menu) {
         const desktopHeader = `
             <div class="brickly-header-shell <?= $isDarkSection ? 'brickly-header-shell--dark' : '' ?> d-none d-lg-block">
-                <div class="container brickly-header-inner px-0 py-lg-2 py-xl-4">
+                <div class="container brickly-header-inner py-lg-2 py-xl-4">
                     <a href="<?= $brandHomeUrl ?>" class="brickly-header-brand" aria-label="Brickly">
                         <img src="<?= $logoPath ?>" alt="Brickly">
                     </a>

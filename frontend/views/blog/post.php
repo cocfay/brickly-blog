@@ -65,7 +65,7 @@
     <div class="menu-fixed d-none d-md-block"></div>
 </div>
 
-<main class="brickly-blog-detail">
+<main class="brickly-blog-detail" style="margin-top: clamp(0rem, 6vw, 6rem);">
     <section class="container brickly-blog-detail__wrap">
         <div class="brickly-blog-detail__actions">
             <a href="<?= Url::to(['/']) ?>" class="brickly-category-back">

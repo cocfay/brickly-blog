@@ -14,7 +14,16 @@ $search = $search ?? '';
     <div class="menu-fixed"></div>
 </div>
 
-<main class="brickly-blog-page brickly-category-page">
+<main class="brickly-blog-page brickly-category-page" style="margin-top: clamp(0rem, 5vw, 5rem);">
+    <section class="container">
+        <div class="brickly-blog-detail__actions">
+            <a href="<?= Url::to(['/']) ?>" class="brickly-category-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Atr&aacute;s</span>
+            </a>
+        </div>
+    </section>
+
     <section class="container brickly-category-hero">
         <div class="brickly-category-hero__content">
             <span class="brickly-section-kicker">CATEGORÍA</span>
@@ -23,10 +32,6 @@ $search = $search ?? '';
         </div>
 
         <div class="brickly-category-hero__aside">
-            <a href="<?= Url::to(['/']) ?>" class="brickly-category-back">
-                <i class="fa-solid fa-arrow-left"></i>
-                <span>Atrás</span>
-            </a>
             <form action="#" method="get" class="brickly-search-form brickly-category-search-form" data-category-search>
                 <input type="search" name="q" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="Buscar art&iacute;culos" aria-label="Buscar art&iacute;culos">
                 <button type="submit" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
