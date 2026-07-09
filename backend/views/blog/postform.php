@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <?php 
     use frontend\assets\AppAsset;
 
@@ -1112,6 +1113,6 @@
                 }).catch(function() {});
             }, 600000); // 10 minutos
         })();
-
+       
         ");
 ?>
