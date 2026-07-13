@@ -779,10 +779,12 @@
 }
 
 .cpanel-modern table.cpanel-posts-table .cpanel-post-title-cell {
-    min-width: 0;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
     white-space: normal !important;
-    word-break: normal;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .cpanel-modern table.cpanel-posts-table .cpanel-actions-cell {
@@ -2566,6 +2568,8 @@ body.cpanel-modern .modal-backdrop,
 .cpanel-modern .cpanel-post-form-page .ck-editor__editable[role="textbox"] {
     border-color: #cfd7e4 !important;
     min-height: 260px;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .cpanel-modern .cpanel-post-form-page .cpanel-post-image-layout {
@@ -2575,7 +2579,6 @@ body.cpanel-modern .modal-backdrop,
 }
 
 .cpanel-modern .cpanel-post-form-page .cpanel-post-component-fields {
-    min-width: 0;
 }
 
 .cpanel-modern .cpanel-post-form-page .cpanel-post-position-group {

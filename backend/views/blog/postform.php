@@ -209,6 +209,10 @@
         .ck.ck-title {
             display: none !important;
         }
+        .ckeditorText {
+            display: block;
+            visibility: visible;
+        }
     </style>
     <?php if (Yii::$app->session->hasFlash('success')): ?>
         <center>
@@ -373,7 +377,7 @@
                                         <input type="hidden" name="Components[<?= $k; ?>][SortOrder]" value="<?= $k; ?>" class="component-sort-order">
                                     </div>
                                     <div class="cpanel-post-editor-wrap">
-                                         <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= str_replace('</textarea>', '&lt;/textarea&gt;', $Component->Description); ?></textarea>
+                                         <textarea name="Components[<?= $k; ?>][TextBox]" class="form-control ckeditorText" id="image-editor-<?= $k; ?>" data-item="<?= $k; ?>"><?= Html::encode($Component->Description); ?></textarea>
                                         <input type="hidden" name="Components[<?= $k; ?>][MovilTextBox]" id="image-movil-description-<?= $k; ?>" value="<?= Html::encode($Component->DescriptionMovil ?: ''); ?>">
                                     </div>
                                 </div>
@@ -899,6 +903,7 @@
                 });
             }).catch(function(error) {
                 console.error(error);
+                $('#image-editor-' + codeid).show();
             });
         }
 
