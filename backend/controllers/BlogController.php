@@ -55,10 +55,7 @@
 
 		public function init(){
 			parent::init();
-			$infoUs = Yii::$app->LocationLang->info();
-			$lang = $infoUs->language->LanguageCode;
-
-			Yii::$app->language = $lang;
+			Yii::$app->language = 'es';
     	}
 
 		public function beforeAction($action)
