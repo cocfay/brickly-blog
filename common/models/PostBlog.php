@@ -225,14 +225,7 @@ class PostBlog extends ActiveRecord
     }
 
     public function getProject(){
-        $infoUs = Yii::$app->params['InfoLocation'] ?? (object) ['country_code' => 'GT'];
-
-        $recti = ($infoUs->country_code == 'ES' || $infoUs->country_code == 'PA') ? ['!=', 'Restriction', 1] : [];
-        $rGT = ($infoUs->country_code == 'GT') ? ['!=', 'NGuatemala', 1] : [];
-
         return $this->hasMany(Porfolio::className(), ['PorfolioID' => 'PorfolioID'])
-                ->where($recti)
-                ->andWhere($rGT)
                 ->viaTable('BlogByProject', ['PostBlogID' => 'PostBlogID']);
     }
 
