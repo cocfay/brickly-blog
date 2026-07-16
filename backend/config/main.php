@@ -14,6 +14,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => 'AdvanceCookieBackEnd',
         ],
         'user' => [
             'identityClass' => 'common\models\UserAccount',
@@ -42,9 +43,6 @@ return [
         ],
         'assetManager' => [
             'basePath' => __DIR__ . '/../../cpanel/assets',
-        ],
-        'request' => [
-            'cookieValidationKey' => 'AdvanceCookieBackEnd',
         ],
     ],
     'params' => $params,
