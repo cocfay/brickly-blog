@@ -224,13 +224,14 @@ window.onloadTurnstileCallback = function () {
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" defer></script>
     <?php $this->head() ?>
     <?php if (!str_contains($_SERVER['SERVER_NAME'], 'dev.mydesk.digital')): ?>
-        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GWVFV7Q21"></script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MVWQ5JJY0Y"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-7GWVFV7Q21');
-        </script> -->
+            gtag('config', 'G-MVWQ5JJY0Y');
+        </script>
     <?php endif ?>
 </head>
 <body class="brickly-lead-layout<?= $isBlogSection ? ' brickly-blog-layout' : '' ?><?= $isVlogSection ? ' brickly-vlog-layout' : '' ?><?= $isDarkSection ? ' brickly-lead-layout--dark' : '' ?>">

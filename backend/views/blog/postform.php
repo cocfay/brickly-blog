@@ -441,9 +441,10 @@
                                                 <div class="col-md-6">
                                                     <label><?= $imageTextPosition[$lang] ?></label>
                                                     <div class="cpanel-post-position-group">
-                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="0" <?= ($Component->Position == 0)? 'checked' : '' ?>><span><?= $left[$lang] ?></span></label>
-                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="1" <?= ($Component->Position == 1)? 'checked' : '' ?>><span><?= $center[$lang] ?></span></label>
-                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="2" <?= ($Component->Position == 2)? 'checked' : '' ?>><span><?= $right[$lang] ?></span></label>
+                                                        <?php $pos = (int)$Component->Position; $pos = in_array($pos, [0,1,2], true) ? $pos : 1; ?>
+                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="0" <?= ($pos == 0)? 'checked' : '' ?>><span><?= $left[$lang] ?></span></label>
+                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="1" <?= ($pos == 1)? 'checked' : '' ?>><span><?= $center[$lang] ?></span></label>
+                                                        <label><input type="radio" name="Components[<?= $k; ?>][Position]" value="2" <?= ($pos == 2)? 'checked' : '' ?>><span><?= $right[$lang] ?></span></label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
