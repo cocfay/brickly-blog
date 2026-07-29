@@ -44,6 +44,8 @@
 	//use common\models\CarouselComponents;
 	//use common\models\CarouselComponentsImages;
 
+	use common\components\NewPostNotifier;
+
 
 
 
@@ -724,6 +726,15 @@
 	              	$transaction->commit();
 	              	$this->deleteAllFile($dirUserTemp,'temp.txt');
 	              	$this->deleteAllFile($dirUserTempCarousel,'temp.txt');
+
+					if (!$edit) {
+						try {
+							$postBlogModel->refresh();
+							Yii::createObject(NewPostNotifier::class)->notifyNewPost($postBlogModel);
+						} catch (\Exception $e) {
+							Yii::error('NewPostNotifier: ' . $e->getMessage(), __METHOD__);
+						}
+					}
 
 					CollectionByPost::deleteAll(['PostBlogID' => $postBlogModel->PostBlogID]);
 					BlogByProject::deleteAll(['PostBlogID' => $postBlogModel->PostBlogID]);

@@ -3,7 +3,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 function imgUrl($path) {
-    return 'https://blog.bricklyhomes.com/' . ltrim($path, '/');
+    $base = Yii::$app->params['blogBaseUrl'] ?? 'https://www.bricklyhomes.com/blog';
+    return $base . '/' . ltrim($path, '/');
 }
 ?>
 <!DOCTYPE html>
@@ -118,7 +119,7 @@ function imgUrl($path) {
                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
                     <tr>
                         <td align="center" style="background-color: #000000; border-radius: 25px;">
-                            <a href="https://blog.bricklyhomes.com/" target="_blank" style="padding: 14px 45px; display: block; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none; letter-spacing: 0.5px;">Ir al blog</a>
+                            <a href="<?= Yii::$app->params['blogBaseUrl'] ?? 'https://www.bricklyhomes.com/blog' ?>" target="_blank" style="padding: 14px 45px; display: block; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none; letter-spacing: 0.5px;">Ir al blog</a>
                         </td>
                     </tr>
                 </table>
