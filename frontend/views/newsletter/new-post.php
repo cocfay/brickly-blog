@@ -111,10 +111,7 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
         <td class="px-mobile" style="padding: 12px 24px 28px 24px;">
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fafafa; border:1px solid #ececec; border-radius:20px; overflow:hidden;">
                 <tr>
-                    <td valign="top" style="padding: 28px 24px 0 24px;">
-                        <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="display:block; text-decoration:none;">
-                            <img src="<?= $postImage ?>" alt="<?= Html::encode($postTitle) ?>" align="right" width="180" hspace="12" vspace="0" style="display:block; width:180px; max-width:180px; height:auto; min-height:180px; max-height:220px; object-fit:cover; border:0; border-radius:12px; margin: 0 0 12px 12px; float:right;">
-                        </a>
+                    <td style="padding: 28px 24px;">
                         <span style="display:inline-block; font-size:12px; font-weight:700; color:#111111; letter-spacing:0.3px;">Nuevo artículo en el Blog</span>
                         <span style="display:block; width:36px; height:2px; background-color:#111111; margin:8px 0 18px 0;"></span>
                         <h1 style="margin: 0 0 14px 0; font-size: 22px; line-height: 28px; color: #111111; font-weight: 800; letter-spacing:-0.3px; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postTitle) ?></h1>
@@ -138,6 +135,13 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
                                 </td>
                             </tr>
                         </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0;">
+                        <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="display:block; text-decoration:none;">
+                            <img src="<?= $postImage ?>" alt="<?= Html::encode($postTitle) ?>" width="552" style="display:block; width:100%; max-width:100%; height:auto; min-height:220px; object-fit:cover; border:0;">
+                        </a>
                     </td>
                 </tr>
             </table>
