@@ -3,13 +3,21 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 function imgUrl($path) {
-    $base = Yii::$app->params['blogBaseUrl'] ?? 'https://www.bricklyhomes.com/blog';
+    static $domain = null, $basePath = null;
+    if ($domain === null) {
+        $base = Yii::$app->params['blogBaseUrl'] ?? 'https://www.bricklyhomes.com/blog';
+        $parts = parse_url($base);
+        $domain = ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '');
+        $basePath = !empty($parts['path']) ? '/' . ltrim($parts['path'], '/') : '';
+    }
     if (strpos($path, 'http') === 0) {
         return $path;
     }
-    $parts = parse_url($base);
-    $domain = ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '');
-    return $domain . '/' . ltrim($path, '/');
+    $path = '/' . ltrim($path, '/');
+    if ($basePath && strpos($path, $basePath . '/') === 0) {
+        return $domain . $path;
+    }
+    return $domain . $basePath . $path;
 }
 ?>
 <!DOCTYPE html>
