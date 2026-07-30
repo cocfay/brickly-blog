@@ -111,9 +111,20 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
         <td class="px-mobile" style="padding: 12px 24px 28px 24px;">
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fafafa; border:1px solid #ececec; border-radius:20px; overflow:hidden;">
                 <tr>
-                    <td style="padding: 28px 24px;">
+                    <td style="padding: 28px 24px 0 24px;">
                         <span style="display:inline-block; font-size:12px; font-weight:700; color:#111111; letter-spacing:0.3px;">Nuevo artículo en el Blog</span>
                         <span style="display:block; width:36px; height:2px; background-color:#111111; margin:8px 0 18px 0;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0 24px;">
+                        <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="display:block; text-decoration:none;">
+                            <img src="<?= $postImage ?>" alt="<?= Html::encode($postTitle) ?>" width="552" style="display:block; width:100%; max-width:100%; height:auto; min-height:220px; object-fit:cover; border:0; border-radius:12px;">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px 24px 28px 24px;">
                         <h1 style="margin: 0 0 14px 0; font-size: 22px; line-height: 28px; color: #111111; font-weight: 800; letter-spacing:-0.3px; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postTitle) ?></h1>
                         <p style="margin: 0 0 22px 0; font-size: 14px; line-height: 22px; color: #555555; font-weight:400; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postDescription) ?></p>
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 16px 0;">
@@ -127,21 +138,14 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
                         </table>
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                             <tr>
-                                <td valign="middle" style="padding-right:6px; font-size:13px; color:#666666;">
+                                <td valign="top" style="padding-right:6px; font-size:13px; color:#666666;">
                                     <img src="https://img.icons8.com/ios/50/666666/time.png" alt="" width="14" height="14" style="display:inline-block; vertical-align:middle; border:0;">
                                 </td>
-                                <td valign="middle" style="font-size:13px; color:#666666; font-weight:500;">
+                                <td valign="top" style="font-size:13px; color:#666666; font-weight:500;">
                                     <?= $readingTime ?> min de lectura
                                 </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 0;">
-                        <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="display:block; text-decoration:none;">
-                            <img src="<?= $postImage ?>" alt="<?= Html::encode($postTitle) ?>" width="552" style="display:block; width:100%; max-width:100%; height:auto; min-height:220px; object-fit:cover; border:0;">
-                        </a>
                     </td>
                 </tr>
             </table>
@@ -249,10 +253,10 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
             <div class="col-mobile-100" style="display: inline-block; width: 100%; max-width: 270px; vertical-align: top; font-size: 14px; margin-bottom: 20px;">
                 <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                     <tr>
-                        <td style="vertical-align: middle; padding-right: 14px;">
+                        <td style="vertical-align: top; padding-right: 14px;">
                             <img src="<?= bricklyImgUrl('/images/newsletters/Ayuda.png') ?>" alt="Dudas" width="36" height="36" style="display:block; border:0;">
                         </td>
-                        <td style="vertical-align: middle;">
+                        <td style="vertical-align: top;">
                             <p style="margin:0; font-size:14px; font-weight:bold; color:#111111;">¿Dudas?</p>
                             <p style="margin:3px 0 0 0; font-size:13px; color:#555555; line-height:18px;">Estamos aquí para ayudarte. <br /> <a href="https://wa.me/50237649719?text=%C2%A1Hola!%20Deseo%20contactar%20a%20un%20asesor." target="_blank" style="color:#111111; font-weight:bold; text-decoration:underline;">Contáctanos</a></p>
                         </td>
@@ -264,10 +268,10 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
             <div class="col-mobile-100" style="display: inline-block; width: 100%; max-width: 270px; vertical-align: top; font-size: 14px;">
                 <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                     <tr>
-                        <td style="vertical-align: middle; padding-right: 14px;">
+                        <td style="vertical-align: top; padding-right: 14px;">
                             <img src="<?= bricklyImgUrl('/images/newsletters/Cuenta.png') ?>" alt="Cuenta" width="36" height="36" style="display:block; border:0;">
                         </td>
-                        <td style="vertical-align: middle;">
+                        <td style="vertical-align: top;">
                             <p style="margin:0; font-size:14px; font-weight:bold; color:#111111;">Tu cuenta</p>
                             <p style="margin:3px 0 0 0; font-size:13px; color:#555555; line-height:18px;">Inicia sesión para gestionar tus preferencias. <br /> <a href="https://www.bricklyhomes.com/login" target="_blank" style="color:#111111; font-weight:bold; text-decoration:underline;">Inicia sesión</a></p>
                         </td>
