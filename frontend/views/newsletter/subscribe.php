@@ -4,7 +4,12 @@ use yii\helpers\Url;
 
 function imgUrl($path) {
     $base = Yii::$app->params['blogBaseUrl'] ?? 'https://www.bricklyhomes.com/blog';
-    return $base . '/' . ltrim($path, '/');
+    if (strpos($path, 'http') === 0) {
+        return $path;
+    }
+    $parts = parse_url($base);
+    $domain = ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '');
+    return $domain . '/' . ltrim($path, '/');
 }
 ?>
 <!DOCTYPE html>

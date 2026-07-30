@@ -14,21 +14,29 @@ if (!function_exists('bricklyImgUrl')) {
         if (strpos($path, 'http') === 0) {
             return $path;
         }
-        return $base . '/' . ltrim($path, '/');
+        $parts = parse_url($base);
+        $domain = ($parts['scheme'] ?? 'https') . '://' . ($parts['host'] ?? '');
+        return $domain . '/' . ltrim($path, '/');
     }
 }
 
-if (!function_exists('bricklyTrimWords')) {
-    function bricklyTrimWords($text, $limit = 30) {
+if (!function_exists('bricklyTrim')) {
+    function bricklyTrim($text, $limit, $mode = 'chars') {
         $text = trim(preg_replace('/\s+/', ' ', strip_tags((string)$text)));
         if ($text === '') {
             return '';
         }
-        $words = explode(' ', $text);
-        if (count($words) <= $limit) {
+        if ($mode === 'words') {
+            $items = explode(' ', $text);
+            if (count($items) <= $limit) {
+                return $text;
+            }
+            return implode(' ', array_slice($items, 0, $limit)) . '…';
+        }
+        if (mb_strlen($text) <= $limit) {
             return $text;
         }
-        return implode(' ', array_slice($words, 0, $limit)) . '…';
+        return mb_substr($text, 0, $limit) . '…';
     }
 }
 
@@ -41,7 +49,8 @@ if (!function_exists('bricklyPostUrl')) {
 }
 
 $postTitle = !empty($post->title) ? $post->title : ($post->VTitle ?: $post->Title);
-$postDescription = bricklyTrimWords($post->description, 30);
+$postTitle = bricklyTrim($postTitle, 50);
+$postDescription = bricklyTrim($post->description, 115);
 $postImage = $post->ImagePost ? bricklyImgUrl($post->PatchIMG()) : bricklyImgUrl('/images/newsletters/subBlog/banner.png');
 $readingTime = isset($readingTime) ? (int)$readingTime : 1;
 ?>
@@ -190,7 +199,8 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
         <td class="px-mobile" style="padding: 8px 24px 32px 24px; font-size: 0; text-align: center;">
             <?php foreach ($relatedPosts as $idx => $rel):
                 $relTitle = !empty($rel->title) ? $rel->title : ($rel->VTitle ?: $rel->Title);
-                $relDescription = bricklyTrimWords($rel->description, 30);
+                $relTitle = bricklyTrim($relTitle, 50);
+                $relDescription = bricklyTrim($rel->description, 115);
                 $relImage = $rel->ImagePost ? bricklyImgUrl($rel->PatchIMG()) : bricklyImgUrl('/images/newsletters/subBlog/banner.png');
                 $marginLeft = $idx > 0 ? '8px' : '0';
             ?>
@@ -274,30 +284,33 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
 
     <!-- 7. FOOTER -->
     <tr>
-        <td style="background-color: #1a2129; padding: 30px 24px;">
+        <td style="background-color: #1a2129; padding: 35px 20px;">
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                 <tr>
-                    <td style="font-size: 0; padding-bottom: 18px;">
-                        <div class="col-mobile-100" style="display: inline-block; width: 100%; max-width: 280px; vertical-align: middle; margin-bottom: 12px;">
+                    <td style="font-size: 0; padding-bottom: 20px;">
+
+                        <div class="col-mobile-100 text-center-mobile" style="display: inline-block; width: 100%; max-width: 280px; vertical-align: middle; margin-bottom: 20px;">
                             <a href="https://www.bricklyhomes.com" target="_blank">
-                                <img src="<?= bricklyImgUrl('/images/newsletters/logo_blanco.png') ?>" alt="Brickly Homes" width="130" style="border:0; display: inline-block;">
+                                <img src="<?= bricklyImgUrl('/images/newsletters/logo_blanco.png') ?>" alt="Brickly Homes" width="140" style="border:0; display: inline-block;">
                             </a>
                         </div>
-                        <div class="col-mobile-100" style="display: inline-block; width: 100%; max-width: 280px; vertical-align: middle; text-align: right; margin-bottom: 12px;">
+
+                        <div class="col-mobile-100 text-center-mobile" style="display: inline-block; width: 100%; max-width: 280px; vertical-align: middle; text-align: right; margin-bottom: 20px;">
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="display:inline-block;">
                                 <tr>
-                                    <td style="padding: 0 6px;"><a href="https://wa.me/50237649719" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/WS.png') ?>" alt="WhatsApp" width="18" height="18"></a></td>
-                                    <td style="padding: 0 6px;"><a href="https://www.instagram.com/bricklyoficial/" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/IG.png') ?>" alt="Instagram" width="18" height="18"></a></td>
-                                    <td style="padding: 0 6px;"><a href="https://www.linkedin.com/company/bricklygt/" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/IN.png') ?>" alt="LinkedIn" width="18" height="18"></a></td>
-                                    <td style="padding: 0 6px;"><a href="https://www.tiktok.com/@bricklyhomes" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/TT.png') ?>" alt="TikTok" width="18" height="18"></a></td>
+                                    <td style="padding: 0 10px;"><a href="https://wa.me/50237649719" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/WS.png') ?>" alt="WhatsApp" width="18" height="18"></a></td>
+                                    <td style="padding: 0 8px;"><a href="https://www.instagram.com/bricklyoficial/" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/IG.png') ?>" alt="Instagram" width="18" height="18"></a></td>
+                                    <td style="padding: 0 8px;"><a href="https://www.linkedin.com/company/bricklygt/" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/IN.png') ?>" alt="LinkedIn" width="18" height="18"></a></td>
+                                    <td style="padding: 0 8px;"><a href="https://www.tiktok.com/@bricklyhomes" target="_blank"><img src="<?= bricklyImgUrl('/images/newsletters/TT.png') ?>" alt="TikTok" width="18" height="18"></a></td>
                                 </tr>
                             </table>
                         </div>
+
                     </td>
                 </tr>
                 <tr>
-                    <td align="center" style="border-top: 1px solid #2d3743; padding-top: 18px; font-size: 12px; color: #a0aec0; line-height: 18px;">
-                        <p style="margin: 0 0 6px 0;">© Brickly. Todos los derechos reservados <?= date('Y') ?></p>
+                    <td align="center" style="border-top: 1px solid #2d3743; padding-top: 20px; font-size: 12px; color: #a0aec0; line-height: 18px;">
+                        <p style="margin: 0 0 8px 0;">© Brickly. Todos los derechos reservados <?= date('Y') ?></p>
                         <p style="margin: 0; font-size: 11px;">¿No quieres recibir más correos? <a href="#" style="color:#ffffff; text-decoration:underline;">Darse de baja</a></p>
                     </td>
                 </tr>
