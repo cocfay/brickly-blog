@@ -71,19 +71,22 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        @media screen and (max-width: 620px) {
+        @media screen and (max-width: 600px) {
             .wrapper { width: 100% !important; max-width: 100% !important; }
-            .px-mobile { padding-left: 16px !important; padding-right: 16px !important; }
-            .hero-card-table { display: block !important; width: 100% !important; }
-            .hero-card-text,
-            .hero-card-image { display: block !important; width: 100% !important; max-width: 100% !important; }
+            .px-mobile { padding-left: 20px !important; padding-right: 20px !important; }
+            .col-mobile-100 { width: 100% !important; max-width: 100% !important; display: block !important; }
+            .text-center-mobile { text-align: center !important; }
+            .hero-card-text { padding: 24px 20px !important; width: auto !important; max-width: 100% !important; }
+            .hero-card-text h1,
+            .hero-card-text p { word-wrap: break-word !important; word-break: break-word !important; }
+            .hero-card-table { display: block !important; width: 100% !important; max-width: 100% !important; }
             .hero-card-image { padding-top: 0 !important; }
-            .hero-card-image img { border-radius: 0 0 20px 20px !important; width: 100% !important; }
-            .col-3 { display: block !important; width: 100% !important; max-width: 100% !important; border: none !important; border-bottom: 1px solid #ececec !important; padding: 20px 0 !important; }
+            .hero-card-image img { border-radius: 0 0 20px 20px !important; width: 100% !important; max-width: 100% !important; height: auto !important; min-height: auto !important; }
+            .col-3 { display: block !important; width: 100% !important; max-width: 100% !important; border: none !important; border-bottom: 1px solid #ececec !important; padding: 20px 0 !important; margin-bottom: 0 !important; }
             .col-3:last-child { border-bottom: none !important; }
             .col-related { display: block !important; width: 100% !important; max-width: 100% !important; margin: 0 0 18px 0 !important; }
             .col-related:last-child { margin-bottom: 0 !important; }
-            .col-support { display: block !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
+            .col-related img { width: 100% !important; max-width: 100% !important; height: auto !important; }
         }
     </style>
 </head>
@@ -121,8 +124,8 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
                                 <td class="hero-card-text hero-card-table" valign="top" width="55%" style="width:55%; max-width:55%; padding: 28px 24px 28px 28px; vertical-align: top;">
                                     <span style="display:inline-block; font-size:12px; font-weight:700; color:#111111; letter-spacing:0.3px;">Nuevo artículo en el Blog</span>
                                     <span style="display:block; width:36px; height:2px; background-color:#111111; margin:8px 0 18px 0;"></span>
-                                    <h1 style="margin: 0 0 14px 0; font-size: 22px; line-height: 28px; color: #111111; font-weight: 800; letter-spacing:-0.3px;"><?= Html::encode($postTitle) ?></h1>
-                                    <p style="margin: 0 0 22px 0; font-size: 14px; line-height: 22px; color: #555555; font-weight:400;"><?= Html::encode($postDescription) ?></p>
+                                    <h1 style="margin: 0 0 14px 0; font-size: 22px; line-height: 28px; color: #111111; font-weight: 800; letter-spacing:-0.3px; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postTitle) ?></h1>
+                                    <p style="margin: 0 0 22px 0; font-size: 14px; line-height: 22px; color: #555555; font-weight:400; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postDescription) ?></p>
                                     <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 16px 0;">
                                         <tr>
                                             <td align="center" bgcolor="#000000" style="background-color:#000000; border-radius: 999px;">
@@ -252,41 +255,38 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
 
     <!-- 6. SOPORTE -->
     <tr>
-        <td class="px-mobile" style="padding: 0 24px 36px 24px;">
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-top: 1px solid #ececec; padding-top: 22px;">
-                <tr>
-                    <!-- ¿Dudas? -->
-                    <td class="col-support" valign="top" width="50%" style="width:50%; max-width:50%; padding-right:18px; vertical-align: top;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                            <tr>
-                                <td valign="top" style="padding-right:12px;">
-                                    <img src="<?= bricklyImgUrl('/images/newsletters/Ayuda.png') ?>" alt="?" width="32" height="32" style="display:block; border:0;">
-                                </td>
-                                <td valign="top" style="font-size: 13.5px; line-height: 19px;">
-                                    <p style="margin: 0 0 2px 0; font-size: 14px; font-weight: 700; color: #111111;">¿Dudas?</p>
-                                    <p style="margin: 0 0 4px 0; font-size: 13px; color: #555555;">Estamos aquí para ayudarte.</p>
-                                    <a href="https://wa.me/50237649719?text=%C2%A1Hola!%20Deseo%20contactar%20a%20un%20asesor." target="_blank" style="color:#111111; font-weight:700; font-size:13px; text-decoration:underline;">Contáctanos</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <!-- Tu cuenta -->
-                    <td class="col-support" valign="top" width="50%" style="width:50%; max-width:50%; padding-left:18px; vertical-align: top; border-left: 1px solid #ececec;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                            <tr>
-                                <td valign="top" style="padding-right:12px;">
-                                    <img src="<?= bricklyImgUrl('/images/newsletters/Cuenta.png') ?>" alt="Cuenta" width="32" height="32" style="display:block; border:0;">
-                                </td>
-                                <td valign="top" style="font-size: 13.5px; line-height: 19px;">
-                                    <p style="margin: 0 0 2px 0; font-size: 14px; font-weight: 700; color: #111111;">Tu cuenta</p>
-                                    <p style="margin: 0 0 4px 0; font-size: 13px; color: #555555;">Inicia sesión para gestionar tus preferencias.</p>
-                                    <a href="https://www.bricklyhomes.com/login" target="_blank" style="color:#111111; font-weight:700; font-size:13px; text-decoration:underline;">Inicia sesión</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+        <td class="px-mobile" style="padding: 35px 20px 40px 20px; font-size: 0;">
+
+            <!-- ¿Dudas? -->
+            <div class="col-mobile-100" style="display: inline-block; width: 100%; max-width: 270px; vertical-align: top; font-size: 14px; margin-bottom: 20px;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 14px;">
+                            <img src="<?= bricklyImgUrl('/images/newsletters/Ayuda.png') ?>" alt="Dudas" width="36" height="36" style="display:block; border:0;">
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <p style="margin:0; font-size:14px; font-weight:bold; color:#111111;">¿Dudas?</p>
+                            <p style="margin:3px 0 0 0; font-size:13px; color:#555555; line-height:18px;">Estamos aquí para ayudarte. <br /> <a href="https://wa.me/50237649719?text=%C2%A1Hola!%20Deseo%20contactar%20a%20un%20asesor." target="_blank" style="color:#111111; font-weight:bold; text-decoration:underline;">Contáctanos</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Tu cuenta -->
+            <div class="col-mobile-100" style="display: inline-block; width: 100%; max-width: 270px; vertical-align: top; font-size: 14px;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 14px;">
+                            <img src="<?= bricklyImgUrl('/images/newsletters/Cuenta.png') ?>" alt="Cuenta" width="36" height="36" style="display:block; border:0;">
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <p style="margin:0; font-size:14px; font-weight:bold; color:#111111;">Tu cuenta</p>
+                            <p style="margin:3px 0 0 0; font-size:13px; color:#555555; line-height:18px;">Inicia sesión para gestionar tus preferencias. <br /> <a href="https://www.bricklyhomes.com/login" target="_blank" style="color:#111111; font-weight:bold; text-decoration:underline;">Inicia sesión</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
         </td>
     </tr>
 
