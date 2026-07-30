@@ -76,12 +76,6 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
             .px-mobile { padding-left: 20px !important; padding-right: 20px !important; }
             .col-mobile-100 { width: 100% !important; max-width: 100% !important; display: block !important; }
             .text-center-mobile { text-align: center !important; }
-            .hero-card-text { padding: 24px 20px !important; width: auto !important; max-width: 100% !important; }
-            .hero-card-text h1,
-            .hero-card-text p { word-wrap: break-word !important; word-break: break-word !important; }
-            .hero-card-table { display: block !important; width: 100% !important; max-width: 100% !important; }
-            .hero-card-image { padding-top: 0 !important; }
-            .hero-card-image img { border-radius: 0 0 20px 20px !important; width: 100% !important; max-width: 100% !important; height: auto !important; min-height: auto !important; }
             .col-3 { display: block !important; width: 100% !important; max-width: 100% !important; border: none !important; border-bottom: 1px solid #ececec !important; padding: 20px 0 !important; margin-bottom: 0 !important; }
             .col-3:last-child { border-bottom: none !important; }
             .col-related { display: block !important; width: 100% !important; max-width: 100% !important; margin: 0 0 18px 0 !important; }
@@ -117,40 +111,30 @@ $readingTime = isset($readingTime) ? (int)$readingTime : 1;
         <td class="px-mobile" style="padding: 12px 24px 28px 24px;">
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#fafafa; border:1px solid #ececec; border-radius:20px; overflow:hidden;">
                 <tr>
-                    <td style="padding: 0;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <td valign="top" style="padding: 28px 24px 0 24px;">
+                        <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="display:block; text-decoration:none;">
+                            <img src="<?= $postImage ?>" alt="<?= Html::encode($postTitle) ?>" align="right" width="180" hspace="12" vspace="0" style="display:block; width:180px; max-width:180px; height:auto; min-height:180px; max-height:220px; object-fit:cover; border:0; border-radius:12px; margin: 0 0 12px 12px; float:right;">
+                        </a>
+                        <span style="display:inline-block; font-size:12px; font-weight:700; color:#111111; letter-spacing:0.3px;">Nuevo artículo en el Blog</span>
+                        <span style="display:block; width:36px; height:2px; background-color:#111111; margin:8px 0 18px 0;"></span>
+                        <h1 style="margin: 0 0 14px 0; font-size: 22px; line-height: 28px; color: #111111; font-weight: 800; letter-spacing:-0.3px; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postTitle) ?></h1>
+                        <p style="margin: 0 0 22px 0; font-size: 14px; line-height: 22px; color: #555555; font-weight:400; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postDescription) ?></p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 16px 0;">
                             <tr>
-                                <!-- Texto -->
-                                <td class="hero-card-text hero-card-table" valign="top" width="55%" style="width:55%; max-width:55%; padding: 28px 24px 28px 28px; vertical-align: top;">
-                                    <span style="display:inline-block; font-size:12px; font-weight:700; color:#111111; letter-spacing:0.3px;">Nuevo artículo en el Blog</span>
-                                    <span style="display:block; width:36px; height:2px; background-color:#111111; margin:8px 0 18px 0;"></span>
-                                    <h1 style="margin: 0 0 14px 0; font-size: 22px; line-height: 28px; color: #111111; font-weight: 800; letter-spacing:-0.3px; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postTitle) ?></h1>
-                                    <p style="margin: 0 0 22px 0; font-size: 14px; line-height: 22px; color: #555555; font-weight:400; word-wrap:break-word; overflow-wrap:break-word;"><?= Html::encode($postDescription) ?></p>
-                                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 16px 0;">
-                                        <tr>
-                                            <td align="center" bgcolor="#000000" style="background-color:#000000; border-radius: 999px;">
-                                                <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="padding: 11px 22px; display: block; font-size: 13px; font-weight: 700; color: #ffffff; text-decoration: none; letter-spacing: 0.3px;">
-                                                    Leer artículo <span style="display:inline-block; margin-left:6px;">→</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                                        <tr>
-                                            <td valign="middle" style="padding-right:6px; font-size:13px; color:#666666;">
-                                                <img src="https://img.icons8.com/ios/50/666666/time.png" alt="" width="14" height="14" style="display:inline-block; vertical-align:middle; border:0;">
-                                            </td>
-                                            <td valign="middle" style="font-size:13px; color:#666666; font-weight:500;">
-                                                <?= $readingTime ?> min de lectura
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <!-- Imagen -->
-                                <td class="hero-card-image hero-card-table" valign="top" width="45%" style="width:45%; max-width:45%; padding: 0; vertical-align: top;">
-                                    <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="display:block; text-decoration:none;">
-                                        <img src="<?= $postImage ?>" alt="<?= Html::encode($postTitle) ?>" width="270" style="display:block; width:100%; max-width:100%; height:100%; min-height:220px; object-fit:cover; border:0;">
+                                <td align="center" bgcolor="#000000" style="background-color:#000000; border-radius: 999px;">
+                                    <a href="<?= bricklyPostUrl($post) ?>" target="_blank" style="padding: 11px 22px; display: block; font-size: 13px; font-weight: 700; color: #ffffff; text-decoration: none; letter-spacing: 0.3px;">
+                                        Leer artículo <span style="display:inline-block; margin-left:6px;">→</span>
                                     </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                                <td valign="middle" style="padding-right:6px; font-size:13px; color:#666666;">
+                                    <img src="https://img.icons8.com/ios/50/666666/time.png" alt="" width="14" height="14" style="display:inline-block; vertical-align:middle; border:0;">
+                                </td>
+                                <td valign="middle" style="font-size:13px; color:#666666; font-weight:500;">
+                                    <?= $readingTime ?> min de lectura
                                 </td>
                             </tr>
                         </table>
