@@ -30,7 +30,8 @@ if (!function_exists('bricklyImgUrl')) {
 
 if (!function_exists('bricklyTrim')) {
     function bricklyTrim($text, $limit, $mode = 'chars') {
-        $text = trim(preg_replace('/\s+/', ' ', strip_tags((string)$text)));
+        $text = html_entity_decode(strip_tags((string)$text), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = trim(preg_replace('/[\s\x{00A0}]+/u', ' ', $text), " \t\n\r\0\x0B\u{00A0}");
         if ($text === '') {
             return '';
         }
