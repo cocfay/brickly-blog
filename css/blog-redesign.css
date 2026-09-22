@@ -573,6 +573,31 @@
     min-width: 0;
 }
 
+.brickly-article-body figure.table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 2rem 0;
+    overflow-x: auto;
+}
+
+.brickly-article-body figure.table table,
+.brickly-article-body > table,
+.brickly-article-body table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.brickly-article-body table th,
+.brickly-article-body table td {
+    padding: 0.6rem 0.85rem;
+    text-align: left;
+    vertical-align: top;
+    word-break: break-word;
+}
+
 .brickly-article-body .video-container {
     position: relative;
     width: 100%;

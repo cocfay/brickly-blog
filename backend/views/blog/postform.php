@@ -869,6 +869,33 @@
             }
             ClassicEditor.create(document.querySelector('#image-editor-' + codeid), {
                 language: 'es',
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'alignment',
+                        'outdent',
+                        'indent',
+                        '|',
+                        'fontColor',
+                        '|',
+                        'link',
+                        'insertTable',
+                        'deleteTable'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                },
                 link: {
                     defaultProtocol: 'https://',
                     decorators: {
