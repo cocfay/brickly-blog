@@ -30,7 +30,7 @@ $subscribeUrl = Url::to(['/newsletter/subscribe']);
 
 $navItems = [
     ['label' => 'PROPIEDADES', 'url' =>'https://www.bricklyhomes.com/propiedades'],
-    ['label' => 'BUSCAR AGENTE', 'url' => 'https://www.bricklyhomes.com/agentes'],
+    ['label' => 'PROYECTOS', 'url' => 'https://www.bricklyhomes.com/proyectos'],
     ['label' => 'ASOCIADOS', 'url' => 'https://www.bricklyhomes.com/asociados'],
     ['label' => 'PRECIOS', 'url' => 'https://www.bricklyhomes.com/precios'],
     ['label' => 'BLOG', 'url' => Yii::getAlias('@web') . '/blog', 'active' => $isBlogSection],
@@ -294,7 +294,7 @@ window.onloadTurnstileCallback = function () {
             <div class="brickly-footer__center gap-1 gap-xl-5">
                 <nav class="brickly-footer__nav d-flex justify-content-between flex-column flex-lg-row mt-xl-3" aria-label="Footer">
                     <a href="https://www.bricklyhomes.com/propiedades" style="font-size: 14px">PROPIEDADES</a>
-                    <a href="https://www.bricklyhomes.com/agentes" style="font-size: 14px">BUSCAR AGENTE</a>
+                    <a href="https://www.bricklyhomes.com/proyectos" style="font-size: 14px">PROYECTOS</a>
                     <a href="https://www.bricklyhomes.com/asociados" style="font-size: 14px">ASOCIADOS</a>
                     <a href="https://www.bricklyhomes.com/precios" style="font-size: 14px">PRECIOS</a>
                     <a href="<?= Yii::getAlias('@web') ?>/blog" style="font-size: 14px">BLOG</a>
